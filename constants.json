@@ -1,0 +1,11 @@
+{
+  "-----------------------------------------constants": "",
+  "AWS_DYN_TEMPLATE_END": "https://dynamodb._AWS_REGION_.amazonaws.com",
+  "NODE_RUNTIME": 20,
+  "AWS_REGION": "us-east-1",
+  "-----------------------------------------local-test": "",
+  "PORT_SERVER": "3003",
+  "_PORT_BROWSER_": "3004",
+  "PORT_TEST": "3005",
+  "NO_SQL_WORK_ENDPOINT": "http://localhost:8000"
+}

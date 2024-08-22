@@ -1,0 +1,7 @@
+// the below text belongs in 
+// C:\Users\Your-User-Name\.aws\config
+// and C:\.aws\config
+
+[profile lambda-user];
+region = us - east - 1;
+output = json;

@@ -1,0 +1,23 @@
+{
+  "GITHUB_ALIVE": "yes",
+  "GITHUB_secret_OAuthToken_Cred": "github_pat_abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst",
+  "GITHUB_OWNER": "steenhansen",
+  "DOMAIN_NAME": "steenhansen.click",
+  "DOMAIN_SUB_BACKEND": "backend-steen-hansen",
+  "DOMAIN_SUB_BACKEND_DEV": "dev-backend-steen-hansen",
+  "DOMAIN_SUB_FRONTEND": "frontend-steen-hansen",
+  "DOMAIN_SUB_FRONTEND_DEV": "dev-frontend-steen-hansen",
+  "GITHUB_REPO": "aws-ts-local-dynamo",
+  "S3_UNIQUE_ID": "jj180",
+  "STACK_NAME": "ElSn",
+  "CICD_SLACK_ALIVE": "yes",
+  "CICD_SLACK_PROD_CHANNEL_ID": "C07BMQZLLQM",
+  "CICD_SLACK_DEV_CHANNEL_ID": "C07C2BYJE4W",
+  "CICD_SLACK_WORKSPACE_ID_Cred": "AAAAAAAAAAA",
+  "AWS_REGION": "us-east-1",
+  "AWS_ACCOUNT_Cred": "211125473900",
+  "DYNAMO_TABLE": "dynamo_table",
+  "NODE_RUNTIME": 20,
+  "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
+  "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com"
+}

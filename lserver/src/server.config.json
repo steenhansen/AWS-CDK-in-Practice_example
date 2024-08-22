@@ -1,0 +1,8 @@
+{
+  "DOMAIN_SUB_BACKEND": "backend-steen-hansen",
+  "DOMAIN_SUB_BACKEND_DEV": "dev-backend-steen-hansen",
+  "AWS_REGION": "us-east-1",
+  "STACK_NAME": "ElSn",
+  "PORT_SERVER": "3003",
+  "PORT_TEST": "3005"
+}
