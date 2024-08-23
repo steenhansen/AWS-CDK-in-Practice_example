@@ -1,7 +1,7 @@
 
 
 import { DynamoDB } from 'aws-sdk';
-
+//import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 import { httpResponse } from '../../handlers/httpResponse';
 

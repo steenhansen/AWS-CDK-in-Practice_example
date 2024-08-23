@@ -1,4 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
+//import { DynamoDB } from "@aws-sdk/client-dynamodb";
+
 import { httpResponse } from '../../handlers/httpResponse';
 import stack_config from '../../../../../cloud.config.json';
 

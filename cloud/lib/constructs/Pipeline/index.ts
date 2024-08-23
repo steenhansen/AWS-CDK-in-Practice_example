@@ -98,10 +98,12 @@ export class PipelineStack extends Construct {
             },
             pre_build: {
               'on-failure': 'ABORT',
+              //[Container] 2024/08/23 05:20:28.900301 Running command cd lserver/              
               commands: ['cd lserver/', 'yarn install'],
             },
             build: {
               'on-failure': 'ABORT',
+              //[Container] 2024/08/23 05:20:52.064468 Running command echo Testing the Back-End...
               commands: ['echo Testing the Back-End...', 'yarn test'],
             },
           },
@@ -142,7 +144,7 @@ export class PipelineStack extends Construct {
                   "frontend_dev_subdomain": "${frontendDevSubdomain}"
                 }' > src/configXXX.json
                 `,
-                //   ` echo 'BEFORE 11111111111111111111' `,
+                ` echo 'BEFORE 11111111111111111111' `,
                 // 'cd ../cloud',
                 // 'yarn install',
                 // 'cd ../lserver',
@@ -151,7 +153,7 @@ export class PipelineStack extends Construct {
                 'yarn install',
                 'cd ../cloud',
                 'yarn install',
-                //  ` echo 'AFTER 222222222222222222222222' `,
+                ` echo 'AFTER 222222222222222222222222' `,
               ],
             },
             build: {
