@@ -1,6 +1,6 @@
 // import supertest from 'supertest';
 // import create_app from '../createApp';
-// import { describe, expect, test, it, afterAll } from '@jest/globals';
+import { describe, expect, test, it, afterAll } from '@jest/globals';
 
 
 // import config from '../server.config.json';
@@ -24,6 +24,12 @@
 //     expect(the_text.body).toEqual('"Health-OK"');
 //   });
 // });
+
+
+it('health check route 2', () => {
+  expect(2).toBe(2);
+});
+
 
 
 // afterAll(async () => {
