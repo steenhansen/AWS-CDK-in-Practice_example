@@ -60,7 +60,7 @@ export const pipelineConfig = (env: string) => {
   };
   if (env === 'Prod') {
     const prod_info = {
-      buildCommand: 'yarn build-prod',
+      buildCommand: 'yarn build-prod',  
       deployCommand: 'yarn cdk-prod deploy',
       branch: MAIN_BRANCH,
       tag: namedProdPipeline_label,
