@@ -10,7 +10,7 @@
     "cdk-dev-changes": "cross-env NODE_ENV=Dev CDK_ENV=ERECT_DEV cdk",
     "cdk-prod": "cross-env NODE_ENV=Prod CDK_ENV=ERECT_PROD cdk",
     "cdk-prod-changes": "cross-env NODE_ENV=Prod CDK_ENV=ERECT_PROD cdk",
-    "cdk-pipeline": "cross-env CDK_ENV=ERECT_PIPELINE cdk"
+    "cdk-pipeline": "cross-env NODE_ENV=Prod CDK_ENV=ERECT_PIPELINE cdk"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",

@@ -7,7 +7,7 @@
   "DOMAIN_SUB_BACKEND_DEV": "dev-backend-steen-hansen",
   "DOMAIN_SUB_FRONTEND": "frontend-steen-hansen",
   "DOMAIN_SUB_FRONTEND_DEV": "dev-frontend-steen-hansen",
-  "GITHUB_REPO": "aws-ts-local-dynamo",
+  "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "S3_UNIQUE_ID": "jj180",
   "STACK_NAME": "ElSn",
   "CICD_SLACK_ALIVE": "yes",
@@ -18,6 +18,9 @@
   "AWS_ACCOUNT_Cred": "211125473900",
   "DYNAMO_TABLE": "dynamo_table",
   "NODE_RUNTIME": 20,
+  "LINUX_VERSION": "aws/codebuild/amazonlinux2-x86_64-standard:5.0",
   "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
-  "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com"
+  "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com",
+  "MAIN_BRANCH": "main",
+  "DEV_BRANCH": "dev"
 }

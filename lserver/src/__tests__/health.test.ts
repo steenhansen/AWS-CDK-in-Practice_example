@@ -1,19 +1,19 @@
 import supertest from 'supertest';
-import create_app from '../createApp';
+//import create_app from '../createApp';
 import { describe, expect, test, it, afterAll } from '@jest/globals';
+import createApp from '../index';
+
+// import config from '../server.config.json';
+// const PORT_TEST = config.PORT_TEST;
 
 
-import config from '../server.config.json';
-const PORT_TEST = config.PORT_TEST;
-
-
-const app = create_app();
-const server = app.listen(PORT_TEST, () => {
-  console.info(`Test server is listening on port ${PORT_TEST}`);
-});
-server.keepAliveTimeout = 10;
-server.headersTimeout = 10;
-create_app();
+const app = createApp();
+// const server = app.listen(PORT_TEST, () => {
+//   console.info(`Test server is listening on port ${PORT_TEST}`);
+// });
+// server.keepAliveTimeout = 10;
+// server.headersTimeout = 10;
+// create_app();
 
 describe('health check route', () => {
   it('Should return status 200 and text: "Health-OK"', async () => {
@@ -26,6 +26,6 @@ describe('health check route', () => {
 });
 
 
-afterAll(async () => {
-  server.close();
-});
+// afterAll(async () => {
+//   server.close();
+// });

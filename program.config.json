@@ -5,7 +5,7 @@
   "------------------------------------------github": "",
   "GITHUB_ALIVE": "yes",
   "GITHUB_secret_OAuthToken_Cred": "github_pat_abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst",
-  "GITHUB_REPO": "aws-ts-local-dynamo",
+  "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "GITHUB_OWNER": "steenhansen",
   "------------------------------------------slack_cicd_messages": "",
   "CICD_SLACK_ALIVE": "yes",

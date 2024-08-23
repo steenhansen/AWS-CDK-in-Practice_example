@@ -21,6 +21,9 @@ const backendDevSubdomain = stack_config.DOMAIN_SUB_BACKEND_DEV;
 const GITHUB_secret_OAuthToken_Cred = stack_config.GITHUB_secret_OAuthToken_Cred;
 const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
 
+const MAIN_BRANCH = stack_config.MAIN_BRANCH;
+const DEV_BRANCH = stack_config.DEV_BRANCH;
+
 import { namedDevPipelineLabel, namedProdPipelineLabel } from '../construct_labels';
 const namedDevPipeline_label = namedDevPipelineLabel();
 const namedProdPipeline_label = namedProdPipelineLabel();
@@ -57,9 +60,9 @@ export const pipelineConfig = (env: string) => {
   };
   if (env === 'Prod') {
     const prod_info = {
-      buildCommand: 'yarn build:prod',
-      deployCommand: 'yarn cdk deploy',
-      branch: 'main',
+      buildCommand: 'yarn build-aws',
+      deployCommand: 'yarn cdk-prod deploy',
+      branch: MAIN_BRANCH,
       tag: namedProdPipeline_label,
     };
     const prod_pipeline = { ...prog_info, ...prod_info };
@@ -67,9 +70,9 @@ export const pipelineConfig = (env: string) => {
   }
 
   const dev_info = {
-    buildCommand: 'yarn build:dev',
-    deployCommand: 'yarn cdk:dev deploy',
-    branch: 'dev',
+    buildCommand: 'yarn build-aws',
+    deployCommand: 'yarn cdk-dev deploy',
+    branch: DEV_BRANCH,
     tag: namedDevPipeline_label,
   };
   const dev_pipeline = { ...prog_info, ...dev_info };

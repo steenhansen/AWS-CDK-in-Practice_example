@@ -25,6 +25,7 @@ interface Props {
 
 import stack_config from '../../../cloud.config.json';
 const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const LINUX_VERSION = stack_config.LINUX_VERSION;
 const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
 const GITHUB_REPO = stack_config.GITHUB_REPO;
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
@@ -79,12 +80,12 @@ export class PipelineStack extends Construct {
     /* ---------- Pipeline Build Projects ---------- */
     this.backEndTestProject = new PipelineProject(
       scope,
-      `{$STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
+      `${STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
       {
-        projectName: `{$STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
+        projectName: `${STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            LINUX_VERSION,
           ),
         },
         buildSpec: BuildSpec.fromObject({
@@ -110,13 +111,13 @@ export class PipelineStack extends Construct {
 
     this.deployProject = new PipelineProject(
       this,
-      `{$STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
+      `${STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
       {
-        projectName: `{$STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
+        projectName: `${STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
         environment: {
           privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            LINUX_VERSION,
           ),
         },
         buildSpec: BuildSpec.fromObject({
@@ -170,12 +171,12 @@ export class PipelineStack extends Construct {
 
     this.frontEndTestProject = new PipelineProject(
       scope,
-      `{$STACK_NAME}-FrontEndTest-PipelineProject-${props.environment}`,
+      `${STACK_NAME}-FrontEndTest-PipelineProject-${props.environment}`,
       {
-        projectName: `{$STACK_NAME}-FrontEndTest-PipelineProject-${props.environment}`,
+        projectName: `${STACK_NAME}-FrontEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            LINUX_VERSION,
           ),
         },
         buildSpec: BuildSpec.fromObject({
@@ -202,7 +203,7 @@ export class PipelineStack extends Construct {
     if (GITHUB_ALIVE === 'yes') {
       /* ---------- Pipeline ---------- */
       this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
-        pipelineName: `{$STACK_NAME}-Pipeline-${props.environment}`,
+        pipelineName: `${STACK_NAME}-Pipeline-${props.environment}`,
       });
 
       /* ---------- Stages ---------- */
@@ -213,7 +214,7 @@ export class PipelineStack extends Construct {
             actionName: 'Source',
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
-            branch: `${branch}`,
+            branch: `${branch}`,        //   MAIN_BRANCH or DEV_BRANCH
             oauthToken: secretToken,
             output: outputSource,
             trigger: GitHubTrigger.WEBHOOK,
@@ -266,12 +267,8 @@ export class PipelineStack extends Construct {
 
       const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
         slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-        // slackWorkspaceId: CICD_SLACK_WORKSPACE_ID_Cred,
-        // slackChannelId: CICD_SLACK_DEV_CHANNEL_ID,
         slackWorkspaceId: workspaceId,
-        slackChannelId: channelId,          // qbert to both
-        //      workspaceId,
-        //channelId,
+        slackChannelId: channelId,
       });
 
       const rule = new NotificationRule(this, 'NotificationRule', {

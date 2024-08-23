@@ -11,6 +11,7 @@
     "test-coverage": "jest --watchAll --detectOpenHandles  --coverage"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@swc/core": "^1.7.14",
     "@swc/helpers": "^0.5.12",
     "@types/cors": "^2.8.17",
@@ -33,6 +34,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "uuid": "^10.0.0",
+    "aws-sdk": "^2.1667.0",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
     "constructs": "^10.3.0",

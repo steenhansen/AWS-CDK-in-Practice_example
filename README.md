@@ -92,12 +92,11 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
     Compile AWS Cloud
         cd cloud
         yarn build-aws
-        yarn cdk-dev bootstrap --profile lambda-user
-        yarn cdk-dev synth --profile lambda-user 
-        yarn cdk-dev deploy --profile lambda-user
+        yarn cdk-prod bootstrap --profile lambda-user
+        yarn cdk-prod synth --profile lambda-user 
+        yarn cdk-prod deploy --profile lambda-user
 
-        yarn cdk-pipeline --profile lambda-user
-
+        yarn cdk-pipeline deploy --profile lambda-user
 
 
 
