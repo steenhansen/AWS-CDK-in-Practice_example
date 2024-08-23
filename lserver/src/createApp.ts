@@ -4,8 +4,8 @@ import cors from 'cors';
 //  idea is to have createApp have aws-sdk installed
 // so that the post will be ok on compile
 
-import { DynamoDB } from 'aws-sdk';  // qbert
-import { v4 as uuidv4 } from 'uuid'; // qbert to that health.test.ts fill not crash
+//import { DynamoDB } from 'aws-sdk';  // qbert
+//import { v4 as uuidv4 } from 'uuid'; // qbert to that health.test.ts fill not crash
 
 import { dynamo_post_handler } from '../../cloud/lib/constructs/Lambda/post/routine/';
 import { dynamo_get_handler } from '../../cloud/lib/constructs/Lambda/get/routine/';

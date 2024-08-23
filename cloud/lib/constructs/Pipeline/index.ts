@@ -142,10 +142,16 @@ export class PipelineStack extends Construct {
                   "frontend_dev_subdomain": "${frontendDevSubdomain}"
                 }' > src/configXXX.json
                 `,
+                //   ` echo 'BEFORE 11111111111111111111' `,
+                // 'cd ../cloud',
+                // 'yarn install',
+                // 'cd ../lserver',
+                // 'yarn install',
                 'cd ../lserver',
                 'yarn install',
                 'cd ../cloud',
                 'yarn install',
+                //  ` echo 'AFTER 222222222222222222222222' `,
               ],
             },
             build: {
