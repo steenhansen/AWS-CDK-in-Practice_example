@@ -60,7 +60,7 @@ export const pipelineConfig = (env: string) => {
   };
   if (env === 'Prod') {
     const prod_info = {
-      buildCommand: 'yarn build-aws',
+      buildCommand: 'yarn build-prod',
       deployCommand: 'yarn cdk-prod deploy',
       branch: MAIN_BRANCH,
       tag: namedProdPipeline_label,
@@ -70,7 +70,7 @@ export const pipelineConfig = (env: string) => {
   }
 
   const dev_info = {
-    buildCommand: 'yarn build-aws',
+    buildCommand: 'yarn build-prod',
     deployCommand: 'yarn cdk-dev deploy',
     branch: DEV_BRANCH,
     tag: namedDevPipeline_label,
