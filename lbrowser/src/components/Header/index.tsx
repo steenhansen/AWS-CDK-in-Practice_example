@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <div className="brand">
-        <a href="/" data-testid={"header-logo"}>{text_logo}</a> yo
+        <a href="/" data-testid={"header-logo"}>{text_logo}</a> yo ho
       </div>
     </HeaderContainer>
   );
