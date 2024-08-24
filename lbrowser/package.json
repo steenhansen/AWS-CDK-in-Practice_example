@@ -11,6 +11,11 @@
     }
   },
   "scripts": {
+    "lbrowser-build-prod": "YES cross-env REACT_ENV=Prod react-scripts build",
+    "lbrowser-build-dev": "YES cross-env REACT_ENV=Dev react-scripts build",
+    "lbrowser-start": "YES gulp && cross-env  PORT=$npm_package_LOCAL_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  react-scripts start",
+    "lbrowser-test": "react-scripts test --watchAll=false",
+    "lbrowser-lbrowser": "---------------",
     "build-local": "cross-env react-scripts build",
     "start-local": "gulp && cross-env  PORT=$npm_package_LOCAL_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  react-scripts start",
     "build-prod": "cross-env REACT_ENV=Prod react-scripts build",

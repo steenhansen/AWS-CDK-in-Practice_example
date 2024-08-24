@@ -1,7 +1,7 @@
 {
   "------------------------------------------webhook_messages": "",
   "SLACK_WEB_HOOK_ALIVE": "yes",
-  "SLACK_WEBHOOK_Cred": "https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC",
+  "SLACK_WEBHOOK_Cred": "https: //hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC",
   "------------------------------------------github": "",
   "GITHUB_ALIVE": "yes",
   "GITHUB_secret_OAuthToken_Cred": "github_pat_abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst",

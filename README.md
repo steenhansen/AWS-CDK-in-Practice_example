@@ -87,7 +87,7 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
 
     Compile Local Browser
         cd lbrowser
-        yarn build-dev
+        yarn build-prod
 
     Compile AWS Cloud
         cd cloud

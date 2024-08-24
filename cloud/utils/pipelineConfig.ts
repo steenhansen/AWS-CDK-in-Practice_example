@@ -60,8 +60,8 @@ export const pipelineConfig = (env: string) => {
   };
   if (env === 'Prod') {
     const prod_info = {
-      buildCommand: 'yarn build-prod',  
-      deployCommand: 'yarn cdk-prod deploy',
+      buildCommand: 'yarn build-prod',          // for lbrowser  -- lbrowser-build-prod
+      deployCommand: 'yarn cdk-prod deploy',   // for cloud
       branch: MAIN_BRANCH,
       tag: namedProdPipeline_label,
     };
@@ -70,8 +70,8 @@ export const pipelineConfig = (env: string) => {
   }
 
   const dev_info = {
-    buildCommand: 'yarn build-prod',
-    deployCommand: 'yarn cdk-dev deploy',
+    buildCommand: 'yarn build-prod',             // for lbrowser  --  lbrowser-build-dev
+    deployCommand: 'yarn cdk-dev deploy',       // for cloud
     branch: DEV_BRANCH,
     tag: namedDevPipeline_label,
   };

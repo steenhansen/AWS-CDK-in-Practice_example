@@ -4,6 +4,10 @@
   "main": "src/server.js",
   "license": "MIT",
   "scripts": {
+    "lserver-build": "YES gulp && tsc",
+    "lserver-start": "YES gulp && cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 LOCAL_MODE=yes nodemon --watch src src/index.ts",
+    "lserver-test": "YES jest --detectOpenHandles",
+    "lserver-lserver": "---------------",
     "build-local": "gulp && tsc",
     "start-local": "gulp && cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "forever": "forever --minUptime 5000 --spinSleepTime 5000 src/index.js",

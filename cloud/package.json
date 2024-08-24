@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "cloud-build": "YES gulp && tsc",
+    "cloud-watch": "YES tsc -p tsconfig.json --watch ",
+    "cloud-test": "tsc && jest",
+    "cloud-cloud": "--------------",
     "build-aws": "gulp && tsc",
     "watch-aws": "tsc -p tsconfig.json --watch ",
     "test": "tsc && jest",

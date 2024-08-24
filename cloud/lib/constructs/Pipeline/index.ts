@@ -104,7 +104,9 @@ export class PipelineStack extends Construct {
             build: {
               'on-failure': 'ABORT',
               //[Container] 2024/08/23 05:20:52.064468 Running command echo Testing the Back-End...
-              commands: ['echo Testing the Back-End...', 'yarn test'],
+              commands: ['echo Testing the Back-End...',
+                // 'yarn build-local',    // worse
+                'yarn test'],
             },
           },
         }),
