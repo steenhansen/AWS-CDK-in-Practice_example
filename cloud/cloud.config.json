@@ -1,6 +1,6 @@
 {
   "GITHUB_ALIVE": "yes",
-  "AWS_SECRET_NAME": "aws-cdk-in-practice-base_secrets",
+  "AWS_SECRET_NAME": "aws-cdk-in-practice-example_secrets",
   "GITHUB_OWNER": "steenhansen",
   "DOMAIN_NAME": "steenhansen.click",
   "DOMAIN_SUB_BACKEND": "backend-steen-hansen",
