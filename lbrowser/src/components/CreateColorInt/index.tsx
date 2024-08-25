@@ -10,10 +10,11 @@ interface Props {
     new_color_int: Interfaces.ColorInt;
   }) => Promise<void>;
 
-  handleClear: () => Promise<void>;
+  //  handleClear: () => Promise<void>;  q-bert
 }
 
-export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
+//export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {    q-bert
+export const CreateColorInt: React.FC<Props> = ({ handleAdd }) => {
 
   const [new_color_int, setNewColorInt] = useState<Interfaces.ColorInt>({
     id: '',
@@ -62,13 +63,53 @@ export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
       </button>
 
       &nbsp;&nbsp;&nbsp;
-      <button type="button" onClick={() => handleClear()}>
-        Clear Dynamo Table
-      </button>
+
 
     </CreateColorIntContainer>
   );
 
+
+  // return (                     q-bert
+  //   <CreateColorIntContainer>
+  //     <span>  red/green/blue</span>&nbsp;
+  //     <input
+  //       autoComplete="off"
+  //       pattern="red|green|blue"
+  //       onFocus={({ target }) => target.value = ""}
+  //       onChange={({ target }) => handleColorIntChange('the_color', target.value)}
+  //       type="text"
+  //       name="new_color_int"
+  //       id="new_color_int"
+  //       placeholder="red, green, or blue"
+  //     />
+
+  //     <br /><br />
+  //     <span> 1/2/3</span>&nbsp;
+
+  //     <input
+  //       autoComplete="off"
+  //       pattern="1|2|3"
+  //       onFocus={({ target }) => target.value = ""}
+  //       onChange={({ target }) => handleColorIntChange('the_integer', target.value)}
+  //       type="text"
+  //       name="new_color_int"
+  //       id="new_color_int"
+  //       placeholder="1, 2, or 3"
+  //     />
+
+  //     <br />  <br />
+
+  //     <button type="button" onClick={() => handleAdd({ new_color_int })}>
+  //       Add Object to Dynamo
+  //     </button>
+
+  //     &nbsp;&nbsp;&nbsp;
+  //     <button type="button" onClick={() => handleClear()}>
+  //       Clear Dynamo Table
+  //     </button>
+
+  //   </CreateColorIntContainer>
+  // );
 
 
 };

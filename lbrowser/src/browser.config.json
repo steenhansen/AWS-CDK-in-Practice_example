@@ -6,5 +6,5 @@
   "_PORT_BROWSER_": "3004",
   "SLACK_WEBHOOK_Cred": "https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC",
   "STACK_NAME": "ElSn",
-  "SLACK_WEB_HOOK_ALIVE": "yes"
+  "SLACK_WEB_HOOK_ALIVE": "no"
 }

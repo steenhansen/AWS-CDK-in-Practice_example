@@ -1,4 +1,60 @@
 
+
+
+
+FROM 
+    https://stackoverflow.com/questions/34134879/aws-the-config-profile-myname-could-not-be-found
+
+"In my case, I had the variable named "AWS_PROFILE" on Environment variables with an old value."
+
+
+$ aws sts get-caller-identity
+$ The config profile (IAM-user-name) could not be found
+
+    Environment variables
+    AWS PROFILE: IAM-user-name
+    aws_access_key_id : example
+    aws_secret_access_key : example
+
+
+
+
+To list all environment variables in PowerShell:
+Get-ChildItem Env:
+
+
+echo $Env:AWS_ACCESS_KEY_ID
+    >> AKIAIOSFODNN7EXAMPLE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # AWS-CDK-in-Practice 
 
 This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/PacktPublishing/AWS-CDK-in-Practice) as a single derived example.
@@ -25,7 +81,7 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
 ![alt text](the-docs/the-images/dynamo_create.png)
 
 
-## Run Locally
+## Run Debv Locally
         
     Start 
         Docker-Desktop
@@ -34,20 +90,20 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
     Compile AWS Cloud
         cd cloud
         yarn
-        yarn build-aws
-        yarn watch-aws
+        yarn build-aws       cloud-build
+        yarn watch-aws       cloud-watch
 
     Compile Local Server
         cd lserver
         yarn
-        yarn build-local
-        yarn start-local
+        yarn build-local    lserver-build
+        yarn start-local    lserver-start
 
     Compile Local Browser
         cd lbrowser
         yarn
-        yarn build-local
-        yarn start-local
+        yarn build-local   lbrowser-build-dev
+        yarn start-local   lbrowser-start
 
     View 
         http://localhost:3004/
@@ -58,24 +114,30 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
 
 
 
-## Run on AWS
+## Run Dev on AWS
         
     Start 
         Docker-Desktop
 
     Compile Local Browser
         cd lbrowser
-        yarn build-dev
+        yarn build-dev           lbrowser-build-dev
+
+    Compile Local Server
+        cd lserver
+        yarn
+        yarn build-local    lserver-build
+        yarn start-local    lserver-start
 
     Compile AWS Cloud
         cd cloud
-        yarn build-aws
+        yarn build-aws             cloud-build
         yarn cdk-dev bootstrap --profile lambda-user
         yarn cdk-dev synth --profile lambda-user 
         yarn cdk-dev deploy --profile lambda-user
         yarn cdk-dev destroy --profile lambda-user
 
-## Install on AWS
+## Install Prod on AWS
         
     In program.config.json set
         "GITHUB_ALIVE": "yes",
@@ -87,17 +149,24 @@ This is a fork of [PacktPublishing/AWS-CDK-in-Practice](https://github.com/Packt
 
     Compile Local Browser
         cd lbrowser
-        yarn build-prod
+        yarn build-prod                  lbrowser-build-prod
 
     Compile AWS Cloud
         cd cloud
-        yarn build-aws
+        yarn build-aws                                  cloud-build
         yarn cdk-prod bootstrap --profile lambda-user
+
+
+        yarn cdk-prod bootstrap -v --profile lambda-user
+
         yarn cdk-prod synth --profile lambda-user 
         yarn cdk-prod deploy --profile lambda-user
 
-        yarn cdk-pipeline deploy --profile lambda-user
+        
+        
+        yarn cdk-pipeline synth --profile lambda-user > ../../infra_synth2.yaml
 
+        yarn cdk-pipeline deploy --profile lambda-user
 
 
 

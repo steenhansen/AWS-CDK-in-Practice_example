@@ -13,7 +13,7 @@ import { Route53 } from '../Route53';
 import { HealthCheckLambda } from '../Lambda/healthcheck';
 import { DynamoGet } from '../Lambda/get';
 import { DynamoPost } from '../Lambda/post';
-import { DynamoClear } from '../Lambda/clear';
+//import { DynamoClear } from '../Lambda/clear'; q-bert
 
 
 
@@ -70,9 +70,9 @@ export class ApiGateway extends Construct {
     const dynamoGet = new DynamoGet(this, 'dynamo-get-lambda', {
       dynamoTable,
     });
-    const dynamoClear = new DynamoClear(this, 'dynamo-clear-lambda', {
-      dynamoTable,
-    });
+    // const dynamoClear = new DynamoClear(this, 'dynamo-clear-lambda', {   q-bert
+    //   dynamoTable,
+    // });
 
 
 
@@ -85,7 +85,7 @@ export class ApiGateway extends Construct {
 
 
     const dynamoPostIntegration = new LambdaIntegration(dynamoPost.func);
-    const dynamoClearIntegration = new LambdaIntegration(dynamoClear.func);
+    // const dynamoClearIntegration = new LambdaIntegration(dynamoClear.func);   q-bert
 
     const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
 
@@ -113,14 +113,14 @@ export class ApiGateway extends Construct {
     });
 
     // Resources (Path)
-    const clear_db = restApi.root.addResource('clearDB');
-    clear_db.addMethod('GET', dynamoClearIntegration);
-    clear_db.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
+    // const clear_db = restApi.root.addResource('clearDB');       q-bert
+    // clear_db.addMethod('GET', dynamoClearIntegration);
+    // clear_db.addCorsPreflight({
+    //   allowOrigins: ['*'],
+    //   allowHeaders: ['*'],
+    //   allowMethods: ['*'],
+    //   statusCode: 204,
+    // });
 
 
 

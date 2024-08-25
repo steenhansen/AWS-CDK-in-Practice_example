@@ -1,6 +1,8 @@
 
+
+
 import { SecretValue, Tags } from 'aws-cdk-lib';
-import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
+import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
 import {
   CodeBuildAction,
@@ -28,6 +30,7 @@ const NODE_RUNTIME = stack_config.NODE_RUNTIME;
 const LINUX_VERSION = stack_config.LINUX_VERSION;
 const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
 const GITHUB_REPO = stack_config.GITHUB_REPO;
+
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
 const GITHUB_OWNER = stack_config.GITHUB_OWNER;
 const STACK_NAME = stack_config.STACK_NAME;
@@ -53,13 +56,42 @@ export class PipelineStack extends Construct {
       frontendSubdomain,
       backendDevSubdomain,
       frontendDevSubdomain,
-      githubToken,
-      workspaceId,
+      SECRET_GITHUB_TOKEN,
+      SECRET_WORKSPACE_ID,
       channelId,
     } = pipelineConfig(props.environment);
 
     /* ---------- Pipeline Configs ---------- */
-    const secretToken = new SecretValue(githubToken);
+
+    // let secret_json_string: any;
+    // (async () => {
+    //   const client = new SecretsManagerClient({
+    //     region: AWS_REGION
+    //   });
+    //   let response;
+    //   try {
+    //     response = await client.send(
+    //       new GetSecretValueCommand({
+    //         SecretId: aws_secret_name,
+    //         VersionStage: "AWSCURRENT"
+    //       })
+    //     );
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    //   secret_json_string = response.SecretString!;
+    // })();
+
+    // const secret_object = JSON.parse(secret_json_string);
+
+    // const {
+    //   SECRET_GITHUB_TOKEN, SECRET_PROD_CHANNEL, SECRET_DEV_CHANNEL,
+    //   SECRET_WORKSPACE_ID, SECRET_SLACK_WEBHOOK
+    // } = secret_object;
+
+
+    const secret_github_token = new SecretValue(SECRET_GITHUB_TOKEN);
+
 
     const codeBuildPolicy = new PolicyStatement({
       sid: 'AssumeRole',
@@ -214,8 +246,8 @@ export class PipelineStack extends Construct {
       /* ---------- Pipeline ---------- */
       this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
         pipelineName: `${STACK_NAME}-Pipeline-${props.environment}`,
+        pipelineType: PipelineType.V2                        // qbert
       });
-
       /* ---------- Stages ---------- */
       this.pipeline.addStage({
         stageName: 'Source',
@@ -225,7 +257,7 @@ export class PipelineStack extends Construct {
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
             branch: `${branch}`,        //   MAIN_BRANCH or DEV_BRANCH
-            oauthToken: secretToken,
+            oauthToken: secret_github_token,
             output: outputSource,
             trigger: GitHubTrigger.WEBHOOK,
           }),
@@ -277,7 +309,7 @@ export class PipelineStack extends Construct {
 
       const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
         slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-        slackWorkspaceId: workspaceId,
+        slackWorkspaceId: SECRET_WORKSPACE_ID,
         slackChannelId: channelId,
       });
 
@@ -299,4 +331,4 @@ export class PipelineStack extends Construct {
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);
   }
-}
+};

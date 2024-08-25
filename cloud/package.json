@@ -42,6 +42,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "3.637.0",
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.4.0",
     "aws-cdk-lib": "2.152.0",
     "aws-sdk": "^2.1667.0",

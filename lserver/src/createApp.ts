@@ -9,7 +9,7 @@ import cors from 'cors';
 
 import { dynamo_post_handler } from '../../cloud/lib/constructs/Lambda/post/routine/';
 import { dynamo_get_handler } from '../../cloud/lib/constructs/Lambda/get/routine/';
-import { dynamo_clear_handler } from '../../cloud/lib/constructs/Lambda/clear/routine/';
+// import { dynamo_clear_handler } from '../../cloud/lib/constructs/Lambda/clear/routine/'; q-bert
 
 import { healthcheck_handler } from '../../cloud/lib/constructs/Lambda/healthcheck/routine/';
 
@@ -55,16 +55,16 @@ const createApp = () => {
   });
 
 
-  app.get('/clear', async (_req, res) => {
-    try {
-      const response = await dynamo_clear_handler();
-      const response_json = JSON.stringify(response);
-      checkNoSqlWork(response_json);
-      return res.status(200).send(response_json);
-    } catch (e: unknown) {
-      return corsResponse("the_e");
-    }
-  });
+  // app.get('/clear', async (_req, res) => {   qbert
+  //   try {
+  //     const response = await dynamo_clear_handler();
+  //     const response_json = JSON.stringify(response);
+  //     checkNoSqlWork(response_json);
+  //     return res.status(200).send(response_json);
+  //   } catch (e: unknown) {
+  //     return corsResponse("the_e");
+  //   }
+  // });
 
   app.get('/', async (_req, res) => {
     try {
