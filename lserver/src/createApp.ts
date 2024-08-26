@@ -9,7 +9,7 @@ import cors from 'cors';
 
 import { dynamo_post_handler } from '../../cloud/lib/constructs/Lambda/post/routine/';
 import { dynamo_get_handler } from '../../cloud/lib/constructs/Lambda/get/routine/';
-// import { dynamo_clear_handler } from '../../cloud/lib/constructs/Lambda/clear/routine/'; q-bert
+import { dynamo_clear_handler } from '../../cloud/lib/constructs/Lambda/clear/routine/';
 
 import { healthcheck_handler } from '../../cloud/lib/constructs/Lambda/healthcheck/routine/';
 

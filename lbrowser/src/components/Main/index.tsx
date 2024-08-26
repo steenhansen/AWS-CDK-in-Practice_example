@@ -69,11 +69,11 @@ export const Main: React.FC = () => {
     }
   };
 
-  // const handleClear = async () => {   q-bert
-  //   await axios.get(handle_clear);
-  //   directSlackMess(STACK_NAME + " - color list was cleared, contained " + color_ints.length + " element.");
-  //   window.location.reload();
-  // };
+  const handleClear = async () => {
+    await axios.get(handle_clear);
+    directSlackMess(STACK_NAME + " - color list was cleared, contained " + color_ints.length + " element.");
+    window.location.reload();
+  };
 
 
   let list_of_objects: Array<React.JSX.Element> = [];
@@ -86,21 +86,14 @@ export const Main: React.FC = () => {
   );
 
 
+
   return (
     <MainContainer >
       <h1>DynamoDB Values </h1>
-      <CreateColorInt handleAdd={handleAdd} />
+      <CreateColorInt handleAdd={handleAdd} handleClear={handleClear} />
       <ul > {list_of_objects}</ul>
     </MainContainer>
   );
-
-  // return (  q-bert
-  //   <MainContainer >
-  //     <h1>DynamoDB Values </h1>
-  //     <CreateColorInt handleAdd={handleAdd} handleClear={handleClear} />
-  //     <ul > {list_of_objects}</ul>
-  //   </MainContainer>
-  // );
 
 
 

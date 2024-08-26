@@ -1,6 +1,6 @@
 
 import console = require('console');
-
+import { getSecrets } from '../utils/outsideGitHubSecrets';
 
 import stack_config from '../cloud.config.json';
 
@@ -34,6 +34,17 @@ export const pipelineConfig = (env: string) => {
     AWS_SECRET_NAME: AWS_SECRET_NAME,
     env: env
   };
+  const the_secrets_object = getSecrets();
+  const {
+    SECRET_GITHUB_TOKEN,
+    SECRET_PROD_CHANNEL,
+    SECRET_DEV_CHANNEL,
+    SECRET_WORKSPACE_ID,
+    SECRET_SLACK_WEBHOOK
+  } = the_secrets_object;
+
+  console.log("secrts", the_secrets_object);
+
   if (env === 'Prod') {
     const prod_info = {
       buildCommand: 'yarn build-prod',          // for lbrowser  -- lbrowser-build-prod

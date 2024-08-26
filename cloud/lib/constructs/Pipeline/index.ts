@@ -13,7 +13,6 @@ import {
   PipelineProject,
 } from 'aws-cdk-lib/aws-codebuild';
 
-//import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
@@ -26,6 +25,7 @@ interface Props {
 }
 
 import stack_config from '../../../cloud.config.json';
+import console = require("console");
 const NODE_RUNTIME = stack_config.NODE_RUNTIME;
 const LINUX_VERSION = stack_config.LINUX_VERSION;
 const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
@@ -106,11 +106,12 @@ export class PipelineStack extends Construct {
       effect: Effect.ALLOW,
       actions: ['sts:AssumeRole', 'iam:PassRole'],
       resources: [
-        'arn:aws:iam::*:role/cdk-readOnlyRole',
-        'arn:aws:iam::*:role/cdk-hnb659fds-lookup-role-*',
-        'arn:aws:iam::*:role/cdk-hnb659fds-deploy-role-*',
-        'arn:aws:iam::*:role/cdk-hnb659fds-file-publishing-*',
-        'arn:aws:iam::*:role/cdk-hnb659fds-image-publishing-role-*',
+        'arn:aws:iam::*:role/cdk-*',
+        // 'arn:aws:iam::*:role/cdk-readOnlyRole',
+        // 'arn:aws:iam::*:role/cdk-hnb659fds-lookup-role-*',
+        // 'arn:aws:iam::*:role/cdk-hnb659fds-deploy-role-*',
+        // 'arn:aws:iam::*:role/cdk-hnb659fds-file-publishing-*',
+        // 'arn:aws:iam::*:role/cdk-hnb659fds-image-publishing-role-*',
       ],
     });
 
@@ -202,15 +203,19 @@ export class PipelineStack extends Construct {
             build: {
               'on-failure': 'ABORT',
               commands: [
+                `  echo '000000000000000 BUILD'     `,
                 'cd ../lbrowser',
-                `${buildCommand}`,
+                `${buildCommand}`,  /// 'yarn build-prod',
+                `  echo '1111111111111 BUILD'     `,
                 'cd ../cloud',
+                `  echo '222222222222222 BUILD'     `,
                 `${deployCommand}`,
+                `  echo '3333333333333333 BUILD'     `,
               ],
             },
             post_build: {
               'on-failure': 'ABORT',
-              commands: [''],
+              commands: [`  echo '44444444444444444 POST-BUILD'     `],
             },
           },
         }),
@@ -313,42 +318,43 @@ export class PipelineStack extends Construct {
         ],
       });
     }
-
-    if (CICD_SLACK_ALIVE === 'yes') {
-      // const snsTopic = new Topic(
-      //   this,
-      //   `${props.environment}-Pipeline-SlackNotificationsTopic`,
-      // );
-
-
-      // if (env === 'Prod') {
-      //   var channel_id = SECRET_PROD_CHANNEL;
-      // } else {
-      //   var channel_id = SECRET_DEV_CHANNEL;
-      // }
+    console.log('555555555555555555555555 after addStage');
+    //   if (CICD_SLACK_ALIVE === 'yes') {
+    const snsTopic = new Topic(
+      this,
+      `${props.environment}-Pipeline-SlackNotificationsTopic`,
+    );
 
 
-      // const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-      //   slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-      //   slackWorkspaceId: SECRET_WORKSPACE_ID,
-      //   slackChannelId: channel_id,
-      // });
-
-      // const rule = new NotificationRule(this, 'NotificationRule', {
-      //   source: this.pipeline,
-      //   events: [
-      //     'codepipeline-pipeline-pipeline-execution-failed',
-      //     'codepipeline-pipeline-pipeline-execution-canceled',
-      //     'codepipeline-pipeline-pipeline-execution-started',
-      //     'codepipeline-pipeline-pipeline-execution-resumed',
-      //     'codepipeline-pipeline-pipeline-execution-succeeded',
-      //     'codepipeline-pipeline-manual-approval-needed',
-      //   ],
-      //   targets: [snsTopic],
-      // });
-
-      // rule.addTarget(slackConfig);
+    if (env === 'Prod') {
+      var channel_id = SECRET_PROD_CHANNEL;
+    } else {
+      var channel_id = SECRET_DEV_CHANNEL;
     }
+
+
+    const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
+      slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+      slackWorkspaceId: SECRET_WORKSPACE_ID,
+      slackChannelId: channel_id,
+    });
+
+    const rule = new NotificationRule(this, 'NotificationRule', {
+      source: this.pipeline,
+      events: [
+        'codepipeline-pipeline-pipeline-execution-failed',
+        'codepipeline-pipeline-pipeline-execution-canceled',
+        'codepipeline-pipeline-pipeline-execution-started',
+        'codepipeline-pipeline-pipeline-execution-resumed',
+        'codepipeline-pipeline-pipeline-execution-succeeded',
+        'codepipeline-pipeline-manual-approval-needed',
+      ],
+      targets: [snsTopic],
+    });
+
+    rule.addTarget(slackConfig);
+    // }
+    console.log('666666666666 after slack');
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);
   }
