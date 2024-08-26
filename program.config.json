@@ -1,10 +1,10 @@
 {
   "------------------------------------------webhook_messages": "",
   "SLACK_WEB_HOOK_ALIVE": "no",
-  "SLACK_WEBHOOK_Cred": "https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC",
   "------------------------------------------github": "",
   "GITHUB_ALIVE": "yes",
   "AWS_SECRET_NAME": "aws-cdk-in-practice-example_secrets",
+  "SECRETS_FILENAME": "aws-cdk-in-practice_secrets.json",
   "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "GITHUB_OWNER": "steenhansen",
   "------------------------------------------slack_cicd_messages": "",

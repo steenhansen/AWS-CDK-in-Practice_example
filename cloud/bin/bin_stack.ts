@@ -24,7 +24,7 @@ if (['ERECT_DEV'].includes(THE_MODE)) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**** Is Docker Desktop turned on?\n\n", e);
+    console.log("\n**1** Is Docker Desktop turned on?\n\n", e);
   }
 }
 
@@ -34,7 +34,7 @@ if (['ERECT_PROD'].includes(THE_MODE)) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**** Is Docker Desktop turned on?\n\n", e);
+    console.log("\n**2** Is Docker Desktop turned on?\n\n", e);
   }
 }
 
@@ -44,6 +44,6 @@ if (['ERECT_PIPELINE'].includes(THE_MODE)) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**** Is Docker Desktop turned on?\n\n", e);
+    console.log("\n**3** Is Docker Desktop turned on?\n\n", e);
   }
 }

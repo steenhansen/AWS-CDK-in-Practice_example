@@ -4,7 +4,6 @@
   "DOMAIN_SUB_BACKEND_DEV": "dev-backend-steen-hansen",
   "PORT_SERVER": "3003",
   "_PORT_BROWSER_": "3004",
-  "SLACK_WEBHOOK_Cred": "https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC",
   "STACK_NAME": "ElSn",
   "SLACK_WEB_HOOK_ALIVE": "no"
 }

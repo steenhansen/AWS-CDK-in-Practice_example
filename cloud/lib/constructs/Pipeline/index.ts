@@ -1,6 +1,4 @@
 
-
-
 import { SecretValue, Tags } from 'aws-cdk-lib';
 import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
@@ -20,6 +18,7 @@ import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import { pipelineConfig } from '../../../utils/pipelineConfig';
+import { getSecrets } from '../../../utils/outsideGitHubSecrets';
 
 interface Props {
   environment: string;
@@ -30,7 +29,7 @@ const NODE_RUNTIME = stack_config.NODE_RUNTIME;
 const LINUX_VERSION = stack_config.LINUX_VERSION;
 const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
 const GITHUB_REPO = stack_config.GITHUB_REPO;
-
+const AWS_REGION = stack_config.AWS_REGION;
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
 const GITHUB_OWNER = stack_config.GITHUB_OWNER;
 const STACK_NAME = stack_config.STACK_NAME;
@@ -56,42 +55,24 @@ export class PipelineStack extends Construct {
       frontendSubdomain,
       backendDevSubdomain,
       frontendDevSubdomain,
-      SECRET_GITHUB_TOKEN,
-      SECRET_WORKSPACE_ID,
-      channelId,
+      AWS_SECRET_NAME,
+      env
     } = pipelineConfig(props.environment);
 
     /* ---------- Pipeline Configs ---------- */
 
-    // let secret_json_string: any;
-    // (async () => {
-    //   const client = new SecretsManagerClient({
-    //     region: AWS_REGION
-    //   });
-    //   let response;
-    //   try {
-    //     response = await client.send(
-    //       new GetSecretValueCommand({
-    //         SecretId: aws_secret_name,
-    //         VersionStage: "AWSCURRENT"
-    //       })
-    //     );
-    //   } catch (error) {
-    //     throw error;
-    //   }
-    //   secret_json_string = response.SecretString!;
-    // })();
+    const the_secrets_object = getSecrets();
+    const {
+      SECRET_GITHUB_TOKEN,
+      SECRET_PROD_CHANNEL,
+      SECRET_DEV_CHANNEL,
+      SECRET_WORKSPACE_ID,
+      SECRET_SLACK_WEBHOOK
+    } = the_secrets_object;
 
-    // const secret_object = JSON.parse(secret_json_string);
-
-    // const {
-    //   SECRET_GITHUB_TOKEN, SECRET_PROD_CHANNEL, SECRET_DEV_CHANNEL,
-    //   SECRET_WORKSPACE_ID, SECRET_SLACK_WEBHOOK
-    // } = secret_object;
-
-
+    console.log("secrts", the_secrets_object);
     const secret_github_token = new SecretValue(SECRET_GITHUB_TOKEN);
-
+    console.log("ENV----", env);
 
     const codeBuildPolicy = new PolicyStatement({
       sid: 'AssumeRole',
@@ -302,31 +283,39 @@ export class PipelineStack extends Construct {
     }
 
     if (CICD_SLACK_ALIVE === 'yes') {
-      const snsTopic = new Topic(
-        this,
-        `${props.environment}-Pipeline-SlackNotificationsTopic`,
-      );
+      // const snsTopic = new Topic(
+      //   this,
+      //   `${props.environment}-Pipeline-SlackNotificationsTopic`,
+      // );
 
-      const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-        slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-        slackWorkspaceId: SECRET_WORKSPACE_ID,
-        slackChannelId: channelId,
-      });
 
-      const rule = new NotificationRule(this, 'NotificationRule', {
-        source: this.pipeline,
-        events: [
-          'codepipeline-pipeline-pipeline-execution-failed',
-          'codepipeline-pipeline-pipeline-execution-canceled',
-          'codepipeline-pipeline-pipeline-execution-started',
-          'codepipeline-pipeline-pipeline-execution-resumed',
-          'codepipeline-pipeline-pipeline-execution-succeeded',
-          'codepipeline-pipeline-manual-approval-needed',
-        ],
-        targets: [snsTopic],
-      });
+      // if (env === 'Prod') {
+      //   var channel_id = SECRET_PROD_CHANNEL;
+      // } else {
+      //   var channel_id = SECRET_DEV_CHANNEL;
+      // }
 
-      rule.addTarget(slackConfig);
+
+      // const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
+      //   slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+      //   slackWorkspaceId: SECRET_WORKSPACE_ID,
+      //   slackChannelId: channel_id,
+      // });
+
+      // const rule = new NotificationRule(this, 'NotificationRule', {
+      //   source: this.pipeline,
+      //   events: [
+      //     'codepipeline-pipeline-pipeline-execution-failed',
+      //     'codepipeline-pipeline-pipeline-execution-canceled',
+      //     'codepipeline-pipeline-pipeline-execution-started',
+      //     'codepipeline-pipeline-pipeline-execution-resumed',
+      //     'codepipeline-pipeline-pipeline-execution-succeeded',
+      //     'codepipeline-pipeline-manual-approval-needed',
+      //   ],
+      //   targets: [snsTopic],
+      // });
+
+      // rule.addTarget(slackConfig);
     }
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);
