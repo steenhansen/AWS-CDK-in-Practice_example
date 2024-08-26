@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "LOCAL": {
-    "PORT_BROWSER": "3004"
+    "PORT_BROWSER": "3004",
+    "LSECRETS_BROWSER": "../../aws-cdk-in-practice_secrets.json"
   },
   "jest": {
     "moduleNameMapper": {
@@ -17,7 +18,7 @@
     "lbrowser-test": "react-scripts test --watchAll=false",
     "lbrowser-lbrowser": "---------------",
     "build-local": "cross-env react-scripts build",
-    "start-local": "gulp && cross-env  PORT=$npm_package_LOCAL_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  react-scripts start",
+    "start-local": "gulp && cross-env  PORT=$npm_package_LOCAL_PORT_BROWSER  LSECRETS=$npm_package_LSECRETS_BROWSER  REACT_APP__LOCAL_MODE=yes  react-scripts start",
     "build-prod": "cross-env REACT_ENV=Prod react-scripts build",
     "build-dev": "cross-env REACT_ENV=Dev react-scripts build",
     "test": "react-scripts test --watchAll=false",

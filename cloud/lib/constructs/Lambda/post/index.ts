@@ -44,7 +44,7 @@ export class DynamoPost extends Construct {
     const layer_path = 'lib/constructs/Lambda/dynamo_layers';
 
     const the_layer = new LayerVersion(
-      this, "DynamoLayer", {
+      this, "PostDynamoLayer", {
       code: Code.fromAsset(layer_path),
       compatibleRuntimes: [the_runtime],
       layerVersionName: "NodeJsLayer"
