@@ -4,18 +4,19 @@ import axios from 'axios';
 
 
 import browser_config from './browser.config.json';
-const SLACK_WEBHOOK_Cred = browser_config.SLACK_WEBHOOK_Cred;
+
 const SLACK_WEB_HOOK_ALIVE = browser_config.SLACK_WEB_HOOK_ALIVE;
 
 export function directSlackMess(direct_message: string) {
   try {
     if (SLACK_WEB_HOOK_ALIVE === 'yes') {
+      //const SLACK_WEBHOOK_Cred = browser_config.SLACK_WEBHOOK_Cred;
       const slack_payload = {
         attachments: [{ text: direct_message }]
       };
       const options = {
         method: 'post',
-        baseURL: SLACK_WEBHOOK_Cred,
+        baseURL: "https://www.google.com",    //SLACK_WEBHOOK_Cred,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
