@@ -160,8 +160,9 @@ export class PipelineStack extends Construct {
       `${STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
       {
         projectName: `${STACK_NAME}-BackEndBuild-PipelineProject-${props.environment}`,
+        role: infrastructureDeployRole,
         environment: {
-          privileged: true,
+          //  privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
             LINUX_VERSION,
           ),
@@ -209,7 +210,8 @@ export class PipelineStack extends Construct {
                 `  echo '1111111111111 BUILD'     `,
                 'cd ../cloud',
                 `  echo '222222222222222 BUILD'     `,
-                `${deployCommand}`,
+                //                `${deployCommand}`,             //yarn cdk-prod deploy
+                `yarn cdk-prod deploy -v`,
                 `  echo '3333333333333333 BUILD'     `,
               ],
             },
