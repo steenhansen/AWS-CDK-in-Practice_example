@@ -1,6 +1,41 @@
 
 
 
+ yarn build-aws   
+  yarn build-aws "../../local_secrets.json"
+
+
+
+
+
+
+https://docs.aws.amazon.com/cdk/v2/guide/cdk_pipeline.html#cdk_pipeline_bootstrap
+
+npx cdk bootstrap aws://ACCOUNT-NUMBER/REGION --profile ADMIN-PROFILE ^
+    --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+
+
+
+
+        yarn cdk-prod bootstrap --profile lambda-user
+        yarn cdk-prod bootstrap aws://211125473900/us-east-1  --profile lambda-user  --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+        
+        
+        this is automaitc --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 FROM 
     https://stackoverflow.com/questions/34134879/aws-the-config-profile-myname-could-not-be-found

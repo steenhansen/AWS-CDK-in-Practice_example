@@ -13,12 +13,13 @@ import {
   PipelineProject,
 } from 'aws-cdk-lib/aws-codebuild';
 
-import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+//import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import { pipelineConfig } from '../../../utils/pipelineConfig';
 import { getSecrets } from '../../../utils/outsideGitHubSecrets';
+import { Effect, CompositePrincipal, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 interface Props {
   environment: string;
@@ -61,6 +62,32 @@ export class PipelineStack extends Construct {
 
     /* ---------- Pipeline Configs ---------- */
 
+
+
+    // CodeBuild stage must be able to assume the cdk deploy roles created when bootstrapping the account
+    // The role itself must also be assumable by the pipeline in which the stage resides
+    const infrastructureDeployRole = new Role(
+      this,
+      'InfrastructureDeployRole',
+      {
+        assumedBy: new CompositePrincipal(
+          new ServicePrincipal('codebuild.amazonaws.com'),
+          new ServicePrincipal('codepipeline.amazonaws.com')
+        ),
+        inlinePolicies: {
+          CdkDeployPermissions: new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                actions: ['sts:AssumeRole'],
+                resources: ['arn:aws:iam::*:role/cdk-*'],
+              }),
+            ],
+          })
+        }
+      }
+    );
+
+
     const the_secrets_object = getSecrets();
     const {
       SECRET_GITHUB_TOKEN,
@@ -96,6 +123,7 @@ export class PipelineStack extends Construct {
       `${STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
       {
         projectName: `${STACK_NAME}-BackEndTest-PipelineProject-${props.environment}`,
+        role: infrastructureDeployRole,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
             LINUX_VERSION,
@@ -227,6 +255,7 @@ export class PipelineStack extends Construct {
       /* ---------- Pipeline ---------- */
       this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
         pipelineName: `${STACK_NAME}-Pipeline-${props.environment}`,
+        role: infrastructureDeployRole,
         pipelineType: PipelineType.V2                        // qbert
       });
       /* ---------- Stages ---------- */
@@ -253,6 +282,7 @@ export class PipelineStack extends Construct {
             project: this.backEndTestProject,
             input: outputSource,
             outputs: undefined,
+            role: infrastructureDeployRole
           }),
         ],
       });
@@ -265,6 +295,7 @@ export class PipelineStack extends Construct {
             project: this.frontEndTestProject,
             input: outputSource,
             outputs: undefined,
+            role: infrastructureDeployRole
           }),
         ],
       });
@@ -277,6 +308,7 @@ export class PipelineStack extends Construct {
             project: this.deployProject,
             input: outputSource,
             outputs: undefined,
+            role: infrastructureDeployRole
           }),
         ],
       });

@@ -18,7 +18,7 @@ interface OutsideSecrets {
   SECRET_SLACK_WEBHOOK: string;
 }
 
-const aws_cdk_in_practice_secrets = '../../' + "XX" + SECRETS_FILENAME;
+const aws_cdk_in_practice_secrets = '../../' + SECRETS_FILENAME;
 
 export function getSecrets(): any {
   if (fs.existsSync(aws_cdk_in_practice_secrets)) {
@@ -26,7 +26,7 @@ export function getSecrets(): any {
     const local_secrets_object: OutsideSecrets = JSON.parse(local_secrets_str);
     return local_secrets_object;
   } else {
-    console.log("I AM HERE");
+    console.log("I AM HERE aaaaaaaaaaaaaaaaa");
     let aws_secrets_str: any;
     let aws_secrets_object = {};
     (async () => {
@@ -46,6 +46,7 @@ export function getSecrets(): any {
         throw error;
       }
       aws_secrets_str = response.SecretString!;
+      console.log("I AM HERE aws_secrets_str", aws_secrets_str);
       aws_secrets_object = JSON.parse(aws_secrets_str);
 
     })();
