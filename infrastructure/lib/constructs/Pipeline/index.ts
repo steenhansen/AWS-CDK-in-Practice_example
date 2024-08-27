@@ -106,12 +106,17 @@ export class PipelineStack extends Construct {
     console.log("paraent", parentDir);
     const on_local_infrastructure = "../../on-local.infrastructure.config.json";
     let lambda_creds_str;
+    let test_get_val = "97234324";
     if (fs.existsSync(on_local_infrastructure)) {
       lambda_creds_str = fs.readFileSync(on_local_infrastructure, { encoding: 'utf8', flag: 'r' });
       console.log("local", lambda_creds_str);
     } else {
       // https://us-east-1.console.aws.amazon.com/systems-manager/parameters?region=us-east-1&tab=Table
       lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
+
+      test_get_val = ssm.StringParameter.valueForStringParameter(this, 'lambda-creds');
+
+
       console.log("aws", lambda_creds_str);
     }
     const lambda_creds_obj = JSON.parse(lambda_creds_str);
@@ -145,6 +150,8 @@ export class PipelineStack extends Construct {
             pre_build: {
               'on-failure': 'ABORT',
               commands: [
+                `echo lambda_creds_str            `,
+                `echo test_get_val            `,
                 'cd web',
                 'yarn install',
                 `echo '{ "domain_name": "${domainName}",
