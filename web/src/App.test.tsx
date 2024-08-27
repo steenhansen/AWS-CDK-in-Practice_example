@@ -1,11 +1,26 @@
 import { render, screen } from '@testing-library/react';
-import { App } from './components/App'
-import '@testing-library/jest-dom'
+import { App } from './components/App';
+import '@testing-library/jest-dom';
 
-test('renders Westpoint logo', () => {
+/*
+ This crashes without 
+
+  "jest": {
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
+  },
+
+  in package.json
+  
+  updating to Jest 29.7.1 did not work
+*/
+
+
+test('Renders the logo', () => {
   render(<App />);
 
-  const westpointLogo = screen.getByTestId('header-logo');
+  const the_logo = screen.getByTestId('header-logo');
 
-  expect(westpointLogo).toBeInTheDocument();
+  expect(the_logo).toBeInTheDocument();
 });
