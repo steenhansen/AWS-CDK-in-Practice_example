@@ -1,6 +1,6 @@
 /* ---------- External Libraries ---------- */
 import { SecretValue, Tags } from 'aws-cdk-lib';
-import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
+import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
 import {
   CodeBuildAction,
@@ -194,6 +194,7 @@ export class PipelineStack extends Construct {
     /* ---------- Pipeline ---------- */
     this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
       pipelineName: `Chapter9-Pipeline-${props.environment}`,
+      pipelineType: PipelineType.V2
     });
 
     /* ---------- Stages ---------- */
