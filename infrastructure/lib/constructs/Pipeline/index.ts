@@ -202,8 +202,8 @@ export class PipelineStack extends Construct {
       actions: [
         new GitHubSourceAction({
           actionName: 'Source',
-          owner: 'westpoint-io',
-          repo: 'AWS-CDK-in-Action-chapter-9',
+          owner: 'steenhansen',
+          repo: 'AWS-CDK-in-Practice_example',
           branch: `${branch}`,
           oauthToken: secretToken,
           output: outputSource,
