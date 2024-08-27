@@ -106,9 +106,9 @@ export class PipelineStack extends Construct {
     console.log("paraent", parentDir);
     const on_local_infrastructure = "../../on-local.infrastructure.config.json";
     let lambda_creds_str;
-    let test_get_val = "97234324";
+    //  let test_get_val;
 
-    let the_call;
+    // let the_call;
 
     if (fs.existsSync(on_local_infrastructure)) {
       lambda_creds_str = fs.readFileSync(on_local_infrastructure, { encoding: 'utf8', flag: 'r' });
@@ -118,25 +118,22 @@ export class PipelineStack extends Construct {
       // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ssm/command/GetParameterCommand/
 
 
-      (async () => {
+      // (async () => {
 
-        const client = new SSMClient(this);
-        const input = { // GetParameterRequest
-          Name: "lambda-creds", // required
-          WithDecryption: true || false,
-        };
-        const command = new GetParameterCommand(input);
-        const response = await client.send(command);
-        the_call = response;
-      })();
-
-
-
+      //   const client = new SSMClient(this);
+      //   const input = { // GetParameterRequest
+      //     Name: "lambda-creds", // required
+      //     WithDecryption: true || false,
+      //   };
+      //   const command = new GetParameterCommand(input);
+      //   const response = await client.send(command);
+      //   the_call = response;
+      // })();
 
       // https://us-east-1.console.aws.amazon.com/systems-manager/parameters?region=us-east-1&tab=Table
-      lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
+      //  lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
 
-      test_get_val = ssm.StringParameter.valueForStringParameter(this, 'lambda-creds');
+      lambda_creds_str = ssm.StringParameter.valueForStringParameter(this, 'lambda-creds', 2);
 
 
       console.log("aws", lambda_creds_str);
@@ -148,6 +145,15 @@ export class PipelineStack extends Construct {
       SLACK_PROD_CHANNEL_ID,
       SLACK_DEV_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
+
+
+    // const test_creds_obj = JSON.parse(test_get_val);
+    // const {
+    //   GITHUB_TOKEN2,
+    //   SLACK_WEBHOOK2,
+    //   SLACK_PROD_CHANNEL_ID2,
+    //   SLACK_DEV_CHANNEL_ID2,
+    //   SLACK_WORKSPACE_ID2 } = test_creds_obj;
 
 
     this.deployProject = new PipelineProject(
@@ -173,8 +179,7 @@ export class PipelineStack extends Construct {
               'on-failure': 'ABORT',
               commands: [
                 `echo ${lambda_creds_str}            `,
-                `echo "the_call", ${the_call}            `,
-                `echo ${test_get_val}            `,
+                `echo "SLACK_WORKSPACE_ID2", ${SLACK_WORKSPACE_ID}            `,
                 'cd web',
                 'yarn install',
                 `echo '{ "domain_name": "${domainName}",
