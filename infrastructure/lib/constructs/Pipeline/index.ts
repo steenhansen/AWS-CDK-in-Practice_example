@@ -39,6 +39,11 @@ export class PipelineStack extends Construct {
       deployCommand,
       branch,
       tag,
+      domainName,
+      backendSubdomain,
+      frontendSubdomain,
+      backendDevSubdomain,
+      frontendDevSubdomain,
       githubToken,
       workspaceId,
       channelId,
@@ -66,9 +71,9 @@ export class PipelineStack extends Construct {
     /* ---------- Pipeline Build Projects ---------- */
     this.backEndTestProject = new PipelineProject(
       scope,
-      `Chapter5-BackEndTest-PipelineProject-${props.environment}`,
+      `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
       {
-        projectName: `Chapter5-BackEndTest-PipelineProject-${props.environment}`,
+        projectName: `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
             'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
@@ -79,7 +84,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '16',
+                nodejs: '20',
               },
             },
             pre_build: {
@@ -97,9 +102,9 @@ export class PipelineStack extends Construct {
 
     this.deployProject = new PipelineProject(
       this,
-      `Chapter5-BackEndBuild-PipelineProject-${props.environment}`,
+      `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
       {
-        projectName: `Chapter5-BackEndBuild-PipelineProject-${props.environment}`,
+        projectName: `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
         environment: {
           privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
@@ -111,7 +116,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '16',
+                nodejs: '20',
               },
             },
             pre_build: {
@@ -119,6 +124,15 @@ export class PipelineStack extends Construct {
               commands: [
                 'cd web',
                 'yarn install',
+                `
+                echo '{
+                  "domain_name": "${domainName}",
+                  "backend_subdomain": "${backendSubdomain}",
+                  "frontend_subdomain": "${frontendSubdomain}",
+                  "backend_dev_subdomain": "${backendDevSubdomain}",
+                  "frontend_dev_subdomain": "${frontendDevSubdomain}"
+                }' > src/config.json
+                `,
                 'cd ../server',
                 'yarn install',
                 'cd ../infrastructure',
@@ -148,9 +162,9 @@ export class PipelineStack extends Construct {
 
     this.frontEndTestProject = new PipelineProject(
       scope,
-      `Chapter5-FrontEndTest-PipelineProject-${props.environment}`,
+      `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
       {
-        projectName: `Chapter5-FrontEndTest-PipelineProject-${props.environment}`,
+        projectName: `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
             'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
@@ -161,7 +175,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '16',
+                nodejs: '20',
               },
             },
             pre_build: {
@@ -178,13 +192,9 @@ export class PipelineStack extends Construct {
     );
 
     /* ---------- Pipeline ---------- */
-    this.pipeline = new Pipeline(
-      scope,
-      `BackendTest-Pipeline-${props.environment}`,
-      {
-        pipelineName: `Chapter5-Pipeline-${props.environment}`,
-      },
-    );
+    this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
+      pipelineName: `Chapter9-Pipeline-${props.environment}`,
+    });
 
     /* ---------- Stages ---------- */
     this.pipeline.addStage({
@@ -192,8 +202,8 @@ export class PipelineStack extends Construct {
       actions: [
         new GitHubSourceAction({
           actionName: 'Source',
-          owner: 'steenhansen',
-          repo: 'AWS-CDK-in-Practice_example',
+          owner: 'westpoint-io',
+          repo: 'AWS-CDK-in-Action-chapter-9',
           branch: `${branch}`,
           oauthToken: secretToken,
           output: outputSource,
@@ -238,34 +248,31 @@ export class PipelineStack extends Construct {
       ],
     });
 
-/*
-    const snsTopic = new Topic(
-      this,
-      `${props.environment}-Pipeline-SlackNotificationsTopic`,
-    );
+    // const snsTopic = new Topic(
+    //   this,
+    //   `${props.environment}-Pipeline-SlackNotificationsTopic`,
+    // );
 
-    const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-      slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-      slackWorkspaceId: workspaceId || '',
-      slackChannelId: channelId || '',
-    });
+    // const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
+    //   slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+    //   slackWorkspaceId: workspaceId || '',
+    //   slackChannelId: channelId || '',
+    // });
 
-    const rule = new NotificationRule(this, 'NotificationRule', {
-      source: this.pipeline,
-      events: [
-        'codepipeline-pipeline-pipeline-execution-failed',
-        'codepipeline-pipeline-pipeline-execution-canceled',
-        'codepipeline-pipeline-pipeline-execution-started',
-        'codepipeline-pipeline-pipeline-execution-resumed',
-        'codepipeline-pipeline-pipeline-execution-succeeded',
-        'codepipeline-pipeline-manual-approval-needed',
-      ],
-      targets: [snsTopic],
-    });
+    // const rule = new NotificationRule(this, 'NotificationRule', {
+    //   source: this.pipeline,
+    //   events: [
+    //     'codepipeline-pipeline-pipeline-execution-failed',
+    //     'codepipeline-pipeline-pipeline-execution-canceled',
+    //     'codepipeline-pipeline-pipeline-execution-started',
+    //     'codepipeline-pipeline-pipeline-execution-resumed',
+    //     'codepipeline-pipeline-pipeline-execution-succeeded',
+    //     'codepipeline-pipeline-manual-approval-needed',
+    //   ],
+    //   targets: [snsTopic],
+    // });
 
-    rule.addTarget(slackConfig);
-*/
-
+    // rule.addTarget(slackConfig);
 
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);

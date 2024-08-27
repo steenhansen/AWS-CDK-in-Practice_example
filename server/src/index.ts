@@ -1,86 +1,38 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { OkPacket } from 'mysql';
 
-import { Todo } from './@types';
+import { handler as PostHandler } from '../../infrastructure/lib/constructs/Lambda/post/lambda';
+import { handler as GetHandler } from '../../infrastructure/lib/constructs/Lambda/get/lambda';
 
-import { execute, init } from './connections';
+const { parsed } = dotenv.config();
 
-dotenv.config();
-
-const port = process.env.PORT || 80;
+const port = parsed?.PORT || 80;
 
 const createApp = () => {
   const app = express();
-
-  init();
 
   app.use(cors());
   app.use(express.json());
 
   app.post('/', async (req, res) => {
-    try {
-      const { todo_name, todo_description, todo_completed } = req.body.todo;
+    const event = {
+      body: JSON.stringify(req.body),
+    };
 
-      const sql = `
-      INSERT INTO Todolist
-        (
-          \`todo_name\`,
-          \`todo_description\`,
-          \`todo_completed\`
-        )
-        VALUES
-          (
-            "${todo_name}",
-            "${todo_description}",
-            ${todo_completed}
-          );
-    `;
+    const { statusCode, body } = await PostHandler(event);
 
-      const response = await execute<OkPacket>(sql, {});
-
-      const { insertId } = response;
-
-      if (!insertId) return res.status(400).send('Failed to insert todo');
-
-      const todo: Todo = {
-        id: insertId,
-        todo_completed,
-        todo_description,
-        todo_name,
-      };
-
-      return res.status(200).send({
-        todo,
-      });
-    } catch (err: any) {
-      console.log(err);
-
-      return res.status(400).send({
-        message: err.message,
-      });
-    }
+    return res.status(statusCode).send(body);
   });
 
-  app.get('/', async (_, res) => {
-    try {
-      const sql = `SELECT * FROM Todolist;`;
+  app.get('/', async (_req, res) => {
+    const { statusCode, body } = await GetHandler();
 
-      const response = await execute<Todo>(sql, {});
-
-      return res.status(200).send({ todos: response });
-    } catch (err: any) {
-      console.log(err);
-
-      return res.status(400).send({
-        message: err.message,
-      });
-    }
+    return res.status(statusCode).send(body);
   });
 
-  app.get('/health', async (_, res) => {
-    return res.status(200).send({ status: 'available' });
+  app.get('/healthcheck', async (_req, res) => {
+    return res.status(200).send(JSON.stringify('OK'));
   });
 
   return app;
@@ -89,11 +41,11 @@ const createApp = () => {
 const app = createApp();
 
 const server = app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+  console.info(`Server is listening on port ${port}`);
 });
 
-server.keepAliveTimeout = 30000;
-server.headersTimeout = 31000;
+server.keepAliveTimeout = 60;
+server.headersTimeout = 60;
 
 createApp();
 
