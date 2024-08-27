@@ -76,7 +76,7 @@ export class PipelineStack extends Construct {
         projectName: `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
           ),
         },
         buildSpec: BuildSpec.fromObject({
@@ -108,7 +108,7 @@ export class PipelineStack extends Construct {
         environment: {
           privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
           ),
         },
         buildSpec: BuildSpec.fromObject({
@@ -167,7 +167,7 @@ export class PipelineStack extends Construct {
         projectName: `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
         environment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:4.0',
+            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
           ),
         },
         buildSpec: BuildSpec.fromObject({
