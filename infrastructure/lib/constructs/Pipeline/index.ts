@@ -18,6 +18,8 @@ import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import { pipelineConfig } from '../../../utils/pipelineConfig';
+var fs = require('fs');
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 interface Props {
   environment: string;
@@ -50,7 +52,7 @@ export class PipelineStack extends Construct {
     } = pipelineConfig(props.environment);
 
     /* ---------- Pipeline Configs ---------- */
-    const secretToken = new SecretValue(githubToken);
+    // const secretToken = new SecretValue(githubToken);
 
     const codeBuildPolicy = new PolicyStatement({
       sid: 'AssumeRole',
@@ -99,6 +101,27 @@ export class PipelineStack extends Construct {
         }),
       },
     );
+    var path = require('path');
+    var parentDir = path.resolve(process.cwd());
+    console.log("paraent", parentDir);
+    const on_local_infrastructure = "../../on-local.infrastructure.config.json";
+    let lambda_creds_str;
+    if (fs.existsSync(on_local_infrastructure)) {
+      lambda_creds_str = fs.readFileSync(on_local_infrastructure, { encoding: 'utf8', flag: 'r' });
+      console.log("local", lambda_creds_str);
+    } else {
+      // https://us-east-1.console.aws.amazon.com/systems-manager/parameters?region=us-east-1&tab=Table
+      lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
+      console.log("aws", lambda_creds_str);
+    }
+    const lambda_creds_obj = JSON.parse(lambda_creds_str);
+    const {
+      GITHUB_TOKEN,
+      SLACK_WEBHOOK,
+      SLACK_PROD_CHANNEL_ID,
+      SLACK_DEV_CHANNEL_ID,
+      SLACK_WORKSPACE_ID } = lambda_creds_obj;
+
 
     this.deployProject = new PipelineProject(
       this,
@@ -124,19 +147,23 @@ export class PipelineStack extends Construct {
               commands: [
                 'cd web',
                 'yarn install',
-                `
-                echo '{
-                  "domain_name": "${domainName}",
-                  "backend_subdomain": "${backendSubdomain}",
-                  "frontend_subdomain": "${frontendSubdomain}",
-                  "backend_dev_subdomain": "${backendDevSubdomain}",
-                  "frontend_dev_subdomain": "${frontendDevSubdomain}"
-                }' > src/config.json
-                `,
+                `echo '{ "domain_name": "${domainName}",
+                         "backend_subdomain": "${backendSubdomain}",
+                         "frontend_subdomain": "${frontendSubdomain}",
+                         "backend_dev_subdomain": "${backendDevSubdomain}",
+                         "frontend_dev_subdomain": "${frontendDevSubdomain}",
+                         "SLACK_WEBHOOK": "${SLACK_WEBHOOK}"
+                       }' > src/config.json                     `,
                 'cd ../server',
                 'yarn install',
                 'cd ../infrastructure',
                 'yarn install',
+                `echo '{ "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+                         "SLACK_WEBHOOK": "${SLACK_WEBHOOK}",
+                         "SLACK_PROD_CHANNEL_ID": "${SLACK_PROD_CHANNEL_ID}",
+                         "SLACK_DEV_CHANNEL_ID": "${SLACK_DEV_CHANNEL_ID}",
+                         "SLACK_WORKSPACE_ID": "${backendDevSubdomain}"
+                       }' > on-aws.infrastructure.config.json                `
               ],
             },
             build: {
@@ -197,6 +224,9 @@ export class PipelineStack extends Construct {
       pipelineType: PipelineType.V2
     });
 
+    const secretToken = new SecretValue(githubToken);
+    console.log("JJJJJJJJJJJJJJJJJJJJJJJJJJJJ githubToken=", githubToken);
+    console.log("JJJJJJJJJJJJJJJJJJJJJJJJJJJJ GITHUB_TOKEN=", GITHUB_TOKEN);
     /* ---------- Stages ---------- */
     this.pipeline.addStage({
       stageName: 'Source',
