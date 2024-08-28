@@ -28,13 +28,6 @@ const webConfigJSON = {
   backendDevSubdomain: config.backend_dev_subdomain,
   frontendDevSubdomain: config.frontend_dev_subdomain,
 };
-interface OutsideSecrets {
-  GITHUB_TOKEN: string;
-  SLACK_WEBHOOK: string;
-  SLACK_PROD_CHANNEL_ID: string;
-  SLACK_DEV_CHANNEL_ID: string;
-  SLACK_WORKSPACE_ID: string;
-}
 
 
 export const pipelineConfig = (env: string) => {
@@ -47,7 +40,6 @@ export const pipelineConfig = (env: string) => {
       deployCommand: 'yarn cdk deploy',
       branch: 'main',
       tag: 'chapter9-production-pipeline',
-      githubToken: parsed?.GITHUB_TOKEN,
       workspaceId: parsed?.WORKSPACE_ID,
       channelId: parsed?.CHANNEL_ID,
       ...webConfigJSON,
@@ -61,7 +53,6 @@ export const pipelineConfig = (env: string) => {
     deployCommand: 'yarn cdk:dev deploy',
     branch: 'dev',
     tag: 'chapter9-development-pipeline',
-    githubToken: parsed?.GITHUB_TOKEN,
     workspaceId: parsed?.WORKSPACE_ID,
     channelId: parsed?.CHANNEL_ID,
     ...webConfigJSON,

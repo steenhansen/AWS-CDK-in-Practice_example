@@ -20,7 +20,7 @@ if (['ONLY_DEV'].includes(process.env.CDK_MODE || '')) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**1** Is Docker Desktop turned on?\n\n", e);
+    console.log("\x1b[41m", "\n**1** Is Docker Desktop turned on?\n\n", e, "\x1b[0m");
   }
 }
 
@@ -30,7 +30,7 @@ if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**2** Is Docker Desktop turned on?\n\n", e);
+    console.log("\x1b[41m", "\n**2** Is Docker Desktop turned on?\n\n", e, "\x1b[0m");
   }
 }
 
@@ -40,6 +40,6 @@ if (['ONLY_PIPELINE'].includes(process.env.CDK_MODE || '')) {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
-    console.log("\n**3** Is Docker Desktop turned on?\n\n", e);
+    console.log("\x1b[41m", "\n**3** Is Docker Desktop turned on?\n\n", e, "\x1b[0m");
   }
 }
