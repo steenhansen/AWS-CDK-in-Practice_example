@@ -1,3 +1,4 @@
+
 /* ---------- External Libraries ---------- */
 import { SecretValue, Tags } from 'aws-cdk-lib';
 import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
@@ -24,6 +25,18 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 interface Props {
   environment: string;
 }
+
+import stack_config from '../../../infrastructure.config.json';
+import console = require("console");
+const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const LINUX_VERSION = stack_config.LINUX_VERSION;
+const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
+const GITHUB_REPO = stack_config.GITHUB_REPO;
+const AWS_REGION = stack_config.AWS_REGION;
+const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
+const GITHUB_OWNER = stack_config.GITHUB_OWNER;
+const STACK_NAME = stack_config.STACK_NAME;
+
 
 export class PipelineStack extends Construct {
   readonly frontEndTestProject: PipelineProject;
@@ -86,7 +99,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '20',
+                nodejs: NODE_RUNTIME,
               },
             },
             pre_build: {
@@ -106,34 +119,17 @@ export class PipelineStack extends Construct {
     console.log("paraent", parentDir);
     const on_local_infrastructure = "../../on-local.infrastructure.config.json";
     let lambda_creds_str;
-    //  let test_get_val;
 
-    // let the_call;
 
     if (fs.existsSync(on_local_infrastructure)) {
       lambda_creds_str = fs.readFileSync(on_local_infrastructure, { encoding: 'utf8', flag: 'r' });
       console.log("local", lambda_creds_str);
     } else {
 
-      // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ssm/command/GetParameterCommand/
-
-
-      // (async () => {
-
-      //   const client = new SSMClient(this);
-      //   const input = { // GetParameterRequest
-      //     Name: "lambda-creds", // required
-      //     WithDecryption: true || false,
-      //   };
-      //   const command = new GetParameterCommand(input);
-      //   const response = await client.send(command);
-      //   the_call = response;
-      // })();
 
       // https://us-east-1.console.aws.amazon.com/systems-manager/parameters?region=us-east-1&tab=Table
-      //  lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
-
-      lambda_creds_str = ssm.StringParameter.valueForStringParameter(this, 'lambda-creds', 2);
+      // if wrong then re-create the value, delete, then re-create
+      lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
 
 
       console.log("aws", lambda_creds_str);
@@ -145,15 +141,6 @@ export class PipelineStack extends Construct {
       SLACK_PROD_CHANNEL_ID,
       SLACK_DEV_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
-
-
-    // const test_creds_obj = JSON.parse(test_get_val);
-    // const {
-    //   GITHUB_TOKEN2,
-    //   SLACK_WEBHOOK2,
-    //   SLACK_PROD_CHANNEL_ID2,
-    //   SLACK_DEV_CHANNEL_ID2,
-    //   SLACK_WORKSPACE_ID2 } = test_creds_obj;
 
 
     this.deployProject = new PipelineProject(
@@ -172,7 +159,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '20',
+                nodejs: NODE_RUNTIME,
               },
             },
             pre_build: {
@@ -237,7 +224,7 @@ export class PipelineStack extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: '20',
+                nodejs: NODE_RUNTIME,
               },
             },
             pre_build: {
@@ -268,8 +255,8 @@ export class PipelineStack extends Construct {
       actions: [
         new GitHubSourceAction({
           actionName: 'Source',
-          owner: 'steenhansen',
-          repo: 'AWS-CDK-in-Practice_example',
+          owner: GITHUB_OWNER,   //'steenhansen',
+          repo: GITHUB_REPO,      //'AWS-CDK-in-Practice_example',
           branch: `${branch}`,
           oauthToken: secretToken,
           output: outputSource,
@@ -277,6 +264,7 @@ export class PipelineStack extends Construct {
         }),
       ],
     });
+
 
     this.pipeline.addStage({
       stageName: 'Back-End-Test',

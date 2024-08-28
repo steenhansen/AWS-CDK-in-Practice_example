@@ -1,5 +1,25 @@
 import * as dotenv from 'dotenv';
 import config from '../../config.json';
+var fs = require('fs');
+
+import stack_config from '../infrastructure.config.json';
+
+const domainName = stack_config.DOMAIN_NAME;
+
+const frontendSubdomain = stack_config.DOMAIN_SUB_FRONTEND;
+const frontendDevSubdomain = stack_config.DOMAIN_SUB_FRONTEND_DEV;
+
+const backendSubdomain = stack_config.DOMAIN_SUB_BACKEND;
+const backendDevSubdomain = stack_config.DOMAIN_SUB_BACKEND_DEV;
+
+
+
+const AWS_SECRET_NAME = stack_config.AWS_SECRET_NAME;
+
+const MAIN_BRANCH = stack_config.MAIN_BRANCH;
+const DEV_BRANCH = stack_config.DEV_BRANCH;
+
+
 
 const webConfigJSON = {
   domainName: config.domain_name,
@@ -8,8 +28,17 @@ const webConfigJSON = {
   backendDevSubdomain: config.backend_dev_subdomain,
   frontendDevSubdomain: config.frontend_dev_subdomain,
 };
+interface OutsideSecrets {
+  GITHUB_TOKEN: string;
+  SLACK_WEBHOOK: string;
+  SLACK_PROD_CHANNEL_ID: string;
+  SLACK_DEV_CHANNEL_ID: string;
+  SLACK_WORKSPACE_ID: string;
+}
+
 
 export const pipelineConfig = (env: string) => {
+
   if (env === 'Production') {
     const { parsed } = dotenv.config({ path: '.env.production' });
 
@@ -37,4 +66,8 @@ export const pipelineConfig = (env: string) => {
     channelId: parsed?.CHANNEL_ID,
     ...webConfigJSON,
   };
+
+
+
+
 };

@@ -4,6 +4,9 @@ import { Construct } from 'constructs';
 // import { config } from 'dotenv';
 import config from '../../../../config.json';
 
+import stack_config from '../../../infrastructure.config.json';
+const DOMAIN_NAME = stack_config.DOMAIN_NAME;
+
 // config({ path: '.env' });
 
 export class Route53 extends Construct {
@@ -13,7 +16,7 @@ export class Route53 extends Construct {
     super(scope, id);
 
     this.hosted_zone = HostedZone.fromLookup(scope, 'HostedZone', {
-      domainName: config.domain_name,
+      domainName: DOMAIN_NAME          //config.domain_name,
     });
   }
 }
