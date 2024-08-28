@@ -116,7 +116,7 @@ export class PipelineStack extends Construct {
     );
     var path = require('path');
     var parentDir = path.resolve(process.cwd());
-    console.log("paraent", parentDir);
+    console.log("parentDir", parentDir);
     const on_local_infrastructure = "../../on-local.infrastructure.config.json";
     let lambda_creds_str;
 
