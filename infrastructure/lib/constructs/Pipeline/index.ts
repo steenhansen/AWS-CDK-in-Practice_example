@@ -29,14 +29,12 @@ interface Props {
 import stack_config from '../../../infrastructure.config.json';
 import console = require("console");
 const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const SSM_SECRETS_NAME = stack_config.SSM_SECRETS_NAME;
 const LINUX_VERSION = stack_config.LINUX_VERSION;
-const GITHUB_ALIVE = stack_config.GITHUB_ALIVE;
 const GITHUB_REPO = stack_config.GITHUB_REPO;
-const AWS_REGION = stack_config.AWS_REGION;
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
 const GITHUB_OWNER = stack_config.GITHUB_OWNER;
 const STACK_NAME = stack_config.STACK_NAME;
-
 
 export class PipelineStack extends Construct {
   readonly frontEndTestProject: PipelineProject;
@@ -88,11 +86,7 @@ export class PipelineStack extends Construct {
       `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
       {
         projectName: `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
-        environment: {
-          buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
-          ),
-        },
+        environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
           phases: {
@@ -115,7 +109,7 @@ export class PipelineStack extends Construct {
     );
     // https://us-east-1.console.aws.amazon.com/systems-manager/parameters?region=us-east-1&tab=Table
     // if wrong then re-create the value, delete, then re-create
-    const lambda_creds_str = ssm.StringParameter.valueFromLookup(this, 'lambda-creds');
+    const lambda_creds_str = ssm.StringParameter.valueFromLookup(this, SSM_SECRETS_NAME);
 
 
     let lambda_creds_obj;
@@ -140,9 +134,7 @@ export class PipelineStack extends Construct {
         projectName: `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
         environment: {
           privileged: true,
-          buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
-          ),
+          buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)
         },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -202,11 +194,7 @@ export class PipelineStack extends Construct {
       `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
       {
         projectName: `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
-        environment: {
-          buildImage: LinuxBuildImage.fromCodeBuildImageId(
-            'aws/codebuild/amazonlinux2-x86_64-standard:5.0',
-          ),
-        },
+        environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
           phases: {
@@ -241,8 +229,8 @@ export class PipelineStack extends Construct {
       actions: [
         new GitHubSourceAction({
           actionName: 'Source',
-          owner: GITHUB_OWNER,   //'steenhansen',
-          repo: GITHUB_REPO,      //'AWS-CDK-in-Practice_example',
+          owner: GITHUB_OWNER,
+          repo: GITHUB_REPO,
           branch: `${branch}`,
           oauthToken: secretToken,
           output: outputSource,
@@ -288,6 +276,10 @@ export class PipelineStack extends Construct {
       ],
     });
 
+
+    //   if (CICD_SLACK_ALIVE === 'yes') {
+
+
     // const snsTopic = new Topic(
     //   this,
     //   `${props.environment}-Pipeline-SlackNotificationsTopic`,
@@ -295,8 +287,10 @@ export class PipelineStack extends Construct {
 
     // const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
     //   slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-    //   slackWorkspaceId: workspaceId || '',
-    //   slackChannelId: channelId || '',
+    //   slackWorkspaceId: SLACK_WORKSPACE_ID || '',
+    //   slackChannelId: SLACK_PROD_CHANNEL_ID || '',
+    //               //  slackWorkspaceId: workspaceId || '',
+    //              //  slackChannelId: channelId || '',
     // });
 
     // const rule = new NotificationRule(this, 'NotificationRule', {

@@ -1,5 +1,6 @@
 {
   "------------------------------------------webhook_messages": "",
+  "SSM_SECRETS_NAME": "lambda-creds",
   "SLACK_WEB_HOOK_ALIVE": "no",
   "------------------------------------------github": "",
   "GITHUB_ALIVE": "yes",

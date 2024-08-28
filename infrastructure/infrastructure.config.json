@@ -1,5 +1,6 @@
 {
   "GITHUB_ALIVE": "yes",
+  "SSM_SECRETS_NAME": "lambda-creds",
   "AWS_SECRET_NAME": "aws-cdk-in-practice-example_secrets",
   "SECRETS_FILENAME": "aws-cdk-in-practice_secrets.json",
   "GITHUB_OWNER": "steenhansen",

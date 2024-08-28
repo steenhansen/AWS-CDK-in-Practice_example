@@ -1,3 +1,7 @@
+
+
+
+
 web
   yarn build:prod
 
@@ -11,6 +15,7 @@ then copy over c9 to aws-..example
 then commit on github
 
 
+https://frontend-cdk-book.steenhansen.click/index.html
 
 
 
@@ -18,23 +23,4 @@ then commit on github
 
 
 
-
-
-
-
-
-
-
-
-https://stackoverflow.com/questions/76391190/use-aws-codepipeline-variables-in-a-custom-stage
-
-
-
-https://stephenslee.medium.com/how-to-set-environment-variables-in-aws-codebuild-for-the-react-js-frontend-application-86d58f3d76e0
-
-
-
-https://docs.aws.amazon.com/cdk/v2/guide/get_ssm_value.html
-
-https://stackoverflow.com/questions/76173293/where-to-store-environment-variables-when-using-aws-cdk-pipelines
 

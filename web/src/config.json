@@ -1,7 +1,8 @@
 {
-  "domain_name": "steenhansen.click",
-  "backend_subdomain": "backend-cdk-book",
-  "frontend_subdomain": "frontend-cdk-book",
-  "backend_dev_subdomain": "dev-backend-cdk-book",
-  "frontend_dev_subdomain": "dev-frontend-cdk-book"
+  "domain_name": "steenhansen.X",
+  "backend_subdomain": "X",
+  "frontend_subdomain": "Y",
+  "backend_dev_subdomain": "Z",
+  "frontend_dev_subdomain": "A",
+  "SLACK_WEBHOOK": "NOT YET, NOT OUTSIDE?"
 }
