@@ -182,7 +182,7 @@ export class PipelineStack extends Construct {
                          "SLACK_WEBHOOK": "${SLACK_WEBHOOK}",
                          "SLACK_PROD_CHANNEL_ID": "${SLACK_PROD_CHANNEL_ID}",
                          "SLACK_DEV_CHANNEL_ID": "${SLACK_DEV_CHANNEL_ID}",
-                         "SLACK_WORKSPACE_ID": "${backendDevSubdomain}"
+                         "SLACK_WORKSPACE_ID": "${SLACK_WORKSPACE_ID}"
                        }' > on-aws.infrastructure.config.json                `
               ],
             },
