@@ -172,7 +172,8 @@ export class PipelineStack extends Construct {
                          "frontend_subdomain": "${frontendSubdomain}",
                          "backend_dev_subdomain": "${backendDevSubdomain}",
                          "frontend_dev_subdomain": "${frontendDevSubdomain}",
-                         "SLACK_WEBHOOK": "${SLACK_WEBHOOK}"
+                          "SLACK_WEBHOOK": "${SLACK_WEBHOOK}",
+                         "parentDir": "${parentDir}
                        }' > src/config.json                     `,
                 'cd ../server',
                 'yarn install',
