@@ -165,8 +165,6 @@ export class PipelineStack extends Construct {
             pre_build: {
               'on-failure': 'ABORT',
               commands: [
-                `echo ${lambda_creds_str}            `,
-                `echo "SLACK_WORKSPACE_ID2", ${SLACK_WORKSPACE_ID}            `,
                 'cd web',
                 'yarn install',
                 `echo '{ "domain_name": "${domainName}",
