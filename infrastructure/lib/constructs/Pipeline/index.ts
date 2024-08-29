@@ -69,6 +69,7 @@ export class PipelineStack extends Construct {
       effect: Effect.ALLOW,
       actions: ['sts:AssumeRole', 'iam:PassRole'],
       resources: [
+        //           'arn:aws:iam::*:role/cdk-*',            qbert
         'arn:aws:iam::*:role/cdk-readOnlyRole',
         'arn:aws:iam::*:role/cdk-hnb659fds-lookup-role-*',
         'arn:aws:iam::*:role/cdk-hnb659fds-deploy-role-*',
@@ -126,7 +127,7 @@ export class PipelineStack extends Construct {
       SLACK_DEV_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
 
-
+    const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
     this.deployProject = new PipelineProject(
       this,
       `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
@@ -149,23 +150,13 @@ export class PipelineStack extends Construct {
               commands: [
                 'cd web',
                 'yarn install',
-                `echo '{ "domain_name": "${domainName}",
-                         "backend_subdomain": "${backendSubdomain}",
-                         "frontend_subdomain": "${frontendSubdomain}",
-                         "backend_dev_subdomain": "${backendDevSubdomain}",
-                         "frontend_dev_subdomain": "${frontendDevSubdomain}",
-                         "SLACK_WEBHOOK": "${SLACK_WEBHOOK}"
-                       }' > src/config.json                     `,
+                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > src/pipeline.secrets.json                     `,
                 'cd ../server',
                 'yarn install',
                 'cd ../infrastructure',
                 'yarn install',
-                `echo '{ "GITHUB_TOKEN": "${GITHUB_TOKEN}",
-                         "SLACK_WEBHOOK": "${SLACK_WEBHOOK}",
-                         "SLACK_PROD_CHANNEL_ID": "${SLACK_PROD_CHANNEL_ID}",
-                         "SLACK_DEV_CHANNEL_ID": "${SLACK_DEV_CHANNEL_ID}",
-                         "SLACK_WORKSPACE_ID": "${SLACK_WORKSPACE_ID}"
-                       }' > on-aws.infrastructure.config.json                `
+                `echo '{ "SLACK_WORKSPACE_ID": "${SLACK_WORKSPACE_ID}"
+                       }' > infrastructure.secrets.json                `  // for possible tests
               ],
             },
             build: {

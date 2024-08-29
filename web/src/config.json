@@ -1,8 +1,0 @@
-{
-  "domain_name": "steenhansen.X",
-  "backend_subdomain": "X",
-  "frontend_subdomain": "Y",
-  "backend_dev_subdomain": "Z",
-  "frontend_dev_subdomain": "A",
-  "SLACK_WEBHOOK": "NOT YET, NOT OUTSIDE?"
-}

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { config } from 'dotenv';
+//import { config } from 'dotenv';
 
 import { Chapter9Stack } from '../lib/chapter-9-stack';
 import { Chapter9PipelineStack } from '../lib/chapter-9-pipeline-stack';
 
-config({ path: process.env.DOTENV_CONFIG_PATH });
+//config({ path: process.env.DOTENV_CONFIG_PATH });
 
 import stack_config from '../infrastructure.config.json';
 const AWS_REGION = stack_config.AWS_REGION;

@@ -1,41 +1,41 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { Interfaces } from '../../../@types/interfaces';
-
 import { CreateTodo } from '../CreateTodo';
 import { Todo } from '../Todo';
-
 import { MainContainer } from './styles';
 
-//import config from '@web/outside-config/config.json';
-
-import browser_config from '../../config.json';
-const domain_name = browser_config.domain_name;
-let backend_subdomain = browser_config.backend_subdomain;
-let backend_dev_subdomain = browser_config.backend_dev_subdomain;
-
-
-/* ----------
- * Add backend URL provided by the cdk deploy here!
- * ---------- */
-// const backend_url = `https://${process.env.REACT_APP_ENV === 'Production' ? config.backend_subdomain : config.backend_dev_subdomain}.${config.domain_name}`;
+import program_config from '../../../../program.config.json';
+const domain_name = program_config.DOMAIN_NAME;
+let backend_subdomain = program_config.DOMAIN_SUB_BACKEND;
+let backend_dev_subdomain = program_config.DOMAIN_SUB_BACKEND_DEV;
 
 let backend_url: string;
+let SECRET_SLACK_WEBHOOK;
+
 if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
-  backend_url = `http://localhost:3001`;      //${PORT_SERVER}`;
+  console.log("PPP", process.env);
+  import('../../../../../local.secrets.json').then((module) => {  // hidden outside GitHub directory
+    SECRET_SLACK_WEBHOOK = module.SECRET_LOCAL_SLACK_WEBHOOK;
+  });
+  const local_server_port = process.env["REACT_APP__LOC_SERV_PORT"];
+  backend_url = `http://localhost:${local_server_port}`;
+  console.log("sssssssssssssssssssssssssssssssssss", backend_url);
 } else {
-  let domain_sub_backend;
+  import('../../pipeline.secrets.json').then((module) => {           // re-written during AWS pipeline
+    SECRET_SLACK_WEBHOOK = module.SECRET_PIPELINE_SLACK_WEBHOOK;
+  });
   if (process.env.REACT_ENV === 'Prod') {
-    domain_sub_backend = backend_subdomain;
+    backend_url = backend_subdomain;
   } else {
-    domain_sub_backend = backend_dev_subdomain;
+    backend_url = backend_dev_subdomain;
   }
-  backend_url = `https://${domain_sub_backend}.${domain_name}`;
+  backend_url = `https://${backend_url}.${domain_name}`;
 }
 
 
-const sw = browser_config.SLACK_WEBHOOK;
+const sw = SECRET_SLACK_WEBHOOK;
 export const Main: React.FC = () => {
   /* ----------
    * States
@@ -70,7 +70,7 @@ export const Main: React.FC = () => {
   return (
     <MainContainer>
       <h1>Today</h1>
-      cc <h2>+++{sw}----</h2> dddxxx  66ss
+      cc <h2>{sw}</h2> ddd
 
 
       <CreateTodo handleTodoSubmit={handleTodoSubmit} />

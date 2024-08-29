@@ -1,6 +1,6 @@
 import { httpResponse } from '../../handlers/httpResponse';
 
-export const handler = async () => {
+export const healthcheck_handler = async () => {
   try {
     return httpResponse(200, JSON.stringify('OK'));
   } catch (error: any) {

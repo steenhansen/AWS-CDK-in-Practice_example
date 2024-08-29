@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { PostEvent, Todo } from 'customTypes/index';
 import { httpResponse } from '../../handlers/httpResponse';
 
-export const handler = async (event: PostEvent) => {
+export const dynamo_post_handler = async (event: PostEvent) => {
   try {
     const { todo_name, todo_description, todo_completed } = JSON.parse(
       event.body,

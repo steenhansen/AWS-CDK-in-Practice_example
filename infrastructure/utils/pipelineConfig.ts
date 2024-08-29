@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import config from '../../config.json';
+//import config from '../../config.json';
 var fs = require('fs');
 
 import stack_config from '../infrastructure.config.json';
@@ -22,11 +22,11 @@ const DEV_BRANCH = stack_config.DEV_BRANCH;
 
 
 const webConfigJSON = {
-  domainName: config.domain_name,
-  backendSubdomain: config.backend_subdomain,
-  frontendSubdomain: config.frontend_subdomain,
-  backendDevSubdomain: config.backend_dev_subdomain,
-  frontendDevSubdomain: config.frontend_dev_subdomain,
+  domainName: "config.domain_name",
+  backendSubdomain: "config.backend_subdomain",
+  frontendSubdomain: "config.frontend_subdomain",
+  backendDevSubdomain: "config.backend_dev_subdomain",
+  frontendDevSubdomain: "config.frontend_dev_subdomain",
 };
 
 
@@ -36,8 +36,8 @@ export const pipelineConfig = (env: string) => {
     const { parsed } = dotenv.config({ path: '.env.production' });
 
     return {
-      buildCommand: 'yarn build:prod',
-      deployCommand: 'yarn cdk deploy',
+      buildCommand: 'yarn build:prod', // yarn web-build-prod
+      deployCommand: 'yarn cdk deploy', // yarn cdk-prod deploy
       branch: 'main',
       tag: 'chapter9-production-pipeline',
       workspaceId: parsed?.WORKSPACE_ID,
@@ -49,8 +49,8 @@ export const pipelineConfig = (env: string) => {
   const { parsed } = dotenv.config({ path: '.env.development' });
 
   return {
-    buildCommand: 'yarn build:dev',
-    deployCommand: 'yarn cdk:dev deploy',
+    buildCommand: 'yarn build:dev',        // yarn web-build-dev
+    deployCommand: 'yarn cdk:dev deploy',  // yarn cdk-dev
     branch: 'dev',
     tag: 'chapter9-development-pipeline',
     workspaceId: parsed?.WORKSPACE_ID,

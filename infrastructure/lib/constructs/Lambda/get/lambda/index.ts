@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { httpResponse } from '../../handlers/httpResponse';
 
-export const handler = async () => {
+export const dynamo_get_handler = async () => {
   try {
     const tableName = process.env.TABLE_NAME as string;
     const awsRegion = process.env.REGION || 'us-east-1';

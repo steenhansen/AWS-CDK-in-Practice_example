@@ -1,52 +1,35 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import create_app from './createApp';
+//import config from './server.config.json';
+//import program_config from '../../program.config.json';
 
-import { handler as PostHandler } from '../../infrastructure/lib/constructs/Lambda/post/lambda';
-import { handler as GetHandler } from '../../infrastructure/lib/constructs/Lambda/get/lambda';
+import the_constants from '../../constants.json';
 
-const { parsed } = dotenv.config();
 
-const port = parsed?.PORT || 80;
 
-const createApp = () => {
-  const app = express();
+let port: string;
+if (process.env["LOCAL_MODE"]?.toLowerCase() === 'yes') {
+  console.log("the loco modo");
+  port = the_constants.PORT_SERVER || '80';
+} else {
+  console.log("on the server");
+  port = process.env.PORT || '80';
 
-  app.use(cors());
-  app.use(express.json());
+}
 
-  app.post('/', async (req, res) => {
-    const event = {
-      body: JSON.stringify(req.body),
-    };
 
-    const { statusCode, body } = await PostHandler(event);
-
-    return res.status(statusCode).send(body);
-  });
-
-  app.get('/', async (_req, res) => {
-    const { statusCode, body } = await GetHandler();
-
-    return res.status(statusCode).send(body);
-  });
-
-  app.get('/healthcheck', async (_req, res) => {
-    return res.status(200).send(JSON.stringify('OK'));
-  });
-
-  return app;
-};
-
-const app = createApp();
-
+const app = create_app();
 const server = app.listen(port, () => {
-  console.info(`Server is listening on port ${port}`);
+  console.info(`Local server is listening on port ${port}`);
 });
 
-server.keepAliveTimeout = 60;
-server.headersTimeout = 60;
+console.log("sssssssssssssssssssssss", the_constants);
+console.log("sssssssssssssssssssssss", port);
 
-createApp();
 
-export default createApp;
+server.keepAliveTimeout = 10;
+server.headersTimeout = 10;
+create_app();
+
+
+
+
