@@ -1,9 +1,15 @@
-/* ---------- External Libraries ---------- */
+
 import * as path from 'path';
 import { Construct } from 'constructs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Duration, aws_logs as logs } from 'aws-cdk-lib';
+
+import stack_config from '../../../../program.constants.json';
+const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { nodeRuntime } from '../../../../utils/nodeVersion';
+const the_runtime: Runtime = nodeRuntime(NODE_RUNTIME);
 
 export class HealthCheckLambda extends Construct {
   public readonly func: NodejsFunction;
@@ -11,15 +17,10 @@ export class HealthCheckLambda extends Construct {
   constructor(scope: Construct, id: string, props: any) {
     super(scope, id);
 
-    const node_expected = 'nodejs' + 20 + ".x";
-    const node_runtime = new Runtime(node_expected, 0, { supportsInlineCode: true });
-
-
-
     this.func = new NodejsFunction(scope, 'health-check-lambda', {
-      runtime: node_runtime,
-      entry: path.resolve(__dirname, 'lambda', 'index.ts'),
-      handler: 'handler',
+      runtime: the_runtime,
+      entry: path.resolve(__dirname, 'routine', 'index.ts'),
+      handler: 'healthcheck_handler',
       timeout: Duration.seconds(30),
       environment: {},
       logRetention: logs.RetentionDays.TWO_WEEKS,

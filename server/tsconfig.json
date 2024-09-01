@@ -24,7 +24,7 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "baseUrl": "./",
+    "baseUrl": "./infrastructure/",
     "paths": {
       "customTypes/*": ["../infrastructure/@types/*"]
     },

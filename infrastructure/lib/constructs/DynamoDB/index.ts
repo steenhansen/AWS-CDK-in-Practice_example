@@ -1,4 +1,6 @@
-/* ---------- External Libraries ---------- */
+const logical_dynamo = "Dynamo-DB";
+const logical_seeder = "Dynamo-Seeder";
+
 import { RemovalPolicy, Stack } from 'aws-cdk-lib';
 import {
   AttributeType,
@@ -8,14 +10,15 @@ import {
 } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 import { DynamoDBSeeder, Seeds } from '@cloudcomponents/cdk-dynamodb-seeder';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  AwsCustomResource,
-  AwsCustomResourcePolicy,
-  PhysicalResourceId,
-} from 'aws-cdk-lib/custom-resources';
-import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { SendEmail } from '../Lambda/sendEmail';
+
+import the_constants from '../../../program.constants.json';
+const STATEFUL_ID = the_constants.STATEFUL_ID;
+
+import config from '../../../program.config.json';
+const STACK_NAME = config.STACK_NAME;
+const DYNAMO_TABLE = config.DYNAMO_TABLE;
+
+const THE_ENV = process.env.NODE_ENV || '';
 
 export class DynamoDB extends Construct {
   readonly table: Table;
@@ -23,9 +26,16 @@ export class DynamoDB extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.table = new Table(this, `Dynamo-Table-${process.env.NODE_ENV || ''}`, {
+    const dynamo_name = `${STACK_NAME}.${STATEFUL_ID}.${logical_dynamo}-${THE_ENV}`;
+    const seeder_name = `${STACK_NAME}.${STATEFUL_ID}.${logical_seeder}-${THE_ENV}`;
+
+    const tablename_upper = `${DYNAMO_TABLE}-${THE_ENV}`;
+    const tablename_lower = (tablename_upper).toLocaleLowerCase();
+
+
+    this.table = new Table(this, dynamo_name, {
       partitionKey: { name: 'id', type: AttributeType.STRING },
-      tableName: `todolist_${process.env.NODE_ENV?.toLowerCase() || ''}`,
+      tableName: tablename_lower,
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
       stream: StreamViewType.NEW_IMAGE,
@@ -33,76 +43,20 @@ export class DynamoDB extends Construct {
 
     new DynamoDBSeeder(
       this,
-      `Dynamo-InlineSeeder-${process.env.NODE_ENV || ''}`,
+      seeder_name,
       {
         table: this.table,
         seeds: Seeds.fromInline([
           {
-            id: uuidv4(),
-            todo_name: 'First todo',
-            todo_description: "That's a todo for demonstration purposes",
-            todo_completed: true,
+            id: '12345678-9ABC-DEFG-HIJK-LMNOPRSTUVWX',
+            the_color: 'blue',
+            the_integer: 3
           },
         ]),
       },
     );
 
-    // ---
 
-    const sendEmailLambda = new SendEmail(this, 'send-email-stream', {
-      dynamoTable: this.table,
-    });
 
-    //const emailAddress = process.env.EMAIL_ADDRESS || '';
-    const emailAddress = "steen_hansen@yahoo.com";
-
-    const resourceArn = `arn:aws:ses:${Stack.of(this).region}:${Stack.of(this).account
-      }:identity/${emailAddress}`;
-
-    const verifyEmailIdentityPolicy = AwsCustomResourcePolicy.fromStatements([
-      new PolicyStatement({
-        actions: ['ses:VerifyEmailIdentity', 'ses:DeleteIdentity'],
-        effect: Effect.ALLOW,
-        resources: ['*'],
-      }),
-    ]);
-
-    // Create a new SES Email Identity
-    new AwsCustomResource(
-      this,
-      `Verify-Email-Identity-${process.env.NODE_ENV || ''}`,
-      {
-        onCreate: {
-          service: 'SES',
-          action: 'verifyEmailIdentity',
-          parameters: {
-            EmailAddress: emailAddress,
-          },
-          physicalResourceId: PhysicalResourceId.of(`verify-${emailAddress}`),
-          region: Stack.of(this).region,
-        },
-        onDelete: {
-          service: 'SES',
-          action: 'deleteIdentity',
-          parameters: {
-            Identity: emailAddress,
-          },
-          region: Stack.of(this).region,
-        },
-        policy: verifyEmailIdentityPolicy,
-        logRetention: 1,
-      },
-    );
-
-    sendEmailLambda.func.role?.attachInlinePolicy(
-      new Policy(this, `SESPermissions-${process.env.NODE_ENV || ''}`, {
-        statements: [
-          new PolicyStatement({
-            actions: ['ses:SendEmail'],
-            resources: [resourceArn],
-          }),
-        ],
-      }),
-    );
   }
 }

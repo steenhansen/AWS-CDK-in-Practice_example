@@ -4,6 +4,7 @@
   "AWS_REGION": "us-east-1",
   "MAIN_BRANCH": "main",
   "DEV_BRANCH": "dev",
+  "REGEX_0_255": "^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$",
   "-----------------------------------------machines": "",
   "NODE_RUNTIME": 20,
   "LINUX_VERSION": "aws/codebuild/amazonlinux2-x86_64-standard:5.0",
@@ -11,5 +12,7 @@
   "PORT_SERVER": "3003",
   "_PORT_BROWSER__not_used": "3004",
   "PORT_TEST": "3005",
-  "NO_SQL_WORK_ENDPOINT": "http://localhost:8000"
+  "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
+  "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com",
+  "STATEFUL_ID": "State"
 }

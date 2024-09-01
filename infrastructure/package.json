@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build:frontend": "cd ../web && yarn install && yarn build:dev",
-    "build": "tsc",
+    "infra-build": "tsc",
     "watch": "tsc -w",
     "test": "yarn build && jest",
     "cdk:dev": "cross-env NODE_ENV=Development CDK_MODE=ONLY_DEV cdk",

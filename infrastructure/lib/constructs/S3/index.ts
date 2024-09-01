@@ -15,8 +15,12 @@ import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { Route53 } from '../Route53';
 import { ACM } from '../ACM';
 
-import config from '../../../../config.json';
+import the_constants from '../../../program.constants.json';
+const STATEFUL_ID = the_constants.STATEFUL_ID;
 
+import config from '../../../program.config.json';
+const S3_UNIQUE_ID = config.S3_UNIQUE_ID;
+const STACK_NAME = config.STACK_NAME;
 interface Props {
   acm: ACM;
   route53: Route53;
@@ -32,15 +36,15 @@ export class S3 extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
 
-    const unique_id = 'akemxdjqkl';
+    const THE_ENV = process.env.NODE_ENV || '';
+    const bucketNameUp = `${STACK_NAME}.${STATEFUL_ID}.${S3_UNIQUE_ID}-${THE_ENV}`;
+    const bucketNameLow = (bucketNameUp).toLocaleLowerCase();
 
     this.web_bucket = new Bucket(
       scope,
       `WebBucket-${process.env.NODE_ENV || ''}`,
       {
-        bucketName: `chapter-9-web-bucket-${unique_id}-${(
-          process.env.NODE_ENV || ''
-        ).toLocaleLowerCase()}`,
+        bucketName: bucketNameLow,
         websiteIndexDocument: 'index.html',
         websiteErrorDocument: 'index.html',
         publicReadAccess: true,
@@ -66,15 +70,15 @@ export class S3 extends Construct {
 
     const frontEndSubDomain =
       process.env.NODE_ENV === 'Production'
-        ? config.frontend_subdomain
-        : config.frontend_dev_subdomain;
+        ? config.DOMAIN_SUB_FRONTEND
+        : config.DOMAIN_SUB_FRONTEND_DEV;
 
     this.distribution = new Distribution(
       scope,
       `Frontend-Distribution-${process.env.NODE_ENV || ''}`,
       {
         certificate: props.acm.certificate,
-        domainNames: [`${frontEndSubDomain}.${config.domain_name}`],
+        domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
         defaultRootObject: 'index.html',
         defaultBehavior: {
           origin: new S3Origin(this.web_bucket),
@@ -86,7 +90,7 @@ export class S3 extends Construct {
     new ARecord(scope, `FrontendAliasRecord-${process.env.NODE_ENV || ''}`, {
       zone: props.route53.hosted_zone,
       target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
-      recordName: `${frontEndSubDomain}.${config.domain_name}`,
+      recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
     });
 
     new CfnOutput(scope, `FrontendURL-${process.env.NODE_ENV || ''}`, {

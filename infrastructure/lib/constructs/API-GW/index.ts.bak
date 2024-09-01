@@ -12,8 +12,6 @@ import { ACM } from '../ACM';
 import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
-const STACK_NAME = config.STACK_NAME;
-
 import { HealthCheckLambda } from '../Lambda/healthcheck';
 import { DynamoGet } from '../Lambda/get';
 import { DynamoPost } from '../Lambda/post';
@@ -37,7 +35,7 @@ export class ApiGateway extends Construct {
         : config.DOMAIN_SUB_BACKEND_DEV;
 
     const restApi = new RestApi(this, 'chapter-9-rest-api', {
-      restApiName: `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`,
+      restApiName: `chapter-9-rest-api-${process.env.NODE_ENV || ''}`,
       description: 'serverless api using lambda functions',
       domainName: {
         certificate: acm.certificate,
@@ -64,9 +62,6 @@ export class ApiGateway extends Construct {
     const dynamoGet = new DynamoGet(this, 'dynamo-get-lambda', {
       dynamoTable,
     });
-    const dynamoClear = new DynamoClear(this, 'dynamo-clear-lambda', {
-      dynamoTable,
-    });
 
     // Integrations:
     const healthCheckLambdaIntegration = new LambdaIntegration(
@@ -74,7 +69,6 @@ export class ApiGateway extends Construct {
     );
 
     const dynamoPostIntegration = new LambdaIntegration(dynamoPost.func);
-    const dynamoClearIntegration = new LambdaIntegration(dynamoClear.func);
 
     const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
 
@@ -91,26 +85,6 @@ export class ApiGateway extends Construct {
       statusCode: 204,
     });
 
-
-    // Resources (Path)
-    const slack_calls = restApi.root.addResource('slackCalls');
-
-    slack_calls.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
-
-    // Resources (Path)
-    const clear_db = restApi.root.addResource('clearDB');
-    clear_db.addMethod('GET', dynamoClearIntegration);
-    clear_db.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
     rootResource.addMethod('POST', dynamoPostIntegration);
     rootResource.addMethod('GET', dynamoGetIntegration);
     rootResource.addCorsPreflight({

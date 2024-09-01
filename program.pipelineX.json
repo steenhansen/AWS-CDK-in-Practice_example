@@ -1,0 +1,5 @@
+{
+  "_1": "Secrets file for AWS pipeline, which is overwritten on AWS build",
+  "_2": "When testing locally this file is ignored and secret, if any, is injected via command line run statement",
+  "SECRET_PIPELINE_SLACK_WEBHOOK": "Set in pipeline via ssm.StringParameter.valueFromLookup(this, SSM_SECRETS_NAME) "
+}

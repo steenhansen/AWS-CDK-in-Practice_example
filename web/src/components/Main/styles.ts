@@ -24,6 +24,10 @@ const MainContainer = styled.header`
     margin-bottom: 24px;
 
   }
+
+  input:invalid {
+  border: red solid 1px;
+}
 `;
 
 export { MainContainer };

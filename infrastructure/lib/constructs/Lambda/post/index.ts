@@ -1,16 +1,31 @@
-/* ---------- External Libraries ---------- */
+
 import * as path from 'path';
 import { Construct } from 'constructs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { Duration, aws_logs as logs } from 'aws-cdk-lib';
+import { CfnOutput, Duration, aws_logs as logs } from 'aws-cdk-lib';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
+
+import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
+import { dynUrlPostLabel } from '../../../../utils/construct_labels';
+
+
+import stack_config from '../../../../program.constants.json';
+import { nodeRuntime } from '../../../../utils/nodeVersion';
 
 interface IProps {
   vpc?: Vpc;
   dynamoTable: Table;
 }
+
+
+const AWS_REGION = stack_config.AWS_REGION;
+const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+
+const the_runtime = nodeRuntime(NODE_RUNTIME);
+
+const dynUrlPost_label = dynUrlPostLabel();
+
 
 export class DynamoPost extends Construct {
   public readonly func: NodejsFunction;
@@ -20,23 +35,45 @@ export class DynamoPost extends Construct {
 
     const { dynamoTable } = props;
 
-    const node_expected = 'nodejs' + 20 + ".x";
-    const node_runtime = new Runtime(node_expected, 0, { supportsInlineCode: true });
 
 
-    this.func = new NodejsFunction(scope, 'dynamo-post', {
-      runtime: node_runtime,
-      entry: path.resolve(__dirname, 'lambda', 'index.ts'),
-      handler: 'handler',
+    const layer_path = 'lib/constructs/Lambda/dynamo_layers';
+
+    const the_layer = new LayerVersion(
+      this, "PostDynamoLayer", {
+      code: Code.fromAsset(layer_path),
+      compatibleRuntimes: [the_runtime],
+      layerVersionName: "NodeJsLayer"
+    }
+    );
+
+    //this.func = new NodejsFunction(scope, 'dynamo-post', {
+
+    this.func = new NodejsFunction(scope, 'DynPost', {
+
+      runtime: the_runtime,
+      entry: path.resolve(__dirname, 'routine', 'index.ts'),
+      handler: 'dynamo_post_handler',
       timeout: Duration.seconds(30),
       environment: {
         NODE_ENV: process.env.NODE_ENV as string,
         TABLE_NAME: dynamoTable.tableName,
-        REGION: process.env.CDK_DEFAULT_REGION as string,
+        REGION: AWS_REGION,
       },
       logRetention: logs.RetentionDays.TWO_WEEKS,
+      layers: [the_layer],
+      bundling: { externalModules: ['aws-sdk'] }
     });
 
-    dynamoTable.grantWriteData(this.func);
+    dynamoTable.grantReadWriteData(this.func);
+
+    const dynamoPostLambdaUrl = this.func.addFunctionUrl({
+      authType: FunctionUrlAuthType.NONE,
+    });
+
+    new CfnOutput(this, dynUrlPost_label, {
+      value: dynamoPostLambdaUrl.url,
+    });
+
   }
 }

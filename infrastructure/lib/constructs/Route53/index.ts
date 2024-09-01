@@ -1,13 +1,11 @@
 import { HostedZone, IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 
-// import { config } from 'dotenv';
-import config from '../../../../config.json';
 
-import stack_config from '../../../infrastructure.config.json';
+import stack_config from '../../../program.config.json';
+
 const DOMAIN_NAME = stack_config.DOMAIN_NAME;
 
-// config({ path: '.env' });
 
 export class Route53 extends Construct {
   public readonly hosted_zone: IHostedZone;

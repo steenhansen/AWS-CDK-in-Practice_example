@@ -21,16 +21,19 @@ import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import { pipelineConfig } from '../../../utils/pipelineConfig';
 var fs = require('fs');
 import * as ssm from 'aws-cdk-lib/aws-ssm';
+import console = require("console");
 
 interface Props {
   environment: string;
 }
+import constants_config from '../../../program.constants.json';
 
-import stack_config from '../../../infrastructure.config.json';
-import console = require("console");
-const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const NODE_RUNTIME = constants_config.NODE_RUNTIME;
+const LINUX_VERSION = constants_config.LINUX_VERSION;
+
+
+import stack_config from '../../../program.config.json';
 const SSM_SECRETS_NAME = stack_config.SSM_SECRETS_NAME;
-const LINUX_VERSION = stack_config.LINUX_VERSION;
 const GITHUB_REPO = stack_config.GITHUB_REPO;
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
 const GITHUB_OWNER = stack_config.GITHUB_OWNER;
@@ -52,14 +55,6 @@ export class PipelineStack extends Construct {
       deployCommand,
       branch,
       tag,
-      domainName,
-      backendSubdomain,
-      frontendSubdomain,
-      backendDevSubdomain,
-      frontendDevSubdomain,
-      //     githubToken,
-      workspaceId,
-      channelId,
     } = pipelineConfig(props.environment);
 
     /* ---------- Pipeline Configs ---------- */
@@ -122,12 +117,11 @@ export class PipelineStack extends Construct {
     }
     const {
       GITHUB_TOKEN,
-      SLACK_WEBHOOK,
-      SLACK_PROD_CHANNEL_ID,
-      SLACK_DEV_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
 
     const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
+    const to_infra_pipeline_secrets = "./infrastructure/program.pipeline.json";
+    const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }    `;
     this.deployProject = new PipelineProject(
       this,
       `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
@@ -148,15 +142,14 @@ export class PipelineStack extends Construct {
             pre_build: {
               'on-failure': 'ABORT',
               commands: [
+                //                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > ./infrastructure/program.pipeline.json                     `,
+                `echo ${slack_webhook_k_v_obj} > ${to_infra_pipeline_secrets}      `,
                 'cd web',
                 'yarn install',
-                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > src/pipeline.secrets.json                     `,
                 'cd ../server',
                 'yarn install',
                 'cd ../infrastructure',
                 'yarn install',
-                `echo '{ "SLACK_WORKSPACE_ID": "${SLACK_WORKSPACE_ID}"
-                       }' > infrastructure.secrets.json                `  // for possible tests
               ],
             },
             build: {

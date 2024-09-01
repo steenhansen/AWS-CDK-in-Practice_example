@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsnd src/index.ts",
     "server-build": "tsc",
-    "server-start": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 LOCAL_MODE=yes nodemon --watch src src/index.ts",
+    "server-start": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "start": "node src/index.js",
     "forever": "forever --minUptime 5000 --spinSleepTime 5000 src/index.js",
     "test": "jest --detectOpenHandles",

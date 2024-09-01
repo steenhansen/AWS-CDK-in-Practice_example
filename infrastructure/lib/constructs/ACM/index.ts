@@ -2,11 +2,8 @@ import { Certificate, CertificateValidation, } from 'aws-cdk-lib/aws-certificate
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 
-import config from '../../../../config.json';
 
-
-
-import stack_config from '../../../infrastructure.config.json';
+import stack_config from '../../../program.config.json';
 const DOMAIN_NAME = stack_config.DOMAIN_NAME;
 
 

@@ -7,11 +7,11 @@ import cors from 'cors';
 //import { DynamoDB } from 'aws-sdk';  // qbert
 //import { v4 as uuidv4 } from 'uuid'; // qbert to that health.test.ts fill not crash
 
-import { dynamo_post_handler } from '../../infrastructure/lib/constructs/Lambda/post/lambda/';
-import { dynamo_get_handler } from '../../infrastructure/lib/constructs/Lambda/get/lambda/';
-//import { dynamo_clear_handler } from '../../infrastructure/lib/constructs/Lambda/clear/lambda/';
+import { dynamo_post_handler } from '../../infrastructure/lib/constructs/Lambda/post/routine/';
+import { dynamo_get_handler } from '../../infrastructure/lib/constructs/Lambda/get/routine/';
+import { dynamo_clear_handler } from '../../infrastructure/lib/constructs/Lambda/clear/routine/';
 
-import { healthcheck_handler } from '../../infrastructure/lib/constructs/Lambda/healthcheck/lambda/';
+import { healthcheck_handler } from '../../infrastructure/lib/constructs/Lambda/healthcheck/routine/';
 
 
 
@@ -55,16 +55,16 @@ const createApp = () => {
   });
 
 
-  // app.get('/clear', async (_req, res) => {   qbert
-  //   try {
-  //     const response = await dynamo_clear_handler();
-  //     const response_json = JSON.stringify(response);
-  //     checkNoSqlWork(response_json);
-  //     return res.status(200).send(response_json);
-  //   } catch (e: unknown) {
-  //     return corsResponse("the_e");
-  //   }
-  // });
+  app.get('/clear', async (_req, res) => {
+    try {
+      const response = await dynamo_clear_handler();
+      const response_json = JSON.stringify(response);
+      checkNoSqlWork(response_json);
+      return res.status(200).send(response_json);
+    } catch (e: unknown) {
+      return corsResponse("the_e");
+    }
+  });
 
   app.get('/', async (_req, res) => {
     try {

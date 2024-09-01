@@ -8,15 +8,16 @@
     }
   },
   "LOCAL": {
-    "THE_SERVER_PORT": "3003"
+    "PORT_BROWSER": "3004",
+    "LSECRETS_BROWSER": "../../aws-cdk-in-practice_secrets.json"
   },
   "scripts": {
-    "local-web-start": "cross-env  REACT_APP__LOC_SERV_PORT=$npm_package_LOCAL_THE_SERVER_PORT  REACT_APP__LOCAL_MODE=yes  craco start",
-    "start": "craco start",
-    "build:prod": "cross-env REACT_APP_ENV=Production craco build",
-    "build:dev": "cross-env REACT_APP_ENV=Development craco build",
-    "test": "craco test --watchAll=false",
-    "eject": "craco eject"
+    "local-web-start": "cross-env PORT=$npm_package_LOCAL_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
+    "start": "react-scripts  craco",
+    "build:prod": "cross-env REACT_APP_ENV=Production craco  build",
+    "build:dev": "cross-env REACT_APP_ENV=Development react-scripts  build",
+    "test": "react-scripts  test --watchAll=false",
+    "eject": "react-scripts  eject"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.4.8",

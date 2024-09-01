@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-//import { config } from 'dotenv';
 
 import { Chapter9Stack } from '../lib/chapter-9-stack';
 import { Chapter9PipelineStack } from '../lib/chapter-9-pipeline-stack';
 
-//config({ path: process.env.DOTENV_CONFIG_PATH });
 
-import stack_config from '../infrastructure.config.json';
-const AWS_REGION = stack_config.AWS_REGION;
+import constants_config from '../program.constants.json';
+const AWS_REGION = constants_config.AWS_REGION;
+
+import stack_config from '../program.config.json';
 const AWS_ACCOUNT_Cred = stack_config.AWS_ACCOUNT_Cred;
 
 const app = new cdk.App();
