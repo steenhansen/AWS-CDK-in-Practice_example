@@ -1,5 +1,6 @@
+const label_clear = "Url-Clear";
 
-//  Chapter9Stack-Production-ApiGatewayProductionDynCl-3giTXFbCeXW1
+//  Chapt er9Stack-Production-ApiGatewayProductionDynCl-3giTXFbCeXW1
 // 
 
 
@@ -12,10 +13,16 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-import {
-  dynUrlClearLabel
-} from '../../../../utils/construct_labels';
-const dynUrlClear_label = dynUrlClearLabel();
+// import {
+//   dynUrlClearLabel
+// } from '../../../../utils/construct_labels';
+
+// const dynUrlClear_label = dynUrlClearLabel();
+
+
+// console.log("XXXXXXXXXXXXXXXXXXX 87324723", dynUrlClear_label, label_clear);
+
+
 
 interface IProps {
   vpc?: Vpc;
@@ -78,7 +85,7 @@ export class DynamoClear extends Construct {
       authType: FunctionUrlAuthType.NONE,
     });
 
-    new CfnOutput(this, dynUrlClear_label, {
+    new CfnOutput(this, label_clear, {
       value: dynamoClearLambdaUrl.url,
     });
 

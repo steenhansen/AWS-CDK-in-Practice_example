@@ -1,3 +1,4 @@
+const label_post = "Url-Post";
 
 import * as path from 'path';
 import { Construct } from 'constructs';
@@ -7,7 +8,7 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-import { dynUrlPostLabel } from '../../../../utils/construct_labels';
+//import { dynUrlPostLabel } from '../../../../utils/construct_labels';
 
 
 import stack_config from '../../../../program.constants.json';
@@ -18,14 +19,16 @@ interface IProps {
   dynamoTable: Table;
 }
 
-
 const AWS_REGION = stack_config.AWS_REGION;
 const NODE_RUNTIME = stack_config.NODE_RUNTIME;
 
 const the_runtime = nodeRuntime(NODE_RUNTIME);
 
-const dynUrlPost_label = dynUrlPostLabel();
+//const dynUrlPost_label = dynUrlPostLabel();
 
+
+
+//console.log("XXXXXXXXXXXXXXXXXXX 99988889", dynUrlPost_label, label_post);
 
 export class DynamoPost extends Construct {
   public readonly func: NodejsFunction;
@@ -40,7 +43,7 @@ export class DynamoPost extends Construct {
     const layer_path = 'lib/constructs/Lambda/dynamo_layers';
 
     const the_layer = new LayerVersion(
-      this, "PostDynamoLayer", {
+      this, "PostDynamoLayer", {                       // constant
       code: Code.fromAsset(layer_path),
       compatibleRuntimes: [the_runtime],
       layerVersionName: "NodeJsLayer"
@@ -49,7 +52,7 @@ export class DynamoPost extends Construct {
 
     //this.func = new NodejsFunction(scope, 'dynamo-post', {
 
-    this.func = new NodejsFunction(scope, 'DynPost', {
+    this.func = new NodejsFunction(scope, 'label_post', {
 
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),
@@ -71,7 +74,7 @@ export class DynamoPost extends Construct {
       authType: FunctionUrlAuthType.NONE,
     });
 
-    new CfnOutput(this, dynUrlPost_label, {
+    new CfnOutput(this, label_post, {
       value: dynamoPostLambdaUrl.url,
     });
 

@@ -1,3 +1,4 @@
+const label_health = "Url-Health";
 
 import * as path from 'path';
 import { Construct } from 'constructs';
@@ -17,7 +18,7 @@ export class HealthCheckLambda extends Construct {
   constructor(scope: Construct, id: string, props: any) {
     super(scope, id);
 
-    this.func = new NodejsFunction(scope, 'health-check-lambda', {
+    this.func = new NodejsFunction(scope, 'health-check-lambda', {   //label_health
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),
       handler: 'healthcheck_handler',

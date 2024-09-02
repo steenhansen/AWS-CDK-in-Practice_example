@@ -1,5 +1,5 @@
 
-/* ---------- External Libraries ---------- */
+
 import { SecretValue, Tags } from 'aws-cdk-lib';
 import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
@@ -22,6 +22,9 @@ import { pipelineConfig } from '../../../utils/pipelineConfig';
 var fs = require('fs');
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import console = require("console");
+import { stackEnvLabel, stackLabel } from '../../../utils/construct_labels';
+
+
 
 interface Props {
   environment: string;
@@ -49,13 +52,16 @@ export class PipelineStack extends Construct {
   readonly pipeline: Pipeline;
 
   constructor(scope: Construct, id: string, props: Props) {
+    //const node_env = props.environment;
+    process.env.NODE_ENV = props.environment;
+
     super(scope, id);
     const {
       buildCommand,
       deployCommand,
       branch,
       tag,
-    } = pipelineConfig(props.environment);
+    } = pipelineConfig(props.environment); //node_env
 
     /* ---------- Pipeline Configs ---------- */
 
@@ -76,12 +82,33 @@ export class PipelineStack extends Construct {
     /* ---------- Artifacts ---------- */
     const outputSource = new Artifact();
 
+    const label_back_test = `BackTest-PipeProj-${props.environment}`;
+    const label_back_build = `BackBuild-PipeProj-${props.environment}`;
+    const label_front_test = `FrontTest-PipeProj-${props.environment}`;
+    const label_the_pipeline = `The-PipeProj-${props.environment}`;
+
     /* ---------- Pipeline Build Projects ---------- */
+    //console.log("YYpipeline-synthYYYYYYYYYY", process.env.NODE_ENV);
+
+    //const back_test = `Ch apter9-BackEndTest-PipelineProject-${props.environment}`;
+
+    const back_test = stackEnvLabel(label_back_test);
+    //console.log("XXXXXXXXXXXXXXXXXXX 44444444", back_test, back_test2);
+
+
+
+    //const back_name = `Cha pter9-BackEndTest-PipelineProject-${props.environment}`;
+    //const back_name = stackEnvLabel(label_back_name);
+    //console.log("XXXXXXXXXXXXXXXXXXX 33333333", back_name, back_name2);
+
+
     this.backEndTestProject = new PipelineProject(
       scope,
-      `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
+      //      `Chap ter9-BackEndTest-PipelineProject-${props.environment}`,  //  back_test2
+      back_test,  //  back_test2
       {
-        projectName: `Chapter9-BackEndTest-PipelineProject-${props.environment}`,
+        //     projectName: `Cha pter9-BackEndTest-PipelineProject-${props.environment}`,     //back_name2
+        projectName: back_test,     //back_name2
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -119,14 +146,19 @@ export class PipelineStack extends Construct {
       GITHUB_TOKEN,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
 
+
+
+    const back_build = stackEnvLabel(label_back_build);
     const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
     const to_infra_pipeline_secrets = "./infrastructure/program.pipeline.json";
     const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }    `;
     this.deployProject = new PipelineProject(
       this,
-      `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
+      back_build,
+      //    `Chapt er9-BackEndBuild-PipelineProject-${props.environment}`,
       {
-        projectName: `Chapter9-BackEndBuild-PipelineProject-${props.environment}`,
+        //        projectName: `Cha pter9-BackEndBuild-PipelineProject-${props.environment}`,
+        projectName: back_build,
         environment: {
           privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)
@@ -173,11 +205,16 @@ export class PipelineStack extends Construct {
     // adding the necessary permissions in order to synthesize and deploy the cdk code.
     this.deployProject.addToRolePolicy(codeBuildPolicy);
 
+    //stackLabel
+    //    const front_test = stackEnvLabel(label_front_test);
+    const front_test = stackLabel(label_front_test);
     this.frontEndTestProject = new PipelineProject(
       scope,
-      `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
+      front_test,
+      //    `Chapt er9-FrontEndTest-PipelineProject-${props.environment}`,
       {
-        projectName: `Chapter9-FrontEndTest-PipelineProject-${props.environment}`,
+        //        projectName: `Cha pter9-FrontEndTest-PipelineProject-${props.environment}`,
+        projectName: front_test,
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -200,9 +237,11 @@ export class PipelineStack extends Construct {
       },
     );
 
+    const project_pipeline = stackEnvLabel(label_the_pipeline);
     /* ---------- Pipeline ---------- */
     this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
-      pipelineName: `Chapter9-Pipeline-${props.environment}`,
+      //      pipelineName: `Chap ter9-Pipeline-${props.environment}`,
+      pipelineName: project_pipeline,
       pipelineType: PipelineType.V2
     });
 

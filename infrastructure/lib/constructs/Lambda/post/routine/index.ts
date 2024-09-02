@@ -1,16 +1,19 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
-import { dynamoTableEnvLabel } from '../../../../../utils/construct_labels';
+//import { dynamoTableEnvLabel } from '../../../../../utils/construct_labels';
 import { httpResponse } from '../../handlers/httpResponse';
 import { Interfaces } from '../../../../../../web/program.interfaces';
-import the_constants from '../../../../../program.constants.json';
 
+import stack_config from '../../../../../program.config.json';
+const DYNAMO_TABLE = stack_config.DYNAMO_TABLE;
+
+import the_constants from '../../../../../program.constants.json';
 const AWS_REGION = the_constants.AWS_REGION;
 const REGEX_0_255 = the_constants.REGEX_0_255;
 const NO_SQL_WORK_ENDPOINT = the_constants.NO_SQL_WORK_ENDPOINT;
 const AWS_DYNAMO_ENDPOINT = the_constants.AWS_DYNAMO_ENDPOINT;
 const THE_ENV = process.env.NODE_ENV || '';
-
+import { lowerEnvLabel, lowerLocalDbLabel } from '../../../../../utils/construct_labels';
 export interface PostEvent {
   body: string;
 }
@@ -21,12 +24,15 @@ export const dynamo_post_handler = async (event: PostEvent) => {
     const { the_color, the_integer } = posted_object.color_int;
 
     let dynamoTableEnv_label;
+    // let dynamoTableEnv_label2;
     let the_endpoint;
     if (process.env["SERVER_LOCAL_MODE"] === 'yes') {
-      dynamoTableEnv_label = dynamoTableEnvLabel('Local');
+      //dynamoTableEnv_label = dynamoTableEnvLabel('Local');
+      dynamoTableEnv_label = lowerLocalDbLabel();
       the_endpoint = NO_SQL_WORK_ENDPOINT;
     } else {
-      dynamoTableEnv_label = dynamoTableEnvLabel(THE_ENV);
+      // dynamoTableEnv_label = dynamoTableEnvLabel(THE_ENV);
+      dynamoTableEnv_label = lowerEnvLabel(DYNAMO_TABLE);
       the_endpoint = AWS_DYNAMO_ENDPOINT;
     }
 

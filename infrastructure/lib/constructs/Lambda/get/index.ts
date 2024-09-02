@@ -1,3 +1,4 @@
+const label_get = "Url-Get";
 
 import * as path from 'path';
 import { Construct } from 'constructs';
@@ -8,10 +9,17 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-import {
-  dynUrlGetLabel
-} from '../../../../utils/construct_labels';
-const dynUrlGet_label = dynUrlGetLabel();
+// import {
+//   dynUrlGetLabel
+// } from '../../../../utils/construct_labels';
+// const dynUrlGet_label = dynUrlGetLabel();
+
+
+
+//console.log("XXXXXXXXXXXXXXXXXXX 87324723", dynUrlGet_label, label_get);
+
+
+
 
 interface IProps {
   vpc?: Vpc;
@@ -47,7 +55,7 @@ export class DynamoGet extends Construct {
     }
     );
 
-    this.func = new NodejsFunction(scope, 'DynGet', {
+    this.func = new NodejsFunction(scope, 'DynGet', {      // label_get
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),
       handler: 'dynamo_get_handler',
@@ -69,7 +77,7 @@ export class DynamoGet extends Construct {
       authType: FunctionUrlAuthType.NONE,
     });
 
-    new CfnOutput(this, dynUrlGet_label, {
+    new CfnOutput(this, label_get, {
       value: dynamoGetLambdaUrl.url,
     });
 

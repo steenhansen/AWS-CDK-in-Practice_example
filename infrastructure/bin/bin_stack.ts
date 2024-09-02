@@ -2,8 +2,8 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 
-import { Chapter9Stack } from '../lib/chapter-9-stack';
-import { Chapter9PipelineStack } from '../lib/chapter-9-pipeline-stack';
+import { TheMainStack } from '../lib/the_main_stack';
+import { ThePipelineStack } from '../lib/the-pipeline-stack';
 
 
 import constants_config from '../program.constants.json';
@@ -11,12 +11,15 @@ const AWS_REGION = constants_config.AWS_REGION;
 
 import stack_config from '../program.config.json';
 const AWS_ACCOUNT_Cred = stack_config.AWS_ACCOUNT_Cred;
+import { stackEnvLabel } from '../utils/construct_labels';
 
 const app = new cdk.App();
+const run_stack = stackEnvLabel('Run-Stack');
 
 if (['ONLY_DEV'].includes(process.env.CDK_MODE || '')) {
   try {
-    new Chapter9Stack(app, `Chapter9Stack-${process.env.NODE_ENV || ''}`, {
+    //    new TheMainStack(app, `Chap ter9Stack-${process.env.NODE_ENV || ''}`, {
+    new TheMainStack(app, run_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
@@ -25,19 +28,24 @@ if (['ONLY_DEV'].includes(process.env.CDK_MODE || '')) {
 }
 
 if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
+
   try {
-    new Chapter9Stack(app, `Chapter9Stack-${process.env.NODE_ENV || ''}`, {
+    //    new TheMainStack(app, `Chapte r9Stack-${process.env.NODE_ENV || ''}`, {
+    new TheMainStack(app, run_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
-  } catch (e) {
-    console.log("\x1b[41m", "\n**2** Is Docker Desktop turned on?\n\n", e, "\x1b[0m");
+  } catch (error: any) {
+    //console.log("xxxxxxxx", error.message, "dddddddddd");
+    console.log("\x1b[41m", "\n**2** Is Docker Desktop turned on?\n\n", error, "\x1b[0m");
   }
 }
 
 if (['ONLY_PIPELINE'].includes(process.env.CDK_MODE || '')) {
   try {
     console.log("DDDDDDDDDDDDDDDDDDDDDDD");
-    new Chapter9PipelineStack(app, 'Chapter9PipelineStack', {
+    const pipeline_stack = stackEnvLabel('Pipeline-Stack');
+    //    new ThePipelineStack(app, 'Chapt er9P ipelineStack', {
+    new ThePipelineStack(app, pipeline_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {

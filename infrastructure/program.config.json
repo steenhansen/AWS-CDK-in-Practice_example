@@ -20,8 +20,9 @@
   "-----------------------------------------aws": "",
   "STACK_NAME": "Elsn",
   "AWS_ACCOUNT_Cred": "211125473900",
-  "S3_UNIQUE_ID": "yark",
+  "S3_UNIQUE_ID": "kill-devil",
   "-----------------------------------------dynamo-db": "",
   "DYNAMO_ALIVE": "yes",
-  "DYNAMO_TABLE": "dynamo_table"
+  "DYNAMO_TABLE": "dynamo_table",
+  "LOCAL_DB_ENV": "Local-Db-Env"
 }

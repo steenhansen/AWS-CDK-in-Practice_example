@@ -20,6 +20,12 @@ interface IGlue {
   table: Table;
 }
 
+const label_glue_dynamo = "Glue-DynamoDBRole";
+const label_glue_role = "glue-service-role";
+import { envLabel, lowerEnvLabel } from '../../../utils/construct_labels';
+
+
+
 export class AWSGlue extends Construct {
   public readonly glue_dynamo_role: Role;
 
@@ -39,13 +45,28 @@ export class AWSGlue extends Construct {
       autoDeleteObjects: true,
     });
 
+
+    // const glue_role = `Glue-DynamoDBRole-${process.env.NODE_ENV}`;
+    const glue_role = envLabel(label_glue_dynamo);
+    //console.log("XXXXXXXXXXXXXXXXXXX 66666666", glue_role, glue_role2);
+
+
+
+
+    //const glue_name = `glue-service-role-${process.env.NODE_ENV?.toLowerCase()}`;
+    const glue_name = lowerEnvLabel(label_glue_role);
+    //console.log("XXXXXXXXXXXXXXXXXXX 55555555", glue_name, glue_name2);
+
+
+
+
     // Roles:
     this.glue_dynamo_role = new Role(
       scope,
-      `Glue-DynamoDBRole-${process.env.NODE_ENV}`,
+      `Glue-DynamoDBRole-${process.env.NODE_ENV}`,   //glue_role2
       {
         assumedBy: new ServicePrincipal('glue.amazonaws.com'),
-        roleName: `glue-service-role-${process.env.NODE_ENV?.toLowerCase()}`,
+        roleName: `glue-service-role-${process.env.NODE_ENV?.toLowerCase()}`,  //glue_name2
         managedPolicies: [
           ManagedPolicy.fromAwsManagedPolicyName(
             'service-role/AWSGlueServiceRole',

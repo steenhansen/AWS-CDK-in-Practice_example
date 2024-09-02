@@ -1,3 +1,8 @@
+
+import console = require('console');
+const label_api_gw = "Pipe-Api-Gw";
+const label_rest_api = "Pipe-Rest-Api";
+
 import { Construct } from 'constructs';
 import {
   EndpointType,
@@ -25,6 +30,9 @@ interface Props {
   dynamoTable: Table;
 }
 
+
+import { stackLabel, stackEnvLabel } from '../../../utils/construct_labels';
+
 export class ApiGateway extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
@@ -36,8 +44,22 @@ export class ApiGateway extends Construct {
         ? config.DOMAIN_SUB_BACKEND
         : config.DOMAIN_SUB_BACKEND_DEV;
 
-    const restApi = new RestApi(this, 'chapter-9-rest-api', {
-      restApiName: `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`,
+
+
+
+    //const apigw_name = 'chapte r-9-rest-api';
+    const apigw_name = stackLabel(label_rest_api);
+    //console.log("XXXXXXXXXXXXXXXXXXX 34938444", apigw_name, apigw_name2);
+    //const rest_api = `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`;
+    const rest_api = stackEnvLabel(label_api_gw);
+    //console.log("XXXXXXXXXXXXXXXXXXX 32111333", rest_api, rest_api2);
+
+
+
+    // const restApi = new RestApi(this, 'chap ter-9-rest-api', {            // apigw_name2
+    //   restApiName: `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`,    // rest_api2
+    const restApi = new RestApi(this, apigw_name, {            // apigw_name2
+      restApiName: rest_api,    // rest_api2
       description: 'serverless api using lambda functions',
       domainName: {
         certificate: acm.certificate,

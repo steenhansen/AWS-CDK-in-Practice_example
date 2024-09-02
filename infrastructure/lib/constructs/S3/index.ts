@@ -25,6 +25,7 @@ interface Props {
   acm: ACM;
   route53: Route53;
 }
+import { lowerStatefulEnvLabel, lowerEnvLabel } from '../../../utils/construct_labels';
 
 export class S3 extends Construct {
   public readonly web_bucket: Bucket;
@@ -37,8 +38,15 @@ export class S3 extends Construct {
     super(scope, id);
 
     const THE_ENV = process.env.NODE_ENV || '';
-    const bucketNameUp = `${STACK_NAME}.${STATEFUL_ID}.${S3_UNIQUE_ID}-${THE_ENV}`;
-    const bucketNameLow = (bucketNameUp).toLocaleLowerCase();
+    //const bucketNameUp = `${STACK_NAME}.${STATEFUL_ID}.${S3_UNIQUE_ID}-${THE_ENV}`;
+    //const bucketNameLow = (bucketNameUp).toLocaleLowerCase();
+
+
+
+    const bucketNameLow = lowerStatefulEnvLabel(S3_UNIQUE_ID);
+    //console.log("XXXXXXXXXXXXXXXXXXX 41395755", S3_UNIQUE_ID, bucketNameLow, bucketNameLow2);
+
+
 
     this.web_bucket = new Bucket(
       scope,
@@ -56,7 +64,6 @@ export class S3 extends Construct {
     );
 
     const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
-    console.log("xxxxxxxxxxx", web_build_dir);
 
     this.web_bucket_deployment = new BucketDeployment(
       scope,
