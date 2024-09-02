@@ -36,6 +36,7 @@ if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
 
 if (['ONLY_PIPELINE'].includes(process.env.CDK_MODE || '')) {
   try {
+    console.log("DDDDDDDDDDDDDDDDDDDDDDD");
     new Chapter9PipelineStack(app, 'Chapter9PipelineStack', {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });

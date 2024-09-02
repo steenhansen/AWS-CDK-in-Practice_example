@@ -7,6 +7,9 @@
       "^axios$": "axios/dist/node/axios.cjs"
     }
   },
+  "resolutions": {
+    "@typescript-eslint/typescript-estree": "^5.59.2"
+  },
   "LOCAL": {
     "PORT_BROWSER": "3004",
     "LSECRETS_BROWSER": "../../aws-cdk-in-practice_secrets.json"

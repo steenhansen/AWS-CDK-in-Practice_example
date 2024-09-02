@@ -44,6 +44,7 @@ export class Chapter9Stack extends Stack {
     });
 
     new ApiGateway(this, `Api-Gateway-${process.env.NODE_ENV || ''}`, {
+      //new ApiGateway(this, `ApiG-${process.env.NODE_ENV || ''}`, {
       route53: this.route53,
       acm: this.acm,
       dynamoTable: this.dynamo.table,

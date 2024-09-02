@@ -143,7 +143,7 @@ export class PipelineStack extends Construct {
               'on-failure': 'ABORT',
               commands: [
                 //                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > ./infrastructure/program.pipeline.json                     `,
-                `echo ${slack_webhook_k_v_obj} > ${to_infra_pipeline_secrets}      `,
+                `echo '${slack_webhook_k_v_obj}' > ${to_infra_pipeline_secrets}      `,
                 'cd web',
                 'yarn install',
                 'cd ../server',

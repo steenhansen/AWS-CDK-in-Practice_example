@@ -55,13 +55,16 @@ export class S3 extends Construct {
       },
     );
 
+    const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
+    console.log("xxxxxxxxxxx", web_build_dir);
+
     this.web_bucket_deployment = new BucketDeployment(
       scope,
       `WebBucketDeployment-${process.env.NODE_ENV || ''}`,
       {
         sources: [
-          Source.asset(
-            resolve(__dirname, '..', '..', '..', '..', 'web', 'build'),
+          Source.asset(web_build_dir
+            //   resolve(__dirname, '..', '..', '..', '..', 'web', 'build'),
           ),
         ],
         destinationBucket: this.web_bucket,
