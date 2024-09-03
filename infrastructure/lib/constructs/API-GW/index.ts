@@ -40,9 +40,13 @@ export class ApiGateway extends Construct {
     const { acm, route53, dynamoTable } = props;
 
     const backEndSubDomain =
-      process.env.NODE_ENV === 'Production'
+      process.env.NODE_ENV_q_ === 'Env_prd'
         ? config.DOMAIN_SUB_BACKEND
         : config.DOMAIN_SUB_BACKEND_DEV;
+
+    process.env.NODE_ENV === 'Production'
+      ? config.DOMAIN_SUB_BACKEND
+      : config.DOMAIN_SUB_BACKEND_DEV;
 
 
 

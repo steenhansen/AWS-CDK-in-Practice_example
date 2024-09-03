@@ -14,5 +14,12 @@
   "PORT_TEST": "3005",
   "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
   "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com",
-  "STATEFUL_ID": "State"
+  "STATEFUL_ID": "State",
+  "-----------------------------------------builds": "",
+  "WEB_BUILD_DEV": "yarn  web-build-dev",
+  "WEB_BUILD_PROD": "yarn web-build-prod",
+  "CDK_DEPLOY_DEV": "yarn  cdk-dev  deploy",
+  "CDK_DEPLOY_PROD": "yarn cdk-prod deploy",
+  "BRANCH_PROD": "main",
+  "BRANCH_DEV": "dev"
 }

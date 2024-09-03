@@ -22,6 +22,7 @@ import the_constants from '../program.constants.json';
 const STATEFUL_ID = the_constants.STATEFUL_ID;
 
 const THE_ENV = process.env.NODE_ENV || '';
+const prod_or_dev_q = THE_ENV === 'Env_prd' ? 'Prod' : 'Dev';
 const prod_or_dev = THE_ENV === 'Production' ? 'Prod' : 'Dev';
 
 export function statefulEnvLabel(the_name: string) {

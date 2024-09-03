@@ -13,12 +13,18 @@ const AWS_ACCOUNT_Cred = stack_config.AWS_ACCOUNT_Cred;
 import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
 
 const app = new cdk.App();
-const run_stack = stackEnvLabel('Run-Stack');
+// const run_stack = stackEnvLabel('Run-Stack');
+
+
+//console.log("DDDDDD is there env?  DDDDDDDDDDDDDDDDD", process.env.NODE_ENV, "XXX");
 
 if (['ONLY_DEV'].includes(process.env.CDK_MODE || '')) {
+  process.env.NODE_ENV_q_ = 'Env_dvl';
+  process.env.NODE_ENV = 'Development';
+  const dev_stack = stackEnvLabel('Run-Stack');
   try {
     //    new TheMainStack(app, `Chap ter9Stack-${process.env.NODE_ENV || ''}`, {
-    new TheMainStack(app, run_stack, {
+    new TheMainStack(app, dev_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (e) {
@@ -27,10 +33,12 @@ if (['ONLY_DEV'].includes(process.env.CDK_MODE || '')) {
 }
 
 if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
-
+  process.env.NODE_ENV_q_ = 'Env_prd';
+  process.env.NODE_ENV = 'Production';
+  const prod_stack = stackEnvLabel('Run-Stack');
   try {
     //    new TheMainStack(app, `Chapte r9Stack-${process.env.NODE_ENV || ''}`, {
-    new TheMainStack(app, run_stack, {
+    new TheMainStack(app, prod_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
     });
   } catch (error: any) {
@@ -41,7 +49,7 @@ if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
 
 if (['ONLY_PIPELINE'].includes(process.env.CDK_MODE || '')) {
   try {
-    console.log("DDDDDDDDDDDDDDDDDDDDDDD");
+    //console.log("DDDDDDDDDDDDDDDDDDDDDDD");
     const pipeline_stack = stackLabel('Pipeline-Stack');            // `${STACK_NAME}-${the_name}`;
     //    new ThePipelineStack(app, 'Chapt er9P ipelineStack', {
     new ThePipelineStack(app, pipeline_stack, {

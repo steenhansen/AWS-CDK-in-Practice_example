@@ -67,9 +67,9 @@ export class PipelineStack extends Construct {
 
     // CodeBuild stage must be able to assume the cdk deploy roles created when bootstrapping the account
     // The role itself must also be assumable by the pipeline in which the stage resides
-    const infrastructureDeployRole = new Role(
+    const infr77astructureDeployRole = new Role(
       this,
-      'InfrastructureDeployRole',
+      'infr77astructureDeployRole',
       {
         assumedBy: new CompositePrincipal(
           new ServicePrincipal('codebuild.amazonaws.com'),
@@ -107,8 +107,9 @@ export class PipelineStack extends Construct {
 
     /* ---------- Artifacts ---------- */
     const outputSource = new Artifact();
+    //console.log("YYYYYYYYYYYYYYYY", props.environment);
 
-    const label_back_test = `BackTest-PipeProj-${props.environment}`;
+    const label_back_test = `BackTest-PipeProj-${props.environment}`;     // Prod or Dev
     const label_back_build = `BackBuild-PipeProj-${props.environment}`;
     const label_front_test = `FrontTest-PipeProj-${props.environment}`;
     const label_the_pipeline = `The-PipeProj-${props.environment}`;
@@ -118,7 +119,7 @@ export class PipelineStack extends Construct {
 
     //const back_test = `Ch apter9-BackEndTest-PipelineProject-${props.environment}`;
 
-    const back_test = stackEnvLabel(label_back_test);
+    const back_test = stackLabel(label_back_test);
     //console.log("XXXXXXXXXXXXXXXXXXX 44444444", back_test, back_test2);
 
 
@@ -135,7 +136,7 @@ export class PipelineStack extends Construct {
       {
         //     projectName: `Cha pter9-BackEndTest-PipelineProject-${props.environment}`,     //back_name2
         projectName: back_test,     //back_name2
-        role: infrastructureDeployRole,
+        role: infr77astructureDeployRole,
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -175,7 +176,7 @@ export class PipelineStack extends Construct {
 
 
 
-    const back_build = stackEnvLabel(label_back_build);
+    const back_build = stackLabel(label_back_build);
     const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
     const to_infra_pipeline_secrets = "./infrastructure/program.pipeline.json";
     const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }    `;
@@ -187,10 +188,10 @@ export class PipelineStack extends Construct {
       {
         //        projectName: `Cha pter9-BackEndBuild-PipelineProject-${props.environment}`,
         projectName: back_build,
-        role: infrastructureDeployRole,
+        role: infr77astructureDeployRole,
         environment: {
           privileged: true,
-          buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)
+          buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)     //process.env.NODE_ENV
         },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -203,6 +204,7 @@ export class PipelineStack extends Construct {
             pre_build: {
               'on-failure': 'ABORT',
               commands: [
+                //  `echo 'process.env.NODE_ENV == ${process.env.NODE_ENV}' > /dev/null  `,
                 //                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > ./infrastructure/program.pipeline.json                     `,
                 `echo '${slack_webhook_k_v_obj}' > ${to_infra_pipeline_secrets}      `,
                 'cd web',
@@ -266,14 +268,18 @@ export class PipelineStack extends Construct {
       },
     );
 
-    const project_pipeline = stackEnvLabel(label_the_pipeline);
+    const project_pipeline = stackLabel(label_the_pipeline);
     /* ---------- Pipeline ---------- */
-    this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
-      //      pipelineName: `Chap ter9-Pipeline-${props.environment}`,
-      pipelineName: project_pipeline,
-      role: infrastructureDeployRole,
-      pipelineType: PipelineType.V2
-    });
+    this.pipeline = new Pipeline(scope,
+      //      `Pipeline-${props.environment}`,
+      project_pipeline,
+
+      {
+        //      pipelineName: `Chap ter9-Pipeline-${props.environment}`,
+        pipelineName: project_pipeline,
+        role: infr77astructureDeployRole,
+        pipelineType: PipelineType.V2
+      });
 
     const secretToken = new SecretValue(GITHUB_TOKEN);
     /* ---------- Stages ---------- */
@@ -301,7 +307,7 @@ export class PipelineStack extends Construct {
           project: this.backEndTestProject,
           input: outputSource,
           outputs: undefined,
-          role: infrastructureDeployRole
+          role: infr77astructureDeployRole
         }),
       ],
     });
@@ -314,7 +320,7 @@ export class PipelineStack extends Construct {
           project: this.frontEndTestProject,
           input: outputSource,
           outputs: undefined,
-          role: infrastructureDeployRole
+          role: infr77astructureDeployRole
         }),
       ],
     });
@@ -327,7 +333,7 @@ export class PipelineStack extends Construct {
           project: this.deployProject,
           input: outputSource,
           outputs: undefined,
-          role: infrastructureDeployRole
+          role: infr77astructureDeployRole
         }),
       ],
     });
