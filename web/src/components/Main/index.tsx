@@ -24,17 +24,6 @@ let STACK_NAME = program_config.STACK_NAME;
 
 let backend_url: string;
 let SSM_SLACK_WEBHOOK;
-// if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
-//   backend_url = `http://localhost:${PORT_SERVER}`;
-// } else {
-//   let domain_sub_backend;
-//   if (process.env.REACT_ENV === 'Production') {
-//     domain_sub_backend = DOMAIN_SUB_BACKEND;
-//   } else {
-//     domain_sub_backend = DOMAIN_SUB_BACKEND_DEV;
-//   }
-//   backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
-// }
 
 
 
@@ -66,11 +55,6 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
   console.log("cccccccccc 222222", backend_url);
 }
-
-
-//const domain_sub_backend2 = DOMAIN_SUB_BACKEND;
-//const backend_url2 = `https://${domain_sub_backend2}.${DOMAIN_NAME}`;
-//console.log("cccccccccc", domain_sub_backend2, backend_url2);
 
 const handle_clear = backend_url + "/clear";
 
