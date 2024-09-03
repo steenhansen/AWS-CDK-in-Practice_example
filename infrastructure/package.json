@@ -2,9 +2,6 @@
   "name": "zxc-vb",
   "version": "0.1.0",
   "license": "MIT",
-  "bin": {
-    "zxc-vb": "bin/bin-stack.js"
-  },
   "scripts": {
     "build:frontend": "cd ../web && yarn install && yarn build:dev",
     "infra-build": "tsc",

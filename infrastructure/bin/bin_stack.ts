@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 
@@ -11,7 +10,7 @@ const AWS_REGION = constants_config.AWS_REGION;
 
 import stack_config from '../program.config.json';
 const AWS_ACCOUNT_Cred = stack_config.AWS_ACCOUNT_Cred;
-import { stackEnvLabel } from '../utils/construct_labels';
+import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
 
 const app = new cdk.App();
 const run_stack = stackEnvLabel('Run-Stack');
@@ -43,7 +42,7 @@ if (['ONLY_PROD'].includes(process.env.CDK_MODE || '')) {
 if (['ONLY_PIPELINE'].includes(process.env.CDK_MODE || '')) {
   try {
     console.log("DDDDDDDDDDDDDDDDDDDDDDD");
-    const pipeline_stack = stackEnvLabel('Pipeline-Stack');
+    const pipeline_stack = stackLabel('Pipeline-Stack');            // `${STACK_NAME}-${the_name}`;
     //    new ThePipelineStack(app, 'Chapt er9P ipelineStack', {
     new ThePipelineStack(app, pipeline_stack, {
       env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },

@@ -14,7 +14,7 @@ import {
   PipelineProject,
 } from 'aws-cdk-lib/aws-codebuild';
 import { SSMClient, SSM, GetParameterCommand } from "@aws-sdk/client-ssm";
-import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Effect, CompositePrincipal, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
@@ -65,6 +65,32 @@ export class PipelineStack extends Construct {
 
     /* ---------- Pipeline Configs ---------- */
 
+    // CodeBuild stage must be able to assume the cdk deploy roles created when bootstrapping the account
+    // The role itself must also be assumable by the pipeline in which the stage resides
+    const infrastructureDeployRole = new Role(
+      this,
+      'InfrastructureDeployRole',
+      {
+        assumedBy: new CompositePrincipal(
+          new ServicePrincipal('codebuild.amazonaws.com'),
+          new ServicePrincipal('codepipeline.amazonaws.com')
+        ),
+        inlinePolicies: {
+          CdkDeployPermissions: new PolicyDocument({
+            statements: [
+              new PolicyStatement({
+                actions: ['sts:AssumeRole'],
+                resources: ['arn:aws:iam::*:role/cdk-*'],
+              }),
+            ],
+          })
+        }
+      }
+    );
+
+
+
+
     const codeBuildPolicy = new PolicyStatement({
       sid: 'AssumeRole',
       effect: Effect.ALLOW,
@@ -109,6 +135,7 @@ export class PipelineStack extends Construct {
       {
         //     projectName: `Cha pter9-BackEndTest-PipelineProject-${props.environment}`,     //back_name2
         projectName: back_test,     //back_name2
+        role: infrastructureDeployRole,
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -152,6 +179,7 @@ export class PipelineStack extends Construct {
     const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
     const to_infra_pipeline_secrets = "./infrastructure/program.pipeline.json";
     const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }    `;
+
     this.deployProject = new PipelineProject(
       this,
       back_build,
@@ -159,6 +187,7 @@ export class PipelineStack extends Construct {
       {
         //        projectName: `Cha pter9-BackEndBuild-PipelineProject-${props.environment}`,
         projectName: back_build,
+        role: infrastructureDeployRole,
         environment: {
           privileged: true,
           buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)
@@ -242,6 +271,7 @@ export class PipelineStack extends Construct {
     this.pipeline = new Pipeline(scope, `Pipeline-${props.environment}`, {
       //      pipelineName: `Chap ter9-Pipeline-${props.environment}`,
       pipelineName: project_pipeline,
+      role: infrastructureDeployRole,
       pipelineType: PipelineType.V2
     });
 
@@ -271,6 +301,7 @@ export class PipelineStack extends Construct {
           project: this.backEndTestProject,
           input: outputSource,
           outputs: undefined,
+          role: infrastructureDeployRole
         }),
       ],
     });
@@ -283,6 +314,7 @@ export class PipelineStack extends Construct {
           project: this.frontEndTestProject,
           input: outputSource,
           outputs: undefined,
+          role: infrastructureDeployRole
         }),
       ],
     });
@@ -295,6 +327,7 @@ export class PipelineStack extends Construct {
           project: this.deployProject,
           input: outputSource,
           outputs: undefined,
+          role: infrastructureDeployRole
         }),
       ],
     });
