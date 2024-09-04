@@ -58,7 +58,7 @@ export class DynamoGet extends Construct {
       layers: [the_layer],
       //      bundling: { externalModules: ['aws-sdk'] }
       //  https://dev.to/elthrasher/aws-cdk-aws-lambda-nodejs-module-9ic#bundling
-      bundling: { externalModules: [], minify: true }
+      bundling: { externalModules: []}
     });
 
     dynamoTable.grantReadData(this.func);
