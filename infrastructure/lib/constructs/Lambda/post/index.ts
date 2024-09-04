@@ -58,7 +58,7 @@ export class DynamoPost extends Construct {
       },
       logRetention: logs.RetentionDays.TWO_WEEKS,
       layers: [the_layer],
-      bundling: { externalModules: ['aws-sdk'] }
+      bundling: { externalModules: [] }
     });
 
     dynamoTable.grantReadWriteData(this.func);
