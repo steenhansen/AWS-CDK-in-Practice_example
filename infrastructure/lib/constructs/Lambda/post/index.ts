@@ -8,7 +8,6 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-//import { dynUrlPostLabel } from '../../../../utils/construct_labels';
 
 
 import stack_config from '../../../../program.constants.json';
@@ -24,11 +23,6 @@ const NODE_RUNTIME = stack_config.NODE_RUNTIME;
 
 const the_runtime = nodeRuntime(NODE_RUNTIME);
 
-//const dynUrlPost_label = dynUrlPostLabel();
-
-
-
-//console.log("XXXXXXXXXXXXXXXXXXX 99988889", dynUrlPost_label, label_post);
 
 export class DynamoPost extends Construct {
   public readonly func: NodejsFunction;
@@ -50,7 +44,6 @@ export class DynamoPost extends Construct {
     }
     );
 
-    //this.func = new NodejsFunction(scope, 'dynamo-post', {
 
     this.func = new NodejsFunction(scope, 'label_post', {
 

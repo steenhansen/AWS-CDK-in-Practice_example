@@ -10,26 +10,21 @@ import { stackLabel } from '../utils/construct_labels';
 
 
 export const pipelineConfig = (env: string) => {
-  //  console.log("FFFFFFFFFFFFF", env);
-  //  if (env === 'Production') {
   if (env === 'Prod') {
-    const prod_pipe = stackLabel('production-pipeline');
+    const prod_pipe = stackLabel('prd-pipeline');
     return {
-      buildCommand: WEB_BUILD_PROD, ///'yarn build:prod', // yarn web-build-prod
-      deployCommand: CDK_DEPLOY_PROD, // 'yarn cdk deploy', // yarn cdk-prod deploy
+      buildCommand: WEB_BUILD_PROD,
+      deployCommand: CDK_DEPLOY_PROD,
       branch: BRANCH_PROD,
-      //      tag: 'chap ter9-production-pipeline',
       tag: prod_pipe,
     };
   }
 
-  const dev_pipe = stackLabel('development-pipeline');
-
+  const dev_pipe = stackLabel('dvl-pipeline');
   return {
-    buildCommand: WEB_BUILD_DEV,      //'yarn build:dev',        // yarn web-build-dev
-    deployCommand: CDK_DEPLOY_DEV, //'yarn cdk:dev deploy',  // yarn cdk-dev
+    buildCommand: WEB_BUILD_DEV,
+    deployCommand: CDK_DEPLOY_DEV,
     branch: BRANCH_DEV,
-    //   tag: 'chapt er9-development-pipeline',
     tag: dev_pipe,
   };
 

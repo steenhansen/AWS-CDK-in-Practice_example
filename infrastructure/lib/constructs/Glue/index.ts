@@ -46,27 +46,15 @@ export class AWSGlue extends Construct {
     });
 
 
-    // const glue_role = `Glue-DynamoDBRole-${process.env.NODE_ENV}`;
     const glue_role = envLabel(label_glue_dynamo);
-    //console.log("XXXXXXXXXXXXXXXXXXX 66666666", glue_role, glue_role2);
-
-
-
-
-    //const glue_name = `glue-service-role-${process.env.NODE_ENV?.toLowerCase()}`;
     const glue_name = lowerEnvLabel(label_glue_role);
-    //console.log("XXXXXXXXXXXXXXXXXXX 55555555", glue_name, glue_name2);
-
-
-
-
     // Roles:
     this.glue_dynamo_role = new Role(
       scope,
-      `Glue-DynamoDBRole-${process.env.NODE_ENV}`,   //glue_role2
+      glue_role,
       {
         assumedBy: new ServicePrincipal('glue.amazonaws.com'),
-        roleName: `glue-service-role-${process.env.NODE_ENV?.toLowerCase()}`,  //glue_name2
+        roleName: glue_name,
         managedPolicies: [
           ManagedPolicy.fromAwsManagedPolicyName(
             'service-role/AWSGlueServiceRole',

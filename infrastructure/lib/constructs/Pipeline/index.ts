@@ -107,35 +107,23 @@ export class PipelineStack extends Construct {
 
     /* ---------- Artifacts ---------- */
     const outputSource = new Artifact();
-    //console.log("YYYYYYYYYYYYYYYY", props.environment);
 
     const label_back_test = `BackTest-PipeProj-${props.environment}`;     // Prod or Dev
     const label_back_build = `BackBuild-PipeProj-${props.environment}`;
     const label_front_test = `FrontTest-PipeProj-${props.environment}`;
     const label_the_pipeline = `The-PipeProj-${props.environment}`;
 
-    /* ---------- Pipeline Build Projects ---------- */
-    //console.log("YYpipeline-synthYYYYYYYYYY", process.env.NODE_ENV);
-
-    //const back_test = `Ch apter9-BackEndTest-PipelineProject-${props.environment}`;
 
     const back_test = stackLabel(label_back_test);
-    //console.log("XXXXXXXXXXXXXXXXXXX 44444444", back_test, back_test2);
 
 
-
-    //const back_name = `Cha pter9-BackEndTest-PipelineProject-${props.environment}`;
-    //const back_name = stackEnvLabel(label_back_name);
-    //console.log("XXXXXXXXXXXXXXXXXXX 33333333", back_name, back_name2);
 
 
     this.backEndTestProject = new PipelineProject(
       scope,
-      //      `Chap ter9-BackEndTest-PipelineProject-${props.environment}`,  //  back_test2
-      back_test,  //  back_test2
+      back_test,
       {
-        //     projectName: `Cha pter9-BackEndTest-PipelineProject-${props.environment}`,     //back_name2
-        projectName: back_test,     //back_name2
+        projectName: back_test,
         role: infr77astructureDeployRole,
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
@@ -184,14 +172,12 @@ export class PipelineStack extends Construct {
     this.deployProject = new PipelineProject(
       this,
       back_build,
-      //    `Chapt er9-BackEndBuild-PipelineProject-${props.environment}`,
       {
-        //        projectName: `Cha pter9-BackEndBuild-PipelineProject-${props.environment}`,
         projectName: back_build,
         role: infr77astructureDeployRole,
         environment: {
           privileged: true,
-          buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)     //process.env.NODE_ENV
+          buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION)
         },
         buildSpec: BuildSpec.fromObject({
           version: '0.2',
@@ -204,8 +190,6 @@ export class PipelineStack extends Construct {
             pre_build: {
               'on-failure': 'ABORT',
               commands: [
-                //  `echo 'process.env.NODE_ENV == ${process.env.NODE_ENV}' > /dev/null  `,
-                //                `echo '{ "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }' > ./infrastructure/program.pipeline.json                     `,
                 `echo '${slack_webhook_k_v_obj}' > ${to_infra_pipeline_secrets}      `,
                 'cd web',
                 'yarn install',
@@ -236,15 +220,11 @@ export class PipelineStack extends Construct {
     // adding the necessary permissions in order to synthesize and deploy the cdk code.
     this.deployProject.addToRolePolicy(codeBuildPolicy);
 
-    //stackLabel
-    //    const front_test = stackEnvLabel(label_front_test);
     const front_test = stackLabel(label_front_test);
     this.frontEndTestProject = new PipelineProject(
       scope,
       front_test,
-      //    `Chapt er9-FrontEndTest-PipelineProject-${props.environment}`,
       {
-        //        projectName: `Cha pter9-FrontEndTest-PipelineProject-${props.environment}`,
         projectName: front_test,
         environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(LINUX_VERSION) },
         buildSpec: BuildSpec.fromObject({
@@ -269,20 +249,17 @@ export class PipelineStack extends Construct {
     );
 
     const project_pipeline = stackLabel(label_the_pipeline);
-    /* ---------- Pipeline ---------- */
-    this.pipeline = new Pipeline(scope,
-      //      `Pipeline-${props.environment}`,
-      project_pipeline,
 
+    this.pipeline = new Pipeline(scope,
+      project_pipeline,
       {
-        //      pipelineName: `Chap ter9-Pipeline-${props.environment}`,
         pipelineName: project_pipeline,
         role: infr77astructureDeployRole,
         pipelineType: PipelineType.V2
       });
 
     const secretToken = new SecretValue(GITHUB_TOKEN);
-    /* ---------- Stages ---------- */
+
     this.pipeline.addStage({
       stageName: 'Source',
       actions: [

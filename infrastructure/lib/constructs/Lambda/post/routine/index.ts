@@ -75,7 +75,6 @@ export const dynamo_post_handler = async (event: PostEvent) => {
 
       if (Items) {
         for (const item of Items) {
-          console.log("item", item);
           const the_id = item.id;
           var fileItem = {
             Key: {

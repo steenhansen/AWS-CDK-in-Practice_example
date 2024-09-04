@@ -31,3 +31,13 @@ const MainContainer = styled.header`
 `;
 
 export { MainContainer };
+
+
+export const BoxedColor = styled.nav`
+    background: #010203;
+
+    width: 200px;
+    height: 200px;
+
+    padding: 42px;
+`;

@@ -9,17 +9,6 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-// import {
-//   dynUrlGetLabel
-// } from '../../../../utils/construct_labels';
-// const dynUrlGet_label = dynUrlGetLabel();
-
-
-
-//console.log("XXXXXXXXXXXXXXXXXXX 87324723", dynUrlGet_label, label_get);
-
-
-
 
 interface IProps {
   vpc?: Vpc;

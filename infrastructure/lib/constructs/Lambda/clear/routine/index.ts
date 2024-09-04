@@ -17,31 +17,17 @@ const AWS_REGION = the_constants.AWS_REGION;
 
 const NO_SQL_WORK_ENDPOINT = the_constants.NO_SQL_WORK_ENDPOINT;
 const AWS_DYNAMO_ENDPOINT = the_constants.AWS_DYNAMO_ENDPOINT;
-// import {
-//   dynamoTableEnvLabel
-// } from '../../../../../utils/construct_labels';
 
-const THE_ENV = process.env.NODE_ENV || '';
 
 export const dynamo_clear_handler = async () => {
   try {
     let dynamoTableEnv_label;
-    //let dynamoTableEnv_label2;
     let the_endpoint;
     if (process.env["SERVER_LOCAL_MODE"] === 'yes') {
-
-
-
-      //dynamoTableEnv_label = dynamoTableEnvLabel('Local');
       dynamoTableEnv_label = lowerLocalDbLabel();
-      //  console.log("FFFFFFFFFFFFFFF 333", dynamoTableEnv_label, dynamoTableEnv_label2);
-
-
-
       the_endpoint = NO_SQL_WORK_ENDPOINT;
     } else {
 
-      //  dynamoTableEnv_label = dynamoTableEnvLabel(THE_ENV);
       dynamoTableEnv_label = lowerEnvLabel(DYNAMO_TABLE);
 
 

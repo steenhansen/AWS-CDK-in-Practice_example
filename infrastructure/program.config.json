@@ -18,7 +18,7 @@
   "DOMAIN_SUB_BACKEND_DEV": "back-dev",
   "DOMAIN_SUB_FRONTEND_DEV": "front-dev",
   "-----------------------------------------aws": "",
-  "STACK_NAME": "Elsn",
+  "STACK_NAME": "ColorDb",
   "AWS_ACCOUNT_Cred": "211125473900",
   "S3_UNIQUE_ID": "kill-devil",
   "-----------------------------------------dynamo-db": "",

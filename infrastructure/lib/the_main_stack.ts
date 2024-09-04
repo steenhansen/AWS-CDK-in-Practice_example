@@ -26,62 +26,42 @@ export class TheMainStack extends Stack {
 
     const isCDKLocal = process.env.NODE_ENV === 'CDKLocal';
 
-    const the_dyna = `Dynamo-${process.env.NODE_ENV || ''}`;
-    const the_dyna2 = envLabel('The-Dynamo');                 //// ????????????????? used multiple places
-    //console.log("dynamoUUUUUUU", the_dyna, the_dyna2);
-
-
-    this.dynamo = new DynamoDB(this, `Dynamo-${process.env.NODE_ENV || ''}`);
+    const the_dyna = envLabel('The-Dynamo');
+    this.dynamo = new DynamoDB(this, the_dyna);
 
     if (isCDKLocal) return;
 
 
-    const the_glue = `Glue-${process.env.NODE_ENV || ''}`;
-    const the_glue2 = envLabel('The-Glue');
-    //console.log("glueUUUUUUUUUUUU", the_glue, the_glue2);
-
-
-    new AWSGlue(this, `Glue-${process.env.NODE_ENV || ''}`, {
+    const the_glue = envLabel('The-Glue');
+    new AWSGlue(this, the_glue, {
       table: this.dynamo.table,
     });
 
-    const the_route = `Route53-${process.env.NODE_ENV || ''}`;
-    const the_route2 = envLabel('Route-53');
-    // console.log("routeUUUUUUUUUUUUUUU", the_route, the_route2);
-
-
-    this.route53 = new Route53(this, `Route53-${process.env.NODE_ENV || ''}`);
+    const the_route = envLabel('Route-53');
+    this.route53 = new Route53(this, the_route);
 
 
 
-    const the_acm = `ACM-${process.env.NODE_ENV || ''}`;
-    const the_acm2 = envLabel('The-ACM');
-    // console.log("ACMUUUUUUUUUUUUUUUU", the_acm, the_acm2);
-
-    this.acm = new ACM(this, `ACM-${process.env.NODE_ENV || ''}`, {
+    const the_acm = envLabel('The-ACM');
+    this.acm = new ACM(this, the_acm, {
       hosted_zone: this.route53.hosted_zone,
     });
 
 
-    const the_s3 = `S3-${process.env.NODE_ENV || ''}`;
-    const the_s32 = envLabel('The-S3');
-    //  console.log("S3 UUUUUUUUUUu", the_s3, the_s32);
 
-    this.s3 = new S3(this, `S3-${process.env.NODE_ENV || ''}`, {
+    const the_s3 = envLabel('The-S3');
+    this.s3 = new S3(this, the_s3, {
       acm: this.acm,
       route53: this.route53,
     });
 
-    const the_api = `Api-Gateway-${process.env.NODE_ENV || ''}`;
-    const the_api2 = envLabel('Prog-API-Gw');
-    // console.log("apiS3 UUUUUUUUUUu", the_api, the_api2);
-
-
-    new ApiGateway(this, `Api-Gateway-${process.env.NODE_ENV || ''}`, {
-      //new ApiGateway(this, `ApiG-${process.env.NODE_ENV || ''}`, {
+    const the_api = envLabel('Prog-API-Gw');
+    new ApiGateway(this, the_api, {
       route53: this.route53,
       acm: this.acm,
       dynamoTable: this.dynamo.table,
     });
+
+
   }
 }

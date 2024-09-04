@@ -6,7 +6,7 @@ import { Interfaces } from '../../../program.interfaces';
 import { CreateColorInt } from '../CreateColorInt';
 import { ColorInt } from '../ColorInt';
 
-import { MainContainer } from './styles';
+import { MainContainer, BoxedColor } from './styles';
 
 import { directSlackMess } from '../../slack_mess';
 
@@ -30,7 +30,6 @@ let SSM_SLACK_WEBHOOK;
 const { SECRET_PIPELINE_SLACK_WEBHOOK
 } = require('../../../../infrastructure/program.pipeline.json');
 
-// yarn cross-env REACT_APP__SLACK_HOOK=https://hooks.slack.com   yarn local-web-start
 if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   if (typeof process.env["REACT_APP__SLACK_HOOK"] !== 'undefined') {
     SSM_SLACK_WEBHOOK = process.env["REACT_APP__SLACK_HOOK"];
@@ -45,15 +44,12 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
     SSM_SLACK_WEBHOOK = "un-defined";
   }
   let domain_sub_backend;
-  //  if (process.env.REACT_APP_ENV === 'Env_prd') {
-  if (process.env.REACT_APP_ENV === 'Production') {
+  if (process.env.REACT_APP_ENV === 'Env_prd') {
     domain_sub_backend = DOMAIN_SUB_BACKEND;
   } else {
     domain_sub_backend = DOMAIN_SUB_BACKEND_DEV;
   }
-  console.log("cccccccccc 11111", domain_sub_backend);
   backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
-  console.log("cccccccccc 222222", backend_url);
 }
 
 const handle_clear = backend_url + "/clear";
@@ -63,7 +59,6 @@ export const Main: React.FC = () => {
   const [color_ints, setUserDatas] = useState<Interfaces.ColorInt[]>([]);
   useEffect(() => {
     const fetchColorInts = async () => {
-      console.log("bbbbbbbbbbbbbbbbb 222222", process.env.REACT_APP_ENV);
       try {
         const response = await axios.get(backend_url);
         const all_data = response.data.color_ints;
@@ -88,8 +83,17 @@ export const Main: React.FC = () => {
       console.log("**** ERROR:", response.data.message);
     } else {
       const new_obj = response.data.color_int;
-      const new_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
-      setUserDatas(_ => [...new_list, new_obj]);
+      const trunc_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
+      const new_list = [...trunc_list, new_obj];
+
+      console.log("new", new_list);    // background: rgb(31 120 50);
+
+      let red = 0;
+      let blue = 0;
+      let green = 0;
+      new_list.forEach((element) => console.log(element));
+
+      setUserDatas(_ => new_list);
     }
   };
 
@@ -98,6 +102,17 @@ export const Main: React.FC = () => {
     directSlackMess(STACK_NAME + " - color list was cleared, contained " + color_ints.length + " element.");
     window.location.reload();
   };
+
+  let rgb: any = { "red": 0, "green": 0, "blue": 0 };
+  color_ints.forEach(an_object => {
+    if (typeof an_object !== 'undefined') {
+      const the_color: string = an_object.the_color;
+      const the_integer = an_object.the_integer;
+      rgb[the_color] = the_integer;
+    }
+  });
+  const rgb_val = rgb["red"] + " " + rgb["green"] + " " + rgb["blue"];
+  const rgb_statment = "rgb(" + rgb_val + ")";
 
   let list_of_objects: Array<React.JSX.Element> = [];
   color_ints.forEach(an_object => {
@@ -108,6 +123,11 @@ export const Main: React.FC = () => {
   }
   );
 
+  const styles = {
+    exampleStyle: {
+      backgroundColor: rgb_statment
+    }
+  };
 
 
   return (
@@ -119,11 +139,11 @@ export const Main: React.FC = () => {
 
       config<h2>{DOMAIN_NAME}</h2>
 
-
+      <BoxedColor style={styles.exampleStyle}> </BoxedColor>
 
       <CreateColorInt handleAdd={handleAdd} handleClear={handleClear} />
       <ul > {list_of_objects}</ul>
-    </MainContainer>
+    </MainContainer >
   );
 
 

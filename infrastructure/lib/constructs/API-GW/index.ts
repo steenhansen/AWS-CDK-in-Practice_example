@@ -1,5 +1,3 @@
-
-import console = require('console');
 const label_api_gw = "Pipe-Api-Gw";
 const label_rest_api = "Pipe-Rest-Api";
 
@@ -17,7 +15,6 @@ import { ACM } from '../ACM';
 import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
-const STACK_NAME = config.STACK_NAME;
 
 import { HealthCheckLambda } from '../Lambda/healthcheck';
 import { DynamoGet } from '../Lambda/get';
@@ -40,30 +37,20 @@ export class ApiGateway extends Construct {
     const { acm, route53, dynamoTable } = props;
 
     const backEndSubDomain =
-      process.env.NODE_ENV_q_ === 'Env_prd'
+      process.env.NODE_ENV === 'Env_prd'
         ? config.DOMAIN_SUB_BACKEND
         : config.DOMAIN_SUB_BACKEND_DEV;
 
-    process.env.NODE_ENV === 'Production'
-      ? config.DOMAIN_SUB_BACKEND
-      : config.DOMAIN_SUB_BACKEND_DEV;
 
 
 
-
-    //const apigw_name = 'chapte r-9-rest-api';
     const apigw_name = stackLabel(label_rest_api);
-    //console.log("XXXXXXXXXXXXXXXXXXX 34938444", apigw_name, apigw_name2);
-    //const rest_api = `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`;
     const rest_api = stackEnvLabel(label_api_gw);
-    //console.log("XXXXXXXXXXXXXXXXXXX 32111333", rest_api, rest_api2);
 
 
 
-    // const restApi = new RestApi(this, 'chap ter-9-rest-api', {            // apigw_name2
-    //   restApiName: `${STACK_NAME}Apigw${process.env.NODE_ENV || ''}`,    // rest_api2
-    const restApi = new RestApi(this, apigw_name, {            // apigw_name2
-      restApiName: rest_api,    // rest_api2
+    const restApi = new RestApi(this, apigw_name, {
+      restApiName: rest_api,
       description: 'serverless api using lambda functions',
       domainName: {
         certificate: acm.certificate,
@@ -72,7 +59,7 @@ export class ApiGateway extends Construct {
         securityPolicy: SecurityPolicy.TLS_1_2,
       },
       deployOptions: {
-        stageName: process.env.NODE_ENV === 'Production' ? 'prod' : 'dev',
+        stageName: process.env.NODE_ENV === 'Env_prd' ? 'Prod' : 'Dev',
       },
     });
 

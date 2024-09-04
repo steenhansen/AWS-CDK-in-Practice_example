@@ -25,19 +25,11 @@ export class DynamoDB extends Construct {
     super(scope, id);
     lowerEnvLabel;
 
-    //const dynamo_name = `${STACK_NAME}.${STATEFUL_ID}.${label_dynamo}-${THE_ENV}`;
     const dynamo_name = statefulEnvLabel(label_dynamo);
-    //  console.log("XXXXXXXXXXXXXXXXXXX 14397814", dynamo_name, dynamo_name2);
 
-    //const seeder_name = `${STACK_NAME}.${STATEFUL_ID}.${label_seeder}-${THE_ENV}`;
     const seeder_name = statefulEnvLabel(label_seeder);
-    //console.log("XXXXXXXXXXXXXXXXXXX 43534089", seeder_name, seeder_name2);
 
-    // const tablename_upper = `${DYNAMO_TABLE}-${THE_ENV}`;
-    // const tablename_lower = (tablename_upper).toLocaleLowerCase();
     const tablename_lower = lowerEnvLabel(DYNAMO_TABLE);
-    //console.log("XXXXXXXXXXXXXXXXXXX 23424243", tablename_lower, tablename_lower2);
-
 
 
 

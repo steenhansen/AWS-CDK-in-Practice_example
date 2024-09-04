@@ -1,8 +1,5 @@
 const label_clear = "Url-Clear";
 
-//  Chapt er9Stack-Production-ApiGatewayProductionDynCl-3giTXFbCeXW1
-// 
-
 
 import * as path from 'path';
 import { Construct } from 'constructs';
@@ -13,14 +10,6 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 
 
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
-// import {
-//   dynUrlClearLabel
-// } from '../../../../utils/construct_labels';
-
-// const dynUrlClear_label = dynUrlClearLabel();
-
-
-// console.log("XXXXXXXXXXXXXXXXXXX 87324723", dynUrlClear_label, label_clear);
 
 
 
@@ -59,9 +48,6 @@ export class DynamoClear extends Construct {
     }
     );
 
-
-    //ElSnStack-Dev-ApiGatewayDevdynamoclear6DF4FC2A-tyM7uQQyvYSR
-    //    this.func = new NodejsFunction(scope, 'dynamo-clear', {
     this.func = new NodejsFunction(scope, 'DynClr', {
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),

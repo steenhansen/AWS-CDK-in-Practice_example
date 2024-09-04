@@ -10,14 +10,13 @@
   "resolutions": {
     "@typescript-eslint/typescript-estree": "^5.59.2"
   },
-  "LOCAL": {
-    "PORT_BROWSER": "3004",
-    "LSECRETS_BROWSER": "../../aws-cdk-in-practice_secrets.json"
+  "LOCAL_VAR": {
+    "PORT_BROWSER": "3004"
   },
   "scripts": {
-    "web-start": "cross-env PORT=$npm_package_LOCAL_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
-    "web-build-prod": "cross-env REACT_APP_ENV=Production craco build",
-    "web-build-dev": "cross-env REACT_APP_ENV=Development craco build",
+    "web-build-prod": "cross-env  REACT_APP_ENV=Env_prd  craco build",
+    "web-build-dev": " cross-env  REACT_APP_ENV=Env_dvl  craco build",
+    "web-start": "cross-env PORT=$npm_package_LOCAL_VAR_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
     "test": "react-scripts  test --watchAll=false",
     "eject": "react-scripts  eject"
   },
