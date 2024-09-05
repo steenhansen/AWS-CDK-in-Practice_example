@@ -9,7 +9,7 @@
   "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "GITHUB_OWNER": "steenhansen",
   "------------------------------------------slack_cicd_messages": "",
-  "CICD_SLACK_ALIVE": "no",
+  "CICD_SLACK_ALIVE": "yes",
   "-----------------------------------------route-53": "",
   "DOMAIN_ALIVE": "yes",
   "DOMAIN_NAME": "steenhansen.click",
