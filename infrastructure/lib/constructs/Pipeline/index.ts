@@ -158,8 +158,12 @@ export class PipelineStack extends Construct {
       console.log("SSM not ready yet, try again.", e);
       throw "asdflkjsadflkj";
     }
+
+    console.log("the_ssm_creds", lambda_creds_obj);
+
     const {
       GITHUB_TOKEN,
+       SLACK_PROD_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
 
 
