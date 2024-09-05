@@ -52,7 +52,7 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
 }
 
-const handle_clear = backend_url + "/clear";
+const handle_clear = backend_url + "/clearDB";
 
 export const Main: React.FC = () => {
 
