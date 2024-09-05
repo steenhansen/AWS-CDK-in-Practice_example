@@ -15,6 +15,8 @@ import program_config from '../../../../infrastructure/program.config.json';
 import the_constants from '../../../../infrastructure/program.constants.json';
 
 const PORT_SERVER = the_constants.PORT_SERVER;
+const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
+
 
 let DOMAIN_SUB_BACKEND = program_config.DOMAIN_SUB_BACKEND;
 let DOMAIN_SUB_BACKEND_DEV = program_config.DOMAIN_SUB_BACKEND_DEV;
@@ -52,7 +54,8 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
 }
 
-const handle_clear = backend_url + "/clearDB";
+//const handle_clear = backend_url + "/clearDB";
+const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
 

@@ -14,6 +14,7 @@
   "PORT_TEST": "3005",
   "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
   "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com",
+  "CLEARDB_SLUG": "clearDB",
   "STATEFUL_ID": "State",
   "-----------------------------------------builds": "",
   "WEB_BUILD_DEV": "yarn  web-build-dev",

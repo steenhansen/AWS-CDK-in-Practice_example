@@ -22,7 +22,7 @@ import { pipelineConfig } from '../../../utils/pipelineConfig';
 var fs = require('fs');
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import console = require("console");
-import { stackEnvLabel, stackLabel } from '../../../utils/construct_labels';
+import { envLabel, stackLabel } from '../../../utils/construct_labels';
 
 
 
@@ -52,8 +52,9 @@ export class PipelineStack extends Construct {
   readonly pipeline: Pipeline;
 
   constructor(scope: Construct, id: string, props: Props) {
-    //const node_env = props.environment;
-    process.env.NODE_ENV = props.environment;
+    const Prod_or_Dev = props.environment;
+    // process.env.NODE_ENV = props.environment;
+    process.env.NODE_ENV = Prod_or_Dev;
 
     super(scope, id);
     const {
@@ -61,7 +62,8 @@ export class PipelineStack extends Construct {
       deployCommand,
       branch,
       tag,
-    } = pipelineConfig(props.environment); //node_env
+      //    } = pipelineConfig(props.environment); //node_env
+    } = pipelineConfig(Prod_or_Dev); //node_env
 
     /* ---------- Pipeline Configs ---------- */
 
@@ -108,10 +110,16 @@ export class PipelineStack extends Construct {
     /* ---------- Artifacts ---------- */
     const outputSource = new Artifact();
 
-    const label_back_test = `BackTest-PipeProj-${props.environment}`;     // Prod or Dev
-    const label_back_build = `BackBuild-PipeProj-${props.environment}`;
-    const label_front_test = `FrontTest-PipeProj-${props.environment}`;
-    const label_the_pipeline = `The-PipeProj-${props.environment}`;
+    const label_back_test = envLabel('BackTest-PipeProj');
+    const label_back_build = envLabel('BackBuild-PipeProj');
+    const label_front_test = envLabel('FrontTest-PipeProj');
+    const label_the_pipeline = envLabel('The-PipeProj');
+
+
+    // const label_back_test = `BackTest-PipeProj-${props.environment}`;     // Prod or Dev
+    // const label_back_build = `BackBuild-PipeProj-${props.environment}`;
+    // const label_front_test = `FrontTest-PipeProj-${props.environment}`;
+    // const label_the_pipeline = `The-PipeProj-${props.environment}`;
 
 
     const back_test = stackLabel(label_back_test);
@@ -159,11 +167,12 @@ export class PipelineStack extends Construct {
       throw "asdflkjsadflkj";
     }
 
+
     console.log("the_ssm_creds", lambda_creds_obj);
 
     const {
       GITHUB_TOKEN,
-       SLACK_PROD_CHANNEL_ID,
+      SLACK_PROD_CHANNEL_ID,
       SLACK_WORKSPACE_ID } = lambda_creds_obj;
 
 
@@ -271,7 +280,7 @@ export class PipelineStack extends Construct {
           actionName: 'Source',
           owner: GITHUB_OWNER,
           repo: GITHUB_REPO,
-          branch: `${branch}`,
+          branch: `${branch}`,              // fix
           oauthToken: secretToken,
           output: outputSource,
           trigger: GitHubTrigger.WEBHOOK,
@@ -319,15 +328,17 @@ export class PipelineStack extends Construct {
       ],
     });
 
-
-   
+    const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
+    const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
     if (CICD_SLACK_ALIVE === 'yes') {
       const snsTopic = new Topic(
         this,
-        `${props.environment}-Pipeline-SlackNotificationsTopic`,
+        //        `${props.environment}-Pipeline-SlackNotificationsTopic`,
+        slack_topic_name
       );
       const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-        slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+        //        slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+        slackChannelConfigurationName: pipeline_slack_config,
         slackWorkspaceId: SLACK_WORKSPACE_ID,
         slackChannelId: SLACK_PROD_CHANNEL_ID
       });
@@ -345,6 +356,7 @@ export class PipelineStack extends Construct {
       });
       rule.addTarget(slackConfig);
     }
+
 
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);

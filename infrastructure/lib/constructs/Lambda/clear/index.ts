@@ -36,10 +36,7 @@ export class DynamoClear extends Construct {
     super(scope, id);
 
     const { dynamoTable } = props;
-
-
     const layer_path = 'lib/constructs/Lambda/dynamo_layers';
-
     const the_layer = new LayerVersion(
       this, "ClearDynamoLayer", {
       code: Code.fromAsset(layer_path),

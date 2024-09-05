@@ -57,8 +57,9 @@ export class DynamoGet extends Construct {
       logRetention: logs.RetentionDays.TWO_WEEKS,
       layers: [the_layer],
       //      bundling: { externalModules: ['aws-sdk'] }
-      //  https://dev.to/elthrasher/aws-cdk-aws-lambda-nodejs-module-9ic#bundling
-      bundling: { externalModules: []}
+      bundling: { externalModules: [] }
+      //  https://github.com/aws/aws-cdk/issues/26464
+      //   nodeModules?
     });
 
     dynamoTable.grantReadData(this.func);

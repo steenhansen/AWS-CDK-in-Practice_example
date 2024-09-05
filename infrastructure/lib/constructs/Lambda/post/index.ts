@@ -31,22 +31,16 @@ export class DynamoPost extends Construct {
     super(scope, id);
 
     const { dynamoTable } = props;
-
-
-
     const layer_path = 'lib/constructs/Lambda/dynamo_layers';
-
     const the_layer = new LayerVersion(
-      this, "PostDynamoLayer", {                       // constant
+      this, "PostDynamoLayer", {
       code: Code.fromAsset(layer_path),
       compatibleRuntimes: [the_runtime],
       layerVersionName: "NodeJsLayer"
     }
     );
 
-
     this.func = new NodejsFunction(scope, 'label_post', {
-
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),
       handler: 'dynamo_post_handler',

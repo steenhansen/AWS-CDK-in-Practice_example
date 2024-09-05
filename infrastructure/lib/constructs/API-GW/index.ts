@@ -15,6 +15,8 @@ import { ACM } from '../ACM';
 import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
+import the_constants from '../../../program.constants.json';
+const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
 
 import { HealthCheckLambda } from '../Lambda/healthcheck';
 import { DynamoGet } from '../Lambda/get';
@@ -116,7 +118,8 @@ export class ApiGateway extends Construct {
     });
 
     // Resources (Path)
-    const clear_db = restApi.root.addResource('clearDB');
+    //    const clear_db = restApi.root.addResource('clearDB');
+    const clear_db = restApi.root.addResource(CLEARDB_SLUG);
     clear_db.addMethod('GET', dynamoClearIntegration);
     clear_db.addCorsPreflight({
       allowOrigins: ['*'],
