@@ -316,36 +316,31 @@ export class PipelineStack extends Construct {
     });
 
 
-    //   if (CICD_SLACK_ALIVE === 'yes') {
-
-
-    // const snsTopic = new Topic(
-    //   this,
-    //   `${props.environment}-Pipeline-SlackNotificationsTopic`,
-    // );
-
-    // const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-    //   slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
-    //   slackWorkspaceId: SLACK_WORKSPACE_ID || '',
-    //   slackChannelId: SLACK_PROD_CHANNEL_ID || '',
-    //               //  slackWorkspaceId: workspaceId || '',
-    //              //  slackChannelId: channelId || '',
-    // });
-
-    // const rule = new NotificationRule(this, 'NotificationRule', {
-    //   source: this.pipeline,
-    //   events: [
-    //     'codepipeline-pipeline-pipeline-execution-failed',
-    //     'codepipeline-pipeline-pipeline-execution-canceled',
-    //     'codepipeline-pipeline-pipeline-execution-started',
-    //     'codepipeline-pipeline-pipeline-execution-resumed',
-    //     'codepipeline-pipeline-pipeline-execution-succeeded',
-    //     'codepipeline-pipeline-manual-approval-needed',
-    //   ],
-    //   targets: [snsTopic],
-    // });
-
-    // rule.addTarget(slackConfig);
+   
+    if (CICD_SLACK_ALIVE === 'yes') {
+      const snsTopic = new Topic(
+        this,
+        `${props.environment}-Pipeline-SlackNotificationsTopic`,
+      );
+      const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
+        slackChannelConfigurationName: `${props.environment}-Pipeline-Slack-Channel-Config`,
+        slackWorkspaceId: SLACK_WORKSPACE_ID,
+        slackChannelId: SLACK_PROD_CHANNEL_ID
+      });
+      const rule = new NotificationRule(this, 'SlackNotificationRule', {
+        source: this.pipeline,
+        events: [
+          'codepipeline-pipeline-pipeline-execution-failed',
+          'codepipeline-pipeline-pipeline-execution-canceled',
+          'codepipeline-pipeline-pipeline-execution-started',
+          'codepipeline-pipeline-pipeline-execution-resumed',
+          'codepipeline-pipeline-pipeline-execution-succeeded',
+          'codepipeline-pipeline-manual-approval-needed',
+        ],
+        targets: [snsTopic],
+      });
+      rule.addTarget(slackConfig);
+    }
 
     /* ---------- Tags ---------- */
     Tags.of(this).add('Context', `${tag}`);
