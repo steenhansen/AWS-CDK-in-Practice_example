@@ -13,59 +13,68 @@ if (TESTING_ALIVE !== 'yes') {
   });
 } else {
 
-  it('Matches the snapshot.', () => {
-    const ui_result = render(<App />);
-    expect(ui_result).toMatchSnapshot();
-  });
-
-  it('clear colors 0 0 0', async () => {
-    render(<App />);
-    await userEvent.click(screen.getByTestId('test-clear'));
-    await screen.findByTestId('test-color_box');
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(0 0 0)');
+  if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
+    it('Matches the snapshot.', () => {
+      const ui_result = render(<App />);
+      expect(ui_result).toMatchSnapshot();
     });
 
-    await userEvent.type(screen.getByTestId('test-color_rgb'), 'red');
-    await userEvent.type(screen.getByTestId('test-color_integer'), '11');
-    await userEvent.click(screen.getByTestId('test-change'));
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 0 0)');
+    it('clear colors 0 0 0', async () => {
+      render(<App />);
+      await userEvent.click(screen.getByTestId('test-clear'));
+      await screen.findByTestId('test-color_box');
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(0 0 0)');
+      });
+
+      await userEvent.type(screen.getByTestId('test-color_rgb'), 'red');
+      await userEvent.type(screen.getByTestId('test-color_integer'), '11');
+      await userEvent.click(screen.getByTestId('test-change'));
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 0 0)');
+      });
+
+      await userEvent.type(screen.getByTestId('test-color_rgb'), 'green');
+      await userEvent.type(screen.getByTestId('test-color_integer'), '12');
+      await userEvent.click(screen.getByTestId('test-change'));
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 12 0)');
+      });
+
+      await userEvent.type(screen.getByTestId('test-color_rgb'), 'blue');
+      await userEvent.type(screen.getByTestId('test-color_integer'), '13');
+      await userEvent.click(screen.getByTestId('test-change'));
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 12 13)');
+      });
+
+      await userEvent.type(screen.getByTestId('test-color_rgb'), 'red');
+      await userEvent.type(screen.getByTestId('test-color_integer'), '88');
+      await userEvent.click(screen.getByTestId('test-change'));
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(88 12 13)');
+      });
+
+      await userEvent.click(screen.getByTestId('test-clear'));
+      await screen.findByTestId('test-color_box');
+      await waitFor(() => {
+        expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(0 0 0)');
+      });
+
+      expect(screen.getByTestId('test-color_box')).not.toHaveTextContent('ensure-tests-just-not-blindly-passing-as-sync_funcs');
+
     });
 
-    await userEvent.type(screen.getByTestId('test-color_rgb'), 'green');
-    await userEvent.type(screen.getByTestId('test-color_integer'), '12');
-    await userEvent.click(screen.getByTestId('test-change'));
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 12 0)');
+  } else {         // test in Front-End-Test
+    test('renders the  logo', () => {
+      render(<App />);
+
+      const westpointLogo = screen.getByTestId('header-logo');
+
+      expect(westpointLogo).toBeInTheDocument();
     });
-
-    await userEvent.type(screen.getByTestId('test-color_rgb'), 'blue');
-    await userEvent.type(screen.getByTestId('test-color_integer'), '13');
-    await userEvent.click(screen.getByTestId('test-change'));
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(11 12 13)');
-    });
-
-    await userEvent.type(screen.getByTestId('test-color_rgb'), 'red');
-    await userEvent.type(screen.getByTestId('test-color_integer'), '88');
-    await userEvent.click(screen.getByTestId('test-change'));
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(88 12 13)');
-    });
-
-    await userEvent.click(screen.getByTestId('test-clear'));
-    await screen.findByTestId('test-color_box');
-    await waitFor(() => {
-      expect(screen.getByTestId('test-color_box')).toHaveTextContent('rgb(0 0 0)');
-    });
-
-    expect(screen.getByTestId('test-color_box')).not.toHaveTextContent('ensure-tests-just-not-blindly-passing-as-sync_funcs');
-
-  });
-
+  }
 }
-
 
 
 
