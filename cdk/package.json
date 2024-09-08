@@ -9,7 +9,9 @@
     "cdk-pipeline": "cross-env                     CDK_MODE=ONLY_PIPELINE  cdk",
     "watch": "tsc -w",
     "cdk-test": "tsc && jest",
-    "cdk-testing": "cross-env  NODE_ENV=Env_dvl    CDK_MODE=ONLY_DEV cdk"
+    "cdk-testing": "cross-env  NODE_ENV=Env_dvl    CDK_MODE=ONLY_DEV cdk",
+    "______pipeline": "below is only run in pipeline on AWS",
+    "test": "cross-env  NODE_ENV=Env_prd    CDK_MODE=ONLY_PROD cdk"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",

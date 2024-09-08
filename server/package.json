@@ -8,7 +8,9 @@
     "server-start": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "forever": "forever --minUptime 5000 --spinSleepTime 5000 src/index.js",
     "server-test": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes jest --detectOpenHandles",
-    "test:coverage": "jest --watchAll --detectOpenHandles  --coverage"
+    "test:coverage": "jest --watchAll --detectOpenHandles  --coverage",
+    "______pipeline": "below is only run in pipeline on AWS",
+    "test": "jest --detectOpenHandles"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",

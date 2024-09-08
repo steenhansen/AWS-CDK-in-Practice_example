@@ -10,7 +10,9 @@
     "web-build-dev": " cross-env  REACT_APP_ENV=Env_dvl  craco build",
     "web-start": "cross-env PORT=$npm_package_LOCAL_VAR_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
     "web-test": "gulp && cross-env  REACT_APP__LOCAL_MODE=yes craco  test  --watchAll=false --verbose=true",
-    "eject": "craco  eject"
+    "eject": "craco  eject",
+    "______pipeline": "below is only run in pipeline on AWS",
+    "test": "craco  test --watchAll=false"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.4.8",
