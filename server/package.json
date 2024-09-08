@@ -38,7 +38,7 @@
     "@aws-sdk/lib-dynamodb": "^3.121.0",
     "@aws-sdk/smithy-client": "^3.0.0",
     "@aws-sdk/types": "^3.0.0",
-    "aws-sdk": "^2.1290.0",
+    "aws-sdk": "^2.1667.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "eslint": "^9.9.0",

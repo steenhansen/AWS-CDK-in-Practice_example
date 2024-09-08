@@ -4,6 +4,7 @@ const HEALTH_CHECK_OK = the_constants.HEALTH_CHECK_OK;
 import supertest from 'supertest';
 import { describe, expect, test, it, afterAll } from '@jest/globals';
 
+import { DynamoDB } from 'aws-sdk';  // need this for Back-End-Test as no dynamo_layers in test
 
 const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
 const health_check = "/" + HEALTH_CHECK_SLUG;
