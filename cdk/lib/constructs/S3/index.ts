@@ -8,7 +8,7 @@ import { Construct } from 'constructs';
 import { resolve } from 'path';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 
@@ -80,7 +80,7 @@ export class S3 extends Construct {
         domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
         defaultRootObject: 'index.html',
         defaultBehavior: {
-          origin: new S3Origin(this.web_bucket),
+          origin: new S3StaticWebsiteOrigin(this.web_bucket),
           viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         },
       },

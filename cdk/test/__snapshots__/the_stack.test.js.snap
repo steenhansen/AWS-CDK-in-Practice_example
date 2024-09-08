@@ -1,0 +1,2555 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unit Testing Infrastructure. Testing Chapter 9 code. Matches the snapshot. 1`] = `
+{
+  "Mappings": {
+    "AWSCloudFrontPartitionHostedZoneIdMap": {
+      "aws": {
+        "zoneId": "Z2FDTNDATAQYW2",
+      },
+      "aws-cn": {
+        "zoneId": "Z3RFFRIM2A3IF5",
+      },
+    },
+  },
+  "Outputs": {
+    "FrontendURLtest": {
+      "Value": {
+        "Fn::GetAtt": [
+          "WebBuckettest1D7CD72B",
+          "DomainName",
+        ],
+      },
+    },
+    "ProgAPIGwDevColorDbPipeRestApiEndpointC43CA8AA": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            },
+            ".execute-api.us-east-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "ProgAPIGwDevdynamoclearlambdaUrlClear3AB22FC1": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ProgAPIGwDevDynClrFunctionUrl26606B7A",
+          "FunctionUrl",
+        ],
+      },
+    },
+    "ProgAPIGwDevdynamogetlambdaUrlGet1CA036F0": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ProgAPIGwDevDynGetFunctionUrlC748D4F3",
+          "FunctionUrl",
+        ],
+      },
+    },
+    "ProgAPIGwDevdynamopostlambdaUrlPostB974D998": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ProgAPIGwDevlabelpostFunctionUrl05B99613",
+          "FunctionUrl",
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "Certificate4E7ABB08": {
+      "Properties": {
+        "DomainName": "steenhansen.click",
+        "DomainValidationOptions": [
+          {
+            "DomainName": "steenhansen.click",
+            "HostedZoneId": "DUMMY",
+          },
+        ],
+        "SubjectAlternativeNames": [
+          "*.steenhansen.click",
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Default/TheMainStack/Certificate",
+          },
+        ],
+        "ValidationMethod": "DNS",
+      },
+      "Type": "AWS::CertificateManager::Certificate",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiB5F7BD223": {
+      "DependsOn": [
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleDefaultPolicyE5468F0E",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleF991ED9F",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "0158f40002a8c211635388a87874fd4dcc3d68f525fe08a0fe0f014069ae539c.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",
+          },
+        },
+        "Handler": "index.handler",
+        "Layers": [
+          {
+            "Ref": "TheGlueDevGlueScriptAwsCliLayer2E81F59C",
+          },
+        ],
+        "MemorySize": 256,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleF991ED9F",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.11",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleDefaultPolicyE5468F0E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-211125473900-us-east-1",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-211125473900-us-east-1/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "TheGlueDevSourceBucket844364CE",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "TheGlueDevSourceBucket844364CE",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleDefaultPolicyE5468F0E",
+        "Roles": [
+          {
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleF991ED9F",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleF991ED9F": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+      "DependsOn": [
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "0158f40002a8c211635388a87874fd4dcc3d68f525fe08a0fe0f014069ae539c.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",
+          },
+        },
+        "Handler": "index.handler",
+        "Layers": [
+          {
+            "Ref": "WebBucketDeploymenttestAwsCliLayer41AD4280",
+          },
+        ],
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.11",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-211125473900-us-east-1",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-211125473900-us-east-1/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "WebBuckettest1D7CD72B",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "WebBuckettest1D7CD72B",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "Roles": [
+          {
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CustomDynamodbSeederCustomDynamodbSeeder3D3D7F10": {
+      "DependsOn": [
+        "CustomDynamodbSeederCustomDynamodbSeederServiceRoleDefaultPolicy6C04255C",
+        "CustomDynamodbSeederCustomDynamodbSeederServiceRole5FC6AEF8",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "904af69a21680318d3cb786992cbaaaf083d47d42ee4f55a613d4bef78d7c053.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomDynamodbSeederCustomDynamodbSeederServiceRole5FC6AEF8",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomDynamodbSeederCustomDynamodbSeederServiceRole5FC6AEF8": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CustomDynamodbSeederCustomDynamodbSeederServiceRoleDefaultPolicy6C04255C": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "dynamodb:BatchWriteItem",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CustomDynamodbSeederCustomDynamodbSeederServiceRoleDefaultPolicy6C04255C",
+        "Roles": [
+          {
+            "Ref": "CustomDynamodbSeederCustomDynamodbSeederServiceRole5FC6AEF8",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+        },
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "TheGlueDevSourceBucket844364CE",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FrontendAliasRecordtestC1E84708": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "FrontendDistributiontest4E4F0DEB",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "front-dev.steenhansen.click.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "FrontendDistributiontest4E4F0DEB": {
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "front-dev.steenhansen.click",
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "Compress": true,
+            "TargetOriginId": "TheMainStackFrontendDistributiontestOrigin16B6B8E0D",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "DefaultRootObject": "index.html",
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": [
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "http-only",
+                "OriginSSLProtocols": [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": {
+                "Fn::Select": [
+                  2,
+                  {
+                    "Fn::Split": [
+                      "/",
+                      {
+                        "Fn::GetAtt": [
+                          "WebBuckettest1D7CD72B",
+                          "WebsiteURL",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              "Id": "TheMainStackFrontendDistributiontestOrigin16B6B8E0D",
+            },
+          ],
+          "ViewerCertificate": {
+            "AcmCertificateArn": {
+              "Ref": "Certificate4E7ABB08",
+            },
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only",
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "GlueDynamoCrawlertest": {
+      "Properties": {
+        "DatabaseName": "maintable-gluedb-test",
+        "Name": "dynanamo-crawler-test",
+        "Role": {
+          "Fn::GetAtt": [
+            "GlueDynamoDBRoleDevFC147497",
+            "Arn",
+          ],
+        },
+        "Targets": {
+          "DynamoDBTargets": [
+            {
+              "Path": {
+                "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Glue::Crawler",
+    },
+    "GlueDynamoDBRoleDevDefaultPolicyB5886D92": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:*",
+                "s3:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GlueDynamoDBRoleDevDefaultPolicyB5886D92",
+        "Roles": [
+          {
+            "Ref": "GlueDynamoDBRoleDevFC147497",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "GlueDynamoDBRoleDevFC147497": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "glue.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSGlueServiceRole",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonDynamoDBFullAccess",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "glue-service-role-dev",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GlueS3Crawlertest": {
+      "Properties": {
+        "DatabaseName": "maintable-gluedb-test",
+        "Name": "s3-crawler-test",
+        "Role": {
+          "Fn::GetAtt": [
+            "GlueDynamoDBRoleDevFC147497",
+            "Arn",
+          ],
+        },
+        "Targets": {
+          "DynamoDBTargets": [
+            {
+              "Path": {
+                "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+              },
+            },
+          ],
+          "S3Targets": [
+            {
+              "Path": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "s3://",
+                    {
+                      "Ref": "TheGlueDevSourceBucket844364CE",
+                    },
+                    "/glue/",
+                  ],
+                ],
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Glue::Crawler",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ProgAPIGwDevBackendAliasRecordCE257BD5": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "ProgAPIGwDevColorDbPipeRestApiCustomDomain244488BC",
+              "RegionalDomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "ProgAPIGwDevColorDbPipeRestApiCustomDomain244488BC",
+              "RegionalHostedZoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "back-dev.steenhansen.click.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "ProgAPIGwDevColorDbPipeRestApi5A1698C4": {
+      "Properties": {
+        "Description": "serverless api using lambda functions",
+        "Name": "ColorDb-Pipe-Api-Gw-Dev",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiAccount8089C3D5": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApiCloudWatchRole4468947A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiCloudWatchRole4468947A": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiCustomDomain244488BC": {
+      "Properties": {
+        "DomainName": "back-dev.steenhansen.click",
+        "EndpointConfiguration": {
+          "Types": [
+            "REGIONAL",
+          ],
+        },
+        "RegionalCertificateArn": {
+          "Ref": "Certificate4E7ABB08",
+        },
+        "SecurityPolicy": "TLS_1_2",
+      },
+      "Type": "AWS::ApiGateway::DomainName",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiCustomDomainMapTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC49E03ED4C": {
+      "Properties": {
+        "DomainName": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApiCustomDomain244488BC",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+        "Stage": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+        },
+      },
+      "Type": "AWS::ApiGateway::BasePathMapping",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiDeploymentEC74F4096a5f97e1672b639b38da8fa68368f468": {
+      "DependsOn": [
+        "ProgAPIGwDevColorDbPipeRestApiclearDBGET20E07E66",
+        "ProgAPIGwDevColorDbPipeRestApiclearDBOPTIONSB865E0D9",
+        "ProgAPIGwDevColorDbPipeRestApiclearDBFB8038ED",
+        "ProgAPIGwDevColorDbPipeRestApiGET4B5054A8",
+        "ProgAPIGwDevColorDbPipeRestApihealthCheckGETAC33BBF0",
+        "ProgAPIGwDevColorDbPipeRestApihealthCheckOPTIONSB39DB37B",
+        "ProgAPIGwDevColorDbPipeRestApihealthCheckA4C3D452",
+        "ProgAPIGwDevColorDbPipeRestApiOPTIONS0DCFF311",
+        "ProgAPIGwDevColorDbPipeRestApiPOST17FA4AB7",
+        "ProgAPIGwDevColorDbPipeRestApislackCallsOPTIONSAC3735BC",
+        "ProgAPIGwDevColorDbPipeRestApislackCalls0981B8D5",
+      ],
+      "Properties": {
+        "Description": "serverless api using lambda functions",
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB": {
+      "DependsOn": [
+        "ProgAPIGwDevColorDbPipeRestApiAccount8089C3D5",
+      ],
+      "Properties": {
+        "DeploymentId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentEC74F4096a5f97e1672b639b38da8fa68368f468",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+        "StageName": "Dev",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiGET4B5054A8": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ProgAPIGwDevDynGet03D71359",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiGETApiPermissionTestTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GET22684520": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynGet03D71359",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/test-invoke-stage/GET/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiGETApiPermissionTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GETB2C75A38": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynGet03D71359",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+              },
+              "/GET/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiOPTIONS0DCFF311": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiPOST17FA4AB7": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ProgAPIGwDevlabelpost9BB37F44",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiPOSTApiPermissionTestTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4POSTA125F413": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevlabelpost9BB37F44",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/test-invoke-stage/POST/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiPOSTApiPermissionTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4POST3039556F": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevlabelpost9BB37F44",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+              },
+              "/POST/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiclearDBFB8038ED": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "clearDB",
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiclearDBGET20E07E66": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ProgAPIGwDevDynClrEC09D2AB",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApiclearDBFB8038ED",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiclearDBGETApiPermissionTestTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GETclearDB2BF13EEA": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynClrEC09D2AB",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/test-invoke-stage/GET/clearDB",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiclearDBGETApiPermissionTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GETclearDBD3BEDB28": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynClrEC09D2AB",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+              },
+              "/GET/clearDB",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApiclearDBOPTIONSB865E0D9": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApiclearDBFB8038ED",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApihealthCheckA4C3D452": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "healthCheck",
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "ProgAPIGwDevColorDbPipeRestApihealthCheckGETAC33BBF0": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ProgAPIGwDevhealthchecklambdaAA42CA8A",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApihealthCheckA4C3D452",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApihealthCheckGETApiPermissionTestTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GEThealthCheckAB469A1C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevhealthchecklambdaAA42CA8A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/test-invoke-stage/GET/healthCheck",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApihealthCheckGETApiPermissionTheMainStackProgAPIGwDevColorDbPipeRestApiE9F15AC4GEThealthCheckFFF06ACF": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevhealthchecklambdaAA42CA8A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:211125473900:",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+              },
+              "/",
+              {
+                "Ref": "ProgAPIGwDevColorDbPipeRestApiDeploymentStageDevFE56E2EB",
+              },
+              "/GET/healthCheck",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevColorDbPipeRestApihealthCheckOPTIONSB39DB37B": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApihealthCheckA4C3D452",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevColorDbPipeRestApislackCalls0981B8D5": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "slackCalls",
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "ProgAPIGwDevColorDbPipeRestApislackCallsOPTIONSAC3735BC": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.Access-Control-Allow-Methods": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApislackCalls0981B8D5",
+        },
+        "RestApiId": {
+          "Ref": "ProgAPIGwDevColorDbPipeRestApi5A1698C4",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProgAPIGwDevDynClrEC09D2AB": {
+      "DependsOn": [
+        "ProgAPIGwDevDynClrServiceRoleDefaultPolicyA2243DF5",
+        "ProgAPIGwDevDynClrServiceRoleE3D756FD",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "880d633dd6bf95cebe258b72ca032d45f95ec71085a8483aca4773f93936cff0.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "test",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+            },
+          },
+        },
+        "Handler": "index.dynamo_clear_handler",
+        "Layers": [
+          {
+            "Ref": "ProgAPIGwDevdynamoclearlambdaClearDynamoLayer4D739E77",
+          },
+        ],
+        "Role": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynClrServiceRoleE3D756FD",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ProgAPIGwDevDynClrFunctionUrl26606B7A": {
+      "Properties": {
+        "AuthType": "NONE",
+        "TargetFunctionArn": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynClrEC09D2AB",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Url",
+    },
+    "ProgAPIGwDevDynClrLogRetentionD14F8D1E": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "ProgAPIGwDevDynClrEC09D2AB",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 14,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "ProgAPIGwDevDynClrServiceRoleDefaultPolicyA2243DF5": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ProgAPIGwDevDynClrServiceRoleDefaultPolicyA2243DF5",
+        "Roles": [
+          {
+            "Ref": "ProgAPIGwDevDynClrServiceRoleE3D756FD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ProgAPIGwDevDynClrServiceRoleE3D756FD": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ProgAPIGwDevDynClrinvokefunctionurl4A9303BF": {
+      "Properties": {
+        "Action": "lambda:InvokeFunctionUrl",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynClrEC09D2AB",
+            "Arn",
+          ],
+        },
+        "FunctionUrlAuthType": "NONE",
+        "Principal": "*",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevDynGet03D71359": {
+      "DependsOn": [
+        "ProgAPIGwDevDynGetServiceRoleDefaultPolicy627F1756",
+        "ProgAPIGwDevDynGetServiceRoleDBB44E55",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "f8f281772b159d6d6adf9b4d57b3e95c060647f4f85a4a7f9bb521f19dfcace2.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "test",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+            },
+          },
+        },
+        "Handler": "index.dynamo_get_handler",
+        "Layers": [
+          {
+            "Ref": "ProgAPIGwDevdynamogetlambdaGetDynamoLayer49EB1E76",
+          },
+        ],
+        "Role": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynGetServiceRoleDBB44E55",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ProgAPIGwDevDynGetFunctionUrlC748D4F3": {
+      "Properties": {
+        "AuthType": "NONE",
+        "TargetFunctionArn": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynGet03D71359",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Url",
+    },
+    "ProgAPIGwDevDynGetLogRetentionAB9983FA": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "ProgAPIGwDevDynGet03D71359",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 14,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "ProgAPIGwDevDynGetServiceRoleDBB44E55": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ProgAPIGwDevDynGetServiceRoleDefaultPolicy627F1756": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ProgAPIGwDevDynGetServiceRoleDefaultPolicy627F1756",
+        "Roles": [
+          {
+            "Ref": "ProgAPIGwDevDynGetServiceRoleDBB44E55",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ProgAPIGwDevDynGetinvokefunctionurl29ECFB7C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunctionUrl",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevDynGet03D71359",
+            "Arn",
+          ],
+        },
+        "FunctionUrlAuthType": "NONE",
+        "Principal": "*",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ProgAPIGwDevdynamoclearlambdaClearDynamoLayer4D739E77": {
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs20.x",
+        ],
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "f4d5bac72f53b48e76c5cb79c4f06178b2d00e50d465af591910839e151a1428.zip",
+        },
+        "LayerName": "NodeJsLayer",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "ProgAPIGwDevdynamogetlambdaGetDynamoLayer49EB1E76": {
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs20.x",
+        ],
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "f4d5bac72f53b48e76c5cb79c4f06178b2d00e50d465af591910839e151a1428.zip",
+        },
+        "LayerName": "NodeJsLayer",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "ProgAPIGwDevdynamopostlambdaPostDynamoLayerC7E212D7": {
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs20.x",
+        ],
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "f4d5bac72f53b48e76c5cb79c4f06178b2d00e50d465af591910839e151a1428.zip",
+        },
+        "LayerName": "NodeJsLayer",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "ProgAPIGwDevhealthchecklambdaAA42CA8A": {
+      "DependsOn": [
+        "ProgAPIGwDevhealthchecklambdaServiceRoleA8252F90",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "b44eb3bea16fad315d32f5983cc616af1793a023878515e6a2d8f95cc452f2ac.zip",
+        },
+        "Handler": "index.healthcheck_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevhealthchecklambdaServiceRoleA8252F90",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ProgAPIGwDevhealthchecklambdaLogRetention91290AF1": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "ProgAPIGwDevhealthchecklambdaAA42CA8A",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 14,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "ProgAPIGwDevhealthchecklambdaServiceRoleA8252F90": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ProgAPIGwDevlabelpost9BB37F44": {
+      "DependsOn": [
+        "ProgAPIGwDevlabelpostServiceRoleDefaultPolicy5E3948C2",
+        "ProgAPIGwDevlabelpostServiceRoleA1266EA7",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "59f47b3a7616d54e8ab1d7b1accdf5ab29bc0f5b37ba3f0cb95b0df6c5e5f155.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "test",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+            },
+          },
+        },
+        "Handler": "index.dynamo_post_handler",
+        "Layers": [
+          {
+            "Ref": "ProgAPIGwDevdynamopostlambdaPostDynamoLayerC7E212D7",
+          },
+        ],
+        "Role": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevlabelpostServiceRoleA1266EA7",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ProgAPIGwDevlabelpostFunctionUrl05B99613": {
+      "Properties": {
+        "AuthType": "NONE",
+        "TargetFunctionArn": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevlabelpost9BB37F44",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Url",
+    },
+    "ProgAPIGwDevlabelpostLogRetention72D091EF": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "ProgAPIGwDevlabelpost9BB37F44",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 14,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "ProgAPIGwDevlabelpostServiceRoleA1266EA7": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ProgAPIGwDevlabelpostServiceRoleDefaultPolicy5E3948C2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ProgAPIGwDevlabelpostServiceRoleDefaultPolicy5E3948C2",
+        "Roles": [
+          {
+            "Ref": "ProgAPIGwDevlabelpostServiceRoleA1266EA7",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ProgAPIGwDevlabelpostinvokefunctionurl0CAD7A71": {
+      "Properties": {
+        "Action": "lambda:InvokeFunctionUrl",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ProgAPIGwDevlabelpost9BB37F44",
+            "Arn",
+          ],
+        },
+        "FunctionUrlAuthType": "NONE",
+        "Principal": "*",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "TheDynamoDevColorDbStateDynamoDbDevAF778881": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S",
+          },
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH",
+          },
+        ],
+        "StreamSpecification": {
+          "StreamViewType": "NEW_IMAGE",
+        },
+        "TableName": "dynamo_table-dev",
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TheDynamoDevColorDbStateDynamoSeederDevCustomResource0E2C2754": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Seeds": {
+          "InlineSeeds": "[{"id":"12345678-9ABC-DEFG-HIJK-LMNOPRSTUVWX","the_color":"blue","the_integer":3}]",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomDynamodbSeederCustomDynamodbSeeder3D3D7F10",
+            "Arn",
+          ],
+        },
+        "TableName": {
+          "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+        },
+      },
+      "Type": "Custom::DynamodbSeeder",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TheGlueDevGlueDynamoDBExportJobtestD7E6D2CB": {
+      "Properties": {
+        "Command": {
+          "Name": "glueetl",
+          "PythonVersion": "3",
+          "ScriptLocation": {
+            "Fn::Join": [
+              "",
+              [
+                "s3://",
+                {
+                  "Ref": "TheGlueDevSourceBucket844364CE",
+                },
+                "/scripts/dynamo-to-s3.py",
+              ],
+            ],
+          },
+        },
+        "DefaultArguments": {
+          "--GLUE_DATABASE_NAME": "maintable-gluedb-test",
+          "--GLUE_TABLE_NAME": {
+            "Ref": "TheDynamoDevColorDbStateDynamoDbDevAF778881",
+          },
+          "--JOB_NAME": "export-dynamodb-to-s3-glue-job-test",
+          "--TARGET_S3_BUCKET": {
+            "Fn::Join": [
+              "",
+              [
+                "s3://",
+                {
+                  "Ref": "TheGlueDevSourceBucket844364CE",
+                },
+                "/glue/",
+              ],
+            ],
+          },
+        },
+        "GlueVersion": "4.0",
+        "Name": "export-dynamodb-to-s3-glue-job-test",
+        "Role": {
+          "Fn::GetAtt": [
+            "GlueDynamoDBRoleDevFC147497",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Glue::Job",
+    },
+    "TheGlueDevGlueScriptAwsCliLayer2E81F59C": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "3322b7049fb0ed2b7cbb644a2ada8d1116ff80c32dca89e6ada846b5de26f961.zip",
+        },
+        "Description": "/opt/awscli/aws",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "TheGlueDevGlueScriptCustomResource256MiB3C4F7778": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DestinationBucketKeyPrefix": "scripts",
+        "DestinationBucketName": {
+          "Ref": "TheGlueDevSourceBucket844364CE",
+        },
+        "Prune": false,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiB5F7BD223",
+            "Arn",
+          ],
+        },
+        "SourceBucketNames": [
+          "cdk-hnb659fds-assets-211125473900-us-east-1",
+        ],
+        "SourceObjectKeys": [
+          "40ce1e2c60ac759432e158f0d18eacacf4ad8e391c777dcfa9a264eb43f410ed.zip",
+        ],
+      },
+      "Type": "Custom::CDKBucketDeployment",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TheGlueDevSourceBucket844364CE": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+          {
+            "Key": "aws-cdk:cr-owned:scripts:4c584d36",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TheGlueDevSourceBucketAutoDeleteObjectsCustomResourceB7F4F850": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "TheGlueDevSourceBucketPolicyBF834DED",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "TheGlueDevSourceBucket844364CE",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TheGlueDevSourceBucketPolicyBF834DED": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "TheGlueDevSourceBucket844364CE",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "TheGlueDevSourceBucket844364CE",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "TheGlueDevSourceBucket844364CE",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "WebBucketDeploymenttestAwsCliLayer41AD4280": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
+          "S3Key": "3322b7049fb0ed2b7cbb644a2ada8d1116ff80c32dca89e6ada846b5de26f961.zip",
+        },
+        "Description": "/opt/awscli/aws",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "WebBucketDeploymenttestCustomResource67E6BA9F": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DestinationBucketName": {
+          "Ref": "WebBuckettest1D7CD72B",
+        },
+        "Prune": true,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+            "Arn",
+          ],
+        },
+        "SourceBucketNames": [
+          "cdk-hnb659fds-assets-211125473900-us-east-1",
+        ],
+        "SourceObjectKeys": [
+          "7d8258c9a1cdba2d9d66991ee6d8ff525e46b0e8d30ebb8eed88d598c1ae4173.zip",
+        ],
+      },
+      "Type": "Custom::CDKBucketDeployment",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "WebBuckettest1D7CD72B": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AccessControl": "BucketOwnerFullControl",
+        "BucketName": "colordb-state-kill-devil-dev",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "IgnorePublicAcls": true,
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+          {
+            "Key": "aws-cdk:cr-owned:94182919",
+            "Value": "true",
+          },
+        ],
+        "WebsiteConfiguration": {
+          "ErrorDocument": "index.html",
+          "IndexDocument": "index.html",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "WebBuckettestAutoDeleteObjectsCustomResource1818E070": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "WebBuckettestPolicyA2A62D61",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "WebBuckettest1D7CD72B",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "WebBuckettestPolicyA2A62D61": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "WebBuckettest1D7CD72B",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "WebBuckettest1D7CD72B",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "WebBuckettest1D7CD72B",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "WebBuckettest1D7CD72B",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

@@ -15,6 +15,8 @@
   "NO_SQL_WORK_ENDPOINT": "http://localhost:8000",
   "AWS_DYNAMO_ENDPOINT": "https://dynamodb.us-east-1.amazonaws.com",
   "CLEARDB_SLUG": "clearDB",
+  "HEALTH_CHECK_SLUG": "healthCheck",
+  "HEALTH_CHECK_OK": "Health-OK",
   "STATEFUL_ID": "State",
   "-----------------------------------------builds": "",
   "WEB_BUILD_DEV": "yarn  web-build-dev",
@@ -22,5 +24,13 @@
   "CDK_DEPLOY_DEV": "yarn  cdk-dev  deploy",
   "CDK_DEPLOY_PROD": "yarn cdk-prod deploy",
   "BRANCH_PROD": "main",
-  "BRANCH_DEV": "dev"
+  "BRANCH_DEV": "dev",
+  "-----------------------------------------errors": "",
+  "RED_START": "\\x1b[41m",
+  "RED_END": "\\x1b[0m\n",
+  "RRED": "\\x1b[41m%s\\x1b[0m",
+  "NO_SQL_OFF_ERROR": "Is 'DDB local' turned on in NoSQL Workbench at port 8000?",
+  "VPN_ON_ERROR": "Is there a VPN running?",
+  "SERVER_OFF_ERROR": "Is the local server running at port 3003?",
+  "DOCKER_OFF_ERROR": "Is Docker Desktop turned on?"
 }

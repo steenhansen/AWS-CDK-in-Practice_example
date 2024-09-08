@@ -1,5 +1,5 @@
 import create_app from './createApp';
-import the_constants from '../../infrastructure/program.constants.json';
+import the_constants from '../../cdk/program.constants.json';
 
 let port: string;
 if (process.env["SERVER_LOCAL_MODE"]?.toLowerCase() === 'yes') {

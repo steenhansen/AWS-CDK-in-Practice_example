@@ -24,9 +24,9 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "baseUrl": "./infrastructure/",
+    "baseUrl": "./cdk/",
     "paths": {
-      "customTypes/*": ["../infrastructure/@types/*"]
+      "customTypes/*": ["../cdk/@types/*"]
     },
   },
   "exclude": [

@@ -36,8 +36,13 @@ export { MainContainer };
 export const BoxedColor = styled.nav`
     background: #010203;
 
-    width: 200px;
+    width: 300px;
     height: 200px;
 
     padding: 42px;
+`;
+
+export const Zxc = styled.nav`
+    background: #ffffff;
+   padding: 12px;
 `;

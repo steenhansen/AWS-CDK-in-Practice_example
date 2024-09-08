@@ -16,6 +16,7 @@ import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
 import the_constants from '../../../program.constants.json';
+const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
 const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
 
 import { HealthCheckLambda } from '../Lambda/healthcheck';
@@ -94,7 +95,7 @@ export class ApiGateway extends Construct {
     const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
 
     // Resources (Path)
-    const healthcheck = restApi.root.addResource('healthcheck');
+    const healthcheck = restApi.root.addResource(HEALTH_CHECK_SLUG);
     const rootResource = restApi.root;
 
     // Methods

@@ -14,7 +14,7 @@ export const ColorInt: React.FC<Props> = ({ color_int }) => {
     <UserContainer key={color_int.the_color}>
       <UserBox>
         <UserContent>
-          <li >
+          <li data-testid={"test-" + color_int.the_color}>
             {color_int.the_color} - {color_int.the_integer}
           </li>
         </UserContent>

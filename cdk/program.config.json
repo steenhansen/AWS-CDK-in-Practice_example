@@ -3,9 +3,9 @@
   "SSM_SECRETS_NAME": "lambda-creds",
   "SLACK_WEB_HOOK_ALIVE": "no",
   "------------------------------------------github": "",
+  "GITHUB_PIPELINE_ALIVE": "2",
   "GITHUB_ALIVE": "yes",
   "AWS_SECRET_NAME": "aws-cdk-in-practice-example_secrets",
-  "SECRETS_FILENAME": "aws-cdk-in-practice_secrets.json",
   "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "GITHUB_OWNER": "steenhansen",
   "------------------------------------------slack_cicd_messages": "",
@@ -22,7 +22,10 @@
   "AWS_ACCOUNT_Cred": "211125473900",
   "S3_UNIQUE_ID": "kill-devil",
   "-----------------------------------------dynamo-db": "",
+  "WHAT_IF_DYNAMO_IS_DEAD": "AVIOD_THE_NOID",
   "DYNAMO_ALIVE": "yes",
   "DYNAMO_TABLE": "dynamo_table",
-  "LOCAL_DB_ENV": "Local-Db-Env"
+  "LOCAL_DB_ENV": "Local-Db-Env",
+  "-----------------------------------------testing": "",
+  "TESTING_ALIVE": "yes"
 }

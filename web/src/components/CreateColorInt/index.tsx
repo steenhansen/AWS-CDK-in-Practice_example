@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Interfaces } from '../../../program.interfaces';
 
 import { CreateColorIntContainer } from './styles';
-import the_constants from '../../../../infrastructure/program.constants.json';
+//import the_constants from '../../../../cdk/program.constants.json';
 
-const REGEX_0_255 = the_constants.REGEX_0_255;
 
 interface Props {
   handleAdd: ({
@@ -31,19 +30,18 @@ export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
 
 
 
-
-
   return (
     <CreateColorIntContainer>
       <span>  red/green/blue</span>&nbsp;
       <input
         autoComplete="off"
-        pattern="red|green|blue"
+
         onFocus={({ target }) => target.value = ""}
         onChange={({ target }) => handleColorIntChange('the_color', target.value)}
         type="text"
         name="new_color_int"
         id="new_color_int"
+        data-testid={"test-color_rgb"}
         placeholder="red, green, or blue"
       />
 
@@ -52,23 +50,23 @@ export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
 
       <input
         autoComplete="off"
-        pattern={REGEX_0_255}
         onFocus={({ target }) => target.value = ""}
         onChange={({ target }) => handleColorIntChange('the_integer', target.value)}
         type="text"
         name="new_color_int"
         id="new_color_int"
+        data-testid={"test-color_integer"}
         placeholder="0...255"
       />
 
       <br />  <br />
 
-      <button type="button" onClick={() => handleAdd({ new_color_int })}>
-        Add/change an rgb color index
-      </button>
+      <button type="button" data-testid="test-change" onClick={() => handleAdd({ new_color_int })}>AddChange</button>
 
       &nbsp;&nbsp;&nbsp;
-      <button type="button" onClick={() => handleClear()}>
+      <button type="button"
+        onClick={() => handleClear()}
+        data-testid="test-clear">
         Clear all 3 rgb color indexes
       </button>
 

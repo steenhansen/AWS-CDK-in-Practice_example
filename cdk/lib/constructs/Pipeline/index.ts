@@ -60,8 +60,8 @@ export class PipelineStack extends Construct {
     const {
       buildCommand,
       deployCommand,
-      branch,
-      tag,
+      branch,                                          // prod_or_dev_branch
+      tag,                                                 /// prd_or_dvl_tag
       //    } = pipelineConfig(props.environment); //node_env
     } = pipelineConfig(Prod_or_Dev); //node_env
 
@@ -168,7 +168,7 @@ export class PipelineStack extends Construct {
     }
 
 
-    console.log("the_ssm_creds", lambda_creds_obj);
+    //console.log("the_ssm_creds", lambda_creds_obj);
 
     const {
       GITHUB_TOKEN,
@@ -179,7 +179,7 @@ export class PipelineStack extends Construct {
 
     const back_build = stackLabel(label_back_build);
     const temp_SLACK_WEBHOOK = "https://hooks.slack.com/services/A1234567890/B1234567890/C1234567890ABCDEFGHIJKLM";
-    const to_infra_pipeline_secrets = "./infrastructure/program.pipeline.json";
+    const to_infra_pipeline_secrets = "./cdk/program.pipeline.json";
     const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${temp_SLACK_WEBHOOK}" }    `;
 
     this.deployProject = new PipelineProject(
@@ -208,7 +208,7 @@ export class PipelineStack extends Construct {
                 'yarn install',
                 'cd ../server',
                 'yarn install',
-                'cd ../infrastructure',
+                'cd ../cdk',
                 'yarn install',
               ],
             },
@@ -217,7 +217,7 @@ export class PipelineStack extends Construct {
               commands: [
                 'cd ../web',
                 `${buildCommand}`,
-                'cd ../infrastructure',
+                'cd ../cdk',
                 `${deployCommand}`,
               ],
             },
@@ -280,7 +280,7 @@ export class PipelineStack extends Construct {
           actionName: 'Source',
           owner: GITHUB_OWNER,
           repo: GITHUB_REPO,
-          branch: `${branch}`,              // fix
+          branch: `${branch}`,              // fix      prod_or_dev_branch
           oauthToken: secretToken,
           output: outputSource,
           trigger: GitHubTrigger.WEBHOOK,
@@ -328,8 +328,16 @@ export class PipelineStack extends Construct {
       ],
     });
 
+
+    /*
+ if (CICD_SLACK_ALIVE === 'yes') {
+  }
+
+
+    */
     const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
     const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
+
     if (CICD_SLACK_ALIVE === 'yes') {
       const snsTopic = new Topic(
         this,
@@ -359,6 +367,6 @@ export class PipelineStack extends Construct {
 
 
     /* ---------- Tags ---------- */
-    Tags.of(this).add('Context', `${tag}`);
+    Tags.of(this).add('Context', `${tag}`);           //  prd_or_dvl_tag
   }
 }
