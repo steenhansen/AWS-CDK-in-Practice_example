@@ -16,7 +16,7 @@ import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
 const app = new cdk.App();
 
 function printError(error_mess: string) {
-  console.log('\x1b[41m%s\x1b[0m', "**** " + error_mess);
+  console.log('\x1b[41m %s \x1b[0m', "**** " + error_mess);
 }
 
 

@@ -204,13 +204,12 @@ export class PipelineStack extends Construct {
               'on-failure': 'ABORT',
               commands: [
                 `echo '${slack_webhook_k_v_obj}' > ${to_infra_pipeline_secrets}      `,
+                `rm -r 'web/src/tests/__snapshots__/' `,
                 'cd web',
                 'yarn install',
-                // 'cd ../server',
-                //                'yarn install',
-                'cd ../cdk',
+                'cd ../server',
                 'yarn install',
-                'cd ../server',   // so that ./cdk/lib/constructs/Lambda/post/routine/index.ts will have Dynamo_layer containing aws-sdk
+                'cd ../cdk',
                 'yarn install',
               ],
             },

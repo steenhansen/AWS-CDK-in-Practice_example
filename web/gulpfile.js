@@ -7,7 +7,7 @@ const health_url = 'http://localhost:' + PORT_SERVER + "/" + HEALTH_CHECK_SLUG;
 const get_url = 'http://localhost:' + PORT_SERVER;
 
 function printError(error_mess) {
-  console.log('\x1b[41m%s\x1b[0m', "**** " + error_mess);
+  console.log('\x1b[41m %s \x1b[0m', "**** " + error_mess);
 }
 
 gulp.task('default', function (cb) {

@@ -72,8 +72,9 @@ export const dynamo_post_handler = async (event: PostEvent) => {
             TableName: dynamoTableEnv_label,
           };
           await dynamoDB.delete(fileItem, function (err, data) {
-            if (err) console.log("dynamo-post", err);
-            else console.log("dynamo-post", data);
+            if (err) {
+              console.log("dynamo-post", err);
+            }
           }).promise();
         }
       }

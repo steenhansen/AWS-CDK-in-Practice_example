@@ -39,8 +39,9 @@ export const dynamo_clear_handler = async () => {
           TableName: dynamoTableEnv_label,
         };
         await dynamo_DB.delete(fileItem, function (err, data) {
-          if (err) console.log("dynamo-clear", err);
-          else console.log("dynamo-clear", data);
+          if (err) {
+            console.log("dynamo-clear", err);
+          }
         }).promise();
       }
     }

@@ -59,7 +59,7 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
 const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
 
 function printError(error_mess: string) {
-  console.log('\x1b[41m%s\x1b[0m', "**** " + error_mess);
+  console.log('\x1b[41m %s \x1b[0m', "**** " + error_mess);
 }
 
 
