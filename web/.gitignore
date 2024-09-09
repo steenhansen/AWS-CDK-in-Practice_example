@@ -6,6 +6,5 @@ node_modules
 
 src/tests/__snapshots__
 
-coverage
-build
+/build
 
