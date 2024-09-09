@@ -1,18 +1,10 @@
-*.js
-!jest.config.js
-*.d.ts
 node_modules
+
+*.js
+*.d.ts
 !@types/*
 
-# CDK asset staging directory
-.cdk.staging
+/test/snapshots
+
 cdk.out
-
-!lib/constructs/RDS/init/index.js
-
-!prettier.config.js
 cdk.context.json
-
-.env
-.env.*
-config.json
