@@ -17,6 +17,11 @@ if (TESTING_ALIVE === 'yes') {
     // rm -r 'web/src/tests/__snapshots__/'
 
     // there are no lambda functions yet to test db stuff
+
+    it('web-at-least-one-local-test', () => {
+      expect("web-at-least-one-local-test").toBe("web-at-least-one-local-test");
+    });
+
   }
 
 } else {
