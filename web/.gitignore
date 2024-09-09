@@ -4,8 +4,8 @@ node_modules
 *.d.ts
 !@types/*
 
-/src/tests/__snapshots__
+src/tests/__snapshots__
 
-/coverage
-/build
+coverage
+build
 

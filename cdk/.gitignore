@@ -4,7 +4,7 @@ node_modules
 *.d.ts
 !@types/*
 
-/test/snapshots
+test/_snapshots__
 
 cdk.out
 cdk.context.json
