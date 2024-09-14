@@ -5,7 +5,7 @@
 //  curl - X POST - H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC
 
 
-import browser_config from '../../cdk/program.config.json';
+import browser_config from '../../cicd/program.config.json';
 
 const SLACK_WEB_HOOK_ALIVE = browser_config.SLACK_WEB_HOOK_ALIVE;
 

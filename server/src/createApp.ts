@@ -1,24 +1,28 @@
-import { dynamo_post_handler } from '../../cdk/lib/constructs/Lambda/post/routine/';
-import { dynamo_get_handler } from '../../cdk/lib/constructs/Lambda/get/routine/';
-import { dynamo_clear_handler } from '../../cdk/lib/constructs/Lambda/clear/routine/';
 
-import the_constants from '../../cdk/program.constants.json';
+
+
+
+import { dynamo_post_handler } from '../../cicd/lib/constructs/Lambda/post/routine/';
+import { dynamo_get_handler } from '../../cicd/lib/constructs/Lambda/get/routine/';
+import { dynamo_clear_handler } from '../../cicd/lib/constructs/Lambda/clear/routine/';
+
+
+import { printError } from '../../cicd/utils/env-errors';
+
+import the_constants from '../../cicd/program.constants.json';
 const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
 const NO_SQL_OFF_ERROR = the_constants.NO_SQL_OFF_ERROR;
 const VPN_ON_ERROR = the_constants.VPN_ON_ERROR;
 
 import { healthApp, corsResponse } from './health-app';
 
-function printError(error_mess: string) {
-  console.log('\x1b[41m %s \x1b[0m', "**** " + error_mess);
-}
 
 function checkNoSqlWork(response_json: any) {
   if (response_json.hasOwnProperty('message')) {
     const err_mess = response_json.message;
     if (err_mess.startsWith("Inaccessible host:")) {
-      const prob_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR;
-      printError(prob_mess);
+      const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR;
+      printError(error_mess, 'server/src/createApp.ts', err_mess);
     }
   }
 }

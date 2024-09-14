@@ -2,8 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 
-import { healthcheck_handler } from '../../cdk/lib/constructs/Lambda/healthcheck/routine/';
-import the_constants from '../../cdk/program.constants.json';
+import { healthcheck_handler } from '../../cicd/lib/constructs/Lambda/healthcheck/routine/';
+import the_constants from '../../cicd/program.constants.json';
 const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
 const health_check = "/" + HEALTH_CHECK_SLUG;
 

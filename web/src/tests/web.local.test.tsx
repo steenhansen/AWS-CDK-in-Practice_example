@@ -1,8 +1,9 @@
+
 import React from 'react';         // NB if not present  -    ReferenceError: React is not defined
 import { App } from '../components/App';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import the_config from '../../../cdk/program.config.json';
+import the_config from '../../../cicd/program.config.json';
 const TESTING_ALIVE = the_config.TESTING_ALIVE;
 import { render, screen, waitFor } from '@testing-library/react';
 
@@ -13,8 +14,7 @@ if (TESTING_ALIVE === 'yes') {
   } else {
     // in pipeline's Front-End-Test
 
-    // cannot snapshot test in pipeline tests, to ensure
-    // rm -r 'web/src/tests/__snapshots__/'
+    // cannot snapshot test in pipeline tests, gitignore to ensure
 
     // there are no lambda functions yet to test db stuff
     it('web-at-least-one-local-test', () => {
@@ -42,6 +42,10 @@ function snapshotDbTesting() {
 
   it('clear colors 0 0 0', async () => {
     render(<App />);
+
+
+
+
     await userEvent.click(screen.getByTestId('test-clear'));
     await screen.findByTestId('test-color_box');
     await waitFor(() => {

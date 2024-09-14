@@ -2,12 +2,12 @@ import supertest from 'supertest';
 import { describe, expect, it } from '@jest/globals';
 import { healthApp } from '../health-app';
 
-import the_constants from '../../../cdk/program.constants.json';
+import the_constants from '../../../cicd/program.constants.json';
 const HEALTH_CHECK_OK = the_constants.HEALTH_CHECK_OK;
 const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
 const health_check = "/" + HEALTH_CHECK_SLUG;
 
-import the_config from '../../../cdk/program.config.json';
+import the_config from '../../../cicd/program.config.json';
 const TESTING_ALIVE = the_config.TESTING_ALIVE;
 
 // in pipeline's Back-End-Test

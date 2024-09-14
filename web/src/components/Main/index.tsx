@@ -9,19 +9,39 @@ import { ColorInt } from '../ColorInt';
 import { MainContainer, BoxedColor, Zxc } from './styles';
 
 
-import program_config from '../../../../cdk/program.config.json';
-import the_constants from '../../../../cdk/program.constants.json';
+import program_config from '../../../../cicd/program.config.json';
+import the_constants from '../../../../cicd/program.constants.json';
+import cdk_config from '../../../../cicd/cdk.json';
+
+const RED_BACKGROUND = the_constants.RED_BACKGROUND;
+const GREEN_BACKGROUND = the_constants.GREEN_BACKGROUND;
+const RED_TEXT = the_constants.RED_TEXT;
+
+const hex_escape = '\x1b';
+const stop_escape = '\x1b[0m\n';
+const red_background = hex_escape + RED_BACKGROUND;
+const green_background = hex_escape + GREEN_BACKGROUND;
+const red_text = hex_escape + RED_TEXT;
+
+export function printError(error_mess: string, error_loc: string, err_or_val: string) {
+  const line_1 = `${red_background} **** %s ${stop_escape}`;
+  const line_2 = `${green_background}  %s ${stop_escape}`;
+  const line_3 = `${red_text}  %s ${stop_escape}`;
+  const error_s_s_s = line_1 + line_2 + line_3;
+  console.log(error_s_s_s, error_mess, error_loc, err_or_val);
+}
 
 const PORT_SERVER = the_constants.PORT_SERVER;
 const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
+const FETCH_TIMEOUT = the_constants.FETCH_TIMEOUT;
 
 const NO_SQL_OFF_ERROR = the_constants.NO_SQL_OFF_ERROR;
 const VPN_ON_ERROR = the_constants.VPN_ON_ERROR;
 
 const SERVER_OFF_ERROR = the_constants.SERVER_OFF_ERROR;
 
-let DOMAIN_SUB_BACKEND = program_config.DOMAIN_SUB_BACKEND;
-let DOMAIN_SUB_BACKEND_DEV = program_config.DOMAIN_SUB_BACKEND_DEV;
+let DOMAIN_PROD_SUB_BACKEND = program_config.DOMAIN_PROD_SUB_BACKEND;
+let DOMAIN_DEV_SUB_BACKEND = program_config.DOMAIN_DEV_SUB_BACKEND;
 let DOMAIN_NAME = program_config.DOMAIN_NAME;
 
 
@@ -29,9 +49,10 @@ let backend_url: string;
 let SSM_SLACK_WEBHOOK;
 
 
+const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 const { SECRET_PIPELINE_SLACK_WEBHOOK
-} = require('../../../../cdk/program.pipeline.json');
+} = require('../../../../cicd/program.pipeline.json');
 
 if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   if (typeof process.env["REACT_APP__SLACK_HOOK"] !== 'undefined') {
@@ -46,21 +67,32 @@ if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
   } else {
     SSM_SLACK_WEBHOOK = "un-defined";
   }
-  let domain_sub_backend;
-  if (process.env.REACT_APP_ENV === 'Env_prd') {
-    domain_sub_backend = DOMAIN_SUB_BACKEND;
+  let the_backend;
+  if (WORK_ENV === 'Env_prd') {
+    the_backend = DOMAIN_PROD_SUB_BACKEND;
   } else {
-    domain_sub_backend = DOMAIN_SUB_BACKEND_DEV;
+    the_backend = DOMAIN_DEV_SUB_BACKEND;
   }
-  backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
+  backend_url = `https://${the_backend}.${DOMAIN_NAME}`;
 }
 
 
 const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
 
-function printError(error_mess: string) {
-  console.log('\x1b[41m %s \x1b[0m', "**** " + error_mess);
+
+async function doFetch(backend_url: string, options: object) {
+  if (process.env["REACT_APP__LOCAL_MODE"] !== "yes") {
+    options = Object.assign(options, { signal: AbortSignal.timeout(FETCH_TIMEOUT) });
+  }
+  let response = await fetch(backend_url, options);
+  if (!response.ok) {
+    throw new Error(`Response status: ${response.status}`);
+  }
+  const json = await response.json();
+  return json;
 }
+
+
 
 
 export const Main: React.FC = () => {
@@ -71,23 +103,21 @@ export const Main: React.FC = () => {
       try {
         let json;
         try {
-          const response = await fetch(backend_url);
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-          }
-          json = await response.json();
+          json = await doFetch(backend_url, {});
         } catch (error: any) {
           console.error(error.message);
         }
         const all_data = json.color_ints;
         setUserDatas(all_data);
       } catch (e) {
-        const prob_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR + " : " + backend_url;
-        printError(prob_mess);
+        const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+        printError(error_mess, 'web/src/components/Main/index.tsx - useEffect()', backend_url);
+
       };
     };
     fetchColorInts();
   }, []);
+
 
   const handleAdd = async ({
     new_color_int,
@@ -96,22 +126,22 @@ export const Main: React.FC = () => {
   }) => {
     let json;
     try {
-      const response = await fetch(backend_url, {
+      let options = {
         method: "POST",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ color_int: new_color_int }),
-      }
-      );
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-      json = await response.json();
+      };
+      json = await doFetch(backend_url, options);
     } catch (error: any) {
-      console.error(error.message);
+
+      const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+      printError(error_mess, 'web/src/components/Main/index.tsx - handleAdd()', backend_url);
     }
+
+
     if (false) {
       // console.log("**** ERROR:", response.data.message);
     } else {
@@ -128,19 +158,21 @@ export const Main: React.FC = () => {
     let json;
     try {
       try {
-        const response = await fetch(handle_clear);
-        if (!response.ok) {
-          throw new Error(`Response status: ${response.status}`);
-        }
-        json = await response.json();
+
+        json = await doFetch(handle_clear, {});
+
+
+
+
+
       } catch (error: any) {
         console.error(error.message);
       }
       const all_data = json.color_ints;
       setUserDatas(all_data);
     } catch (e) {
-      const prob_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR + " : " + backend_url;
-      printError(prob_mess);
+      const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+      printError(error_mess, 'web/src/components/Main/index.tsx - handleClear()', backend_url);
     };
     setUserDatas([
       { id: 'clear-red', the_color: 'red', the_integer: 0 },

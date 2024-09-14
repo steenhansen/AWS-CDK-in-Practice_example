@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "license": "MIT",
   "scripts": {
-    "server-build": "tsc",
+    "server-build": "gulp && tsc",
     "server-start": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "forever": "forever --minUptime 5000 --spinSleepTime 5000 src/index.js",
     "server-test": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes jest --detectOpenHandles",
@@ -29,7 +29,8 @@
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "gulp": "^5.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.121.0",

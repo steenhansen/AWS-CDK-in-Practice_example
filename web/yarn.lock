@@ -179,6 +179,11 @@
   resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.24.8.tgz"
   integrity sha512-FFWx5142D8h2Mgr/iPVGH5G7w6jDn4jUSpZTyDnQO0Yn7Ks2Kuz6Pci8H6MPCoUJegd/UZQ3tAvfLCxQSnWWwg==
 
+"@babel/helper-plugin-utils@^8.0.0-alpha.12":
+  version "8.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-8.0.0-alpha.12.tgz#524f71628be81923b32a51c0cac3f6a6852b866b"
+  integrity sha512-h7nCo82iLQal+ZvAXGVJB3pqny1pHOyNbIjCfMZ/ImAcmTayAT4+WuFSIbR5Rgmjp1YYTtT0MTak1NDyzpLnkw==
+
 "@babel/helper-remap-async-to-generator@^7.24.7", "@babel/helper-remap-async-to-generator@^7.25.0":
   version "7.25.0"
   resolved "https://registry.npmjs.org/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.25.0.tgz"
@@ -414,6 +419,13 @@
   integrity sha512-MXf5laXo6c1IbEbegDmzGPwGNTsHZmEy6QGznu5Sh2UCWvueywb2ee+CCE4zQiZstxU9BMoQO9i6zUFSY0Kj0Q==
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
+
+"@babel/plugin-syntax-flow@@^7.14.5":
+  version "8.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-flow/-/plugin-syntax-flow-8.0.0-alpha.12.tgz#02ed348bbbe3221d2661f9198cc7abcade0465da"
+  integrity sha512-fj6aUUG2dm6sncbIYNj2hy1BEcEjxLs0hle39S4j2jD+X/TAkRrHi9LfIHjetNypnfr/qOTITtKTw2iGWFLQoA==
+  dependencies:
+    "@babel/helper-plugin-utils" "^8.0.0-alpha.12"
 
 "@babel/plugin-syntax-flow@^7.24.7":
   version "7.24.7"
@@ -2376,7 +2388,7 @@
   resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.62.0.tgz"
   integrity sha512-87NVngcbVXUahrRTqIK27gD2t5Cu1yuCXxbLcFtCzZGlfyVWWh8mLHkoxzjsB6DDNnvdL+fW8MiwPEJyGJQDgQ==
 
-"@typescript-eslint/typescript-estree@5.62.0", "@typescript-eslint/typescript-estree@^5.59.2":
+"@typescript-eslint/typescript-estree@5.62.0":
   version "5.62.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.62.0.tgz#7d17794b77fabcac615d6a48fb143330d962eb9b"
   integrity sha512-CmcQ6uY7b9y694lKdRB8FEel7JbU/40iSAPomu++SjLMntB+2Leay2LO6i8VnJk58MtE9/nQSFIH6jpyRWyYzA==

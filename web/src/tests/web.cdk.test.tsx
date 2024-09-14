@@ -1,15 +1,16 @@
+
+
 import React from 'react';         // NB if not present  -    ReferenceError: React is not defined
 import { App } from '../components/App';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import the_config from '../../../cdk/program.config.json';
+import the_config from '../../../cicd/program.config.json';
 const TESTING_ALIVE = the_config.TESTING_ALIVE;
 
 // in pipeline's Front-End-Test
 
-// cannot snapshot test in pipeline tests, to ensure
-// rm -r 'web/src/tests/__snapshots__/'
+// cannot snapshot test in pipeline tests gitignore to ensure
 
 // there are no lambda functions yet to test db stuff
 
