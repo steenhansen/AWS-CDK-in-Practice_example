@@ -1,8 +1,8 @@
 
-import cdk_config from '../../../../cicd/cdk.json';
+//import cdk_config from '../../../../cicd/cdk.json';
 import React from 'react';
 import { Interfaces } from '../../../program.interfaces';
-import { printError } from '../../../../cicd/utils/env-errors';
+//import { printError } from '../../../../cicd/utils/env-errors';        ///// bad
 import the_constants from '../../../../cicd/program.constants.json';
 import program_config from '../../../../cicd/program.config.json';
 import { ColorInt } from '../ColorInt';
@@ -24,8 +24,8 @@ let DOMAIN_NAME = program_config.DOMAIN_NAME;
 const ENVIRON_PRODUCTION = program_config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = program_config.ENVIRON_DEVELOP;
 
-const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-
+//const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;  //////////////////bad
+const WORK_ENV = "Env_prd";
 
 export async function fastLocalFetch(backend_url: string, options: object) {
   if (process.env["REACT_APP__LOCAL_MODE"] !== "yes") {
@@ -54,7 +54,8 @@ export const getDbRgb = async (backend_url: string) => {
     return all_data;
   } catch (e) {
     const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
-    printError(error_mess, 'web/src/components/Main/index.tsx - useEffect()', backend_url);
+    //printError(error_mess, 'web/src/components/Main/index.tsx - useEffect()', backend_url);
+    console.log(error_mess, 'web/src/components/Main/index.tsx - useEffect()', backend_url);
   };
   return {};
 };
@@ -83,7 +84,8 @@ export const putDbRgb = async ({ new_color_int, backend_url }: {
   } catch (error: any) {
 
     const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
-    printError(error_mess, 'web/src/components/Main/index.tsx - handleAdd()', backend_url);
+    //    printError(error_mess, 'web/src/components/Main/index.tsx - handleAdd()', backend_url);
+    console.log(error_mess, 'web/src/components/Main/index.tsx - handleAdd()', backend_url);
   };
   const new_obj = json.color_int;
   return new_obj;
@@ -103,7 +105,8 @@ export const clearDbRgb = async (handle_clear: string) => {
     return all_data;
   } catch (e) {
     const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
-    printError(error_mess, 'web/src/components/Main/index.tsx - handleClear()', "9078 backend_url");
+    //    printError(error_mess, 'web/src/components/Main/index.tsx - handleClear()', "9078 backend_url");
+    console.log(error_mess, 'web/src/components/Main/index.tsx - handleClear()', "9078 backend_url");
   };
   return {};
 };
@@ -157,7 +160,8 @@ export const getApiUrl = () => {
       domain_sub_backend = DOMAIN_DEV_SUB_BACKEND;
     } else {
       const error_mess = "global_consts.WORK_ENV does not equal Env_prd or  Env_dvl";
-      printError(error_mess, 'web/src/components/Main/clear.tsx - doinit()', WORK_ENV);
+      //      printError(error_mess, 'web/src/components/Main/clear.tsx - doinit()', WORK_ENV);
+      console.log(error_mess, 'web/src/components/Main/clear.tsx - doinit()', WORK_ENV);
     }
     backend_url = `https://${domain_sub_backend}.${DOMAIN_NAME}`;
   }
