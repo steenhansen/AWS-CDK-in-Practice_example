@@ -3,10 +3,12 @@
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
-
+const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
+const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
 
 //////////////////////// ksdfj
 
+import { printError } from '../../../utils/env-errors';
 import {
   BlockPublicAccess,
   Bucket,
@@ -32,8 +34,7 @@ interface Props {
   route53: Route53;
 }
 
-
-import { lowerStatefulEnvLabel } from '../../../utils/construct_labels';
+import { envLabel, lowerStatefulEnvLabel } from '../../../utils/construct_labels';
 
 
 
@@ -49,13 +50,13 @@ export class S3 extends Construct {
     super(scope, id);
 
 
-
+    const bucket_name = envLabel('WebBucket');
 
     const bucketNameLow = lowerStatefulEnvLabel(S3_UNIQUE_ID);
 
     this.web_bucket = new Bucket(
       scope,
-      `WebBucket-${WORK_ENV}`,
+      bucket_name, //`WebBucket-${WORK_ENV}`,
       {
         bucketName: bucketNameLow,
         websiteIndexDocument: 'index.html',
@@ -69,26 +70,31 @@ export class S3 extends Construct {
     );
 
     const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
-
+    const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
     this.web_bucket_deployment = new BucketDeployment(
       scope,
-      `WebBucketDeployment-${WORK_ENV}`,
+      web_bucket_deploy_name_n,
       {
         sources: [Source.asset(web_build_dir)],
         destinationBucket: this.web_bucket
       }
     );
 
-    const frontEndSubDomain =
-      WORK_ENV === 'Env_prd'
-        ? config.DOMAIN_PROD_SUB_FRONTEND
-        : config.DOMAIN_DEV_SUB_FRONTEND;
+
+    let frontEndSubDomain;
+    if (WORK_ENV === ENVIRON_PRODUCTION) {
+      frontEndSubDomain = config.DOMAIN_PROD_SUB_FRONTEND;
+    } else if (WORK_ENV === ENVIRON_DEVELOP) {
+      frontEndSubDomain = config.DOMAIN_DEV_SUB_FRONTEND;
+    } else {
+      printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/S3/', `NODE_ENV="${WORK_ENV}"`);
+    }
 
 
 
+    const distribution_name_n = envLabel('Frontend-Distribution');
     this.distribution = new Distribution(
-      scope,
-      `Frontend-Distribution-${WORK_ENV}`,
+      scope, distribution_name_n,
       {
         certificate: props.acm.certificate,
         domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
@@ -100,14 +106,21 @@ export class S3 extends Construct {
       },
     );
 
-    new ARecord(scope, `FrontendAliasRecord-${WORK_ENV}`, {
-      zone: props.route53.hosted_zone,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
-      recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
-    });
+    const aRecord_name_n = envLabel('FrontendAliasRecord');
+    new ARecord(scope,
+      aRecord_name_n,
+      {
+        zone: props.route53.hosted_zone,
+        target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
+        recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
+      });
 
-    new CfnOutput(scope, `FrontendURL-${WORK_ENV}`, {
-      value: this.web_bucket.bucketDomainName,
-    });
+
+    const cfn_out_name = envLabel('FrontendURL');
+    new CfnOutput(scope,
+      cfn_out_name,
+      {
+        value: this.web_bucket.bucketDomainName,
+      });
   }
 }

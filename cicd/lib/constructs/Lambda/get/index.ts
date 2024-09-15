@@ -61,7 +61,7 @@ export class DynamoGet extends Construct {
       environment: {
         NODE_ENV: WORK_ENV,
         TABLE_NAME: dynamoTable.tableName,
-        REGION: AWS_REGION as string,
+        REGION: AWS_REGION,
       },
       logRetention: logs.RetentionDays.TWO_WEEKS,
       layers: [the_layer],

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "cicd-build": "gulp && tsc",
-    "cicd": "gulp && npm run cdk",
+    "cicd": "gulp && cdk",
     "pipeline": "gulp && cross-env CDK_MODE=ONLY_PIPELINE cdk",
     "cdk": "cdk",
     "watch": "tsc -w",

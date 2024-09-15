@@ -1,4 +1,4 @@
-import stack_config from '../program.config.json';
+
 
 
 
@@ -10,23 +10,24 @@ const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 //////////////////////// ksdfj
 
 
-
+import stack_config from '../program.config.json';
 const STACK_NAME = stack_config.STACK_NAME;
 const DYNAMO_TABLE = stack_config.DYNAMO_TABLE;
-
+const ENVIRON_PRODUCTION = stack_config.ENVIRON_PRODUCTION;
+const ENVIRON_DEVELOP = stack_config.ENVIRON_DEVELOP;
 
 import the_constants from '../program.constants.json';
 const STATEFUL_ID = the_constants.STATEFUL_ID;
 
 
 
+
 import { printError } from './env-errors';
 
 let prod_or_dev: string;
-
-if (WORK_ENV === 'Env_prd' || WORK_ENV === 'test') {
+if (WORK_ENV === ENVIRON_PRODUCTION) {
   prod_or_dev = 'Prod';
-} else if (WORK_ENV === 'Env_dvl') {
+} else if (WORK_ENV === ENVIRON_DEVELOP) {
   prod_or_dev = 'Dev';
 } else {
   printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/utils/construct_labels.ts', `NODE_ENV="${WORK_ENV}"`);

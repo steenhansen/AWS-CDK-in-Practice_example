@@ -13,19 +13,29 @@ import { pipelineTemplate } from './pipeline-template';
 import { backEndTest } from './back-end-test';
 import { frontEndTest } from './front-end-test';
 import { sourceStage, backEndStage, frontEndStage, deployStage } from './the-stages';
+import cdk_config from '../../../cdk.json';
+const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
+
 
 import { the_cdk_role, code_build_policy, slack_events } from './roles';
 interface Props {
 }
-
+import { printError } from '../../../utils/env-errors';
 
 import stack_config from '../../../program.config.json';
 const SSM_SECRETS_NAME = stack_config.SSM_SECRETS_NAME;
 const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
 
+
+const ENVIRON_PRODUCTION = stack_config.ENVIRON_PRODUCTION;
+const ENVIRON_DEVELOP = stack_config.ENVIRON_DEVELOP;
+
+
+
 import stack_const from '../../../program.constants.json';
 
 const BRANCH_PROD = stack_const.BRANCH_PROD;
+const BRANCH_DEV = stack_const.BRANCH_DEV;
 
 export class PipelineStack extends Construct {
     readonly frontEndTestProject: PipelineProject;
@@ -71,8 +81,6 @@ export class PipelineStack extends Construct {
 
         const pipeline_template = pipelineTemplate(cdk_role, pipeline_name, SLACK_WEBHOOK);
 
-        //const pipeline_template = pipelineTemplate(cdk_role, WEB_BUILD_PROD, CDK_DEPLOY_PROD, pipeline_name, SLACK_WEBHOOK);
-
         this.deployProject = new PipelineProject(this, pipeline_name, pipeline_template);
         this.deployProject.addToRolePolicy(codeBuildPolicy);
 
@@ -92,7 +100,18 @@ export class PipelineStack extends Construct {
         const secretToken = new SecretValue(GITHUB_TOKEN);
         const outputSource = new Artifact();
 
-        const source_stage = sourceStage(outputSource, secretToken, BRANCH_PROD);
+
+        let env_branch = '';
+        if (WORK_ENV === ENVIRON_PRODUCTION) {
+            env_branch = BRANCH_PROD;
+        } else if (WORK_ENV === ENVIRON_DEVELOP) {
+            env_branch = BRANCH_DEV;
+        } else {
+            printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/API-GW/', `NODE_ENV="${WORK_ENV}"`);
+        }
+
+
+        const source_stage = sourceStage(outputSource, secretToken, env_branch);
         this.pipeline.addStage(source_stage);
 
         const back_end_stage = backEndStage(this.backEndTestProject, outputSource, cdk_role);

@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "server-build": "gulp && tsc",
-    "server-start": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
+    "server-start": "gulp && cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "forever": "forever --minUptime 5000 --spinSleepTime 5000 src/index.js",
     "server-test": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes jest --detectOpenHandles",
     "test:coverage": "jest --watchAll --detectOpenHandles  --coverage",

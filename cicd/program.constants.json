@@ -23,8 +23,6 @@
   "HEALTH_CHECK_OK": "Health-OK",
   "STATEFUL_ID": "State",
   "-----------------------------------------builds": "",
-  "WEB_BUILD_PROD": "yarn web-build-prod",
-  "CDK_DEPLOY_PROD": "yarn cdk-prod deploy",
   "BRANCH_PROD": "main",
   "BRANCH_DEV": "dev",
   "PROG_PIPELINE_JSON": "./cicd/program.pipeline.json",
@@ -35,9 +33,6 @@
     "Magenta": "[45m",
     "Cyan": "[46m"
   },
-  "RED_BACKGROUND": "[41m",
-  "GREEN_BACKGROUND": "[42m",
-  "RED_TEXT": "[31m",
   "TEXT_COLORS": {
     "Red": "[31m",
     "Green": "[32m",

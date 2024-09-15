@@ -3,10 +3,12 @@ import cdk_config from '../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
+const ACCOUNT_NUMBER = THE_ENVIRONMENTS[WORK_ENV].ACCOUNT_NUMBER;
+
 
 import config from '../program.config.json';
 const TESTING_ALIVE = config.TESTING_ALIVE;
-const AWS_ACCOUNT_Cred = config.AWS_ACCOUNT_Cred;
+
 
 import { printError } from '../utils/env-errors';
 
@@ -36,7 +38,7 @@ function cdkTests() {
       let main_stack: any;
       try {
         main_stack = new TheMainStack(app, 'Chapter9Stack', {
-          env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
+          env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
         });
       } catch (e: any) {
         printError(DOCKER_OFF_ERROR, 'cdk/test/the_stack.test.ts', e.message);
@@ -48,7 +50,7 @@ function cdkTests() {
     it('TheMainStack matches the snapshot.', () => {
       const main_stack = new Stack();
       const the_main_stack = new TheMainStack(main_stack, 'TheMainStack', {
-        env: { region: AWS_REGION, account: AWS_ACCOUNT_Cred },
+        env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
       });
       const template = Template.fromStack(the_main_stack);
       const the_json = template.toJSON();

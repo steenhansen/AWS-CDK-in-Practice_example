@@ -8,6 +8,7 @@ const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
 //////////////////////// ksdfj
 
 
+
 const label_api_gw = "Pipe-Api-Gw";
 const label_rest_api = "Pipe-Rest-Api";
 
@@ -25,6 +26,10 @@ import { ACM } from '../ACM';
 import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
+
+const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
+const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
+
 import the_constants from '../../../program.constants.json';
 const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
 const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
@@ -39,7 +44,7 @@ interface Props {
   route53: Route53;
   dynamoTable: Table;
 }
-
+import { printError } from '../../../utils/env-errors';
 
 import { stackLabel, stackEnvLabel } from '../../../utils/construct_labels';
 
@@ -48,18 +53,23 @@ export class ApiGateway extends Construct {
     super(scope, id);
 
     const { acm, route53, dynamoTable } = props;
-    //
-    const backEndSubDomain =
-      WORK_ENV === 'Env_prd'
-        ? config.DOMAIN_PROD_SUB_BACKEND
-        : config.DOMAIN_DEV_SUB_BACKEND;
 
+    let backEndSubDomain;
+    let stage_name;
+    if (WORK_ENV === ENVIRON_PRODUCTION) {
+      backEndSubDomain = config.DOMAIN_PROD_SUB_BACKEND;
+      stage_name = 'Prod';
+    } else if (WORK_ENV === ENVIRON_DEVELOP) {
+      backEndSubDomain = config.DOMAIN_DEV_SUB_BACKEND;
+      stage_name = 'Dev';
+    } else {
+      printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/API-GW/', `NODE_ENV="${WORK_ENV}"`);
+    }
 
 
 
     const apigw_name = stackLabel(label_rest_api);
     const rest_api = stackEnvLabel(label_api_gw);
-
 
 
     const restApi = new RestApi(this, apigw_name, {
@@ -72,7 +82,7 @@ export class ApiGateway extends Construct {
         securityPolicy: SecurityPolicy.TLS_1_2,
       },
       deployOptions: {
-        stageName: WORK_ENV === 'Env_prd' ? 'Prod' : 'Dev',
+        stageName: stage_name
       },
     });
 

@@ -94,52 +94,66 @@ export class AWSGlue extends Construct {
       memoryLimit: 256,
     }); // upload the script into s3
 
-    // Crawlers:
+    const crawler_name = envLabel('Glue-Dynamo-Crawler');
+    const db_name_lower = lowerEnvLabel('maintable-gluedb');
+    const crawler_name_lower = lowerEnvLabel('dynanamo-crawler');
+
     this.glue_crawler = new GlueCrawler(
       scope,
-      `Glue-Dynamo-Crawler-${WORK_ENV}`,
+      crawler_name,
       {
         role: this.glue_dynamo_role.roleArn,
         targets: {
           dynamoDbTargets: [{ path: table.tableName }],
         },
-        databaseName: `maintable-gluedb-${WORK_ENV?.toLowerCase()}`,
-        name: `dynanamo-crawler-${WORK_ENV?.toLowerCase()}`,
+        databaseName: db_name_lower,
+        name: crawler_name_lower
       },
     );
+
+
+
+    const s3_crawler_name = envLabel('Glue-S3-Crawler');
+    const bucket_name_glue = `s3://${sourceBucket.bucketName}/glue/`;
+    const main_glue_name_lower = lowerEnvLabel('maintable-gluedb');
+    const glue_job_name_lower = lowerEnvLabel('s3-crawler');
+
 
     this.glue_s3_crawler = new GlueCrawler(
       scope,
-      `Glue-S3-Crawler-${WORK_ENV}`,
+      s3_crawler_name,
       {
         role: this.glue_dynamo_role.roleArn,
         targets: {
           dynamoDbTargets: [{ path: table.tableName }],
-          s3Targets: [{ path: `s3://${sourceBucket.bucketName}/glue/` }],
+          s3Targets: [{ path: bucket_name_glue }],
         },
-        databaseName: `maintable-gluedb-${WORK_ENV?.toLowerCase()}`,
-        name: `s3-crawler-${WORK_ENV?.toLowerCase()}`,
+        databaseName: main_glue_name_lower,
+        name: glue_job_name_lower
       },
     );
 
-    // Jobs:
+
+    const job_name_lower = lowerEnvLabel('export-dynamodb-to-s3-glue-job');
+    const glue_dyno_name = envLabel('Glue-DynamoDBExport-Job');
+    const bucket_name_py = `s3://${sourceBucket.bucketName}/scripts/dynamo-to-s3.py`;
     this.glue_export_job = new GlueJob(
       this,
-      `Glue-DynamoDBExport-Job-${WORK_ENV}`,
+      glue_dyno_name,
       {
         role: this.glue_dynamo_role.roleArn,
         command: {
           name: 'glueetl',
-          scriptLocation: `s3://${sourceBucket.bucketName}/scripts/dynamo-to-s3.py`,
+          scriptLocation: bucket_name_py,
           pythonVersion: '3',
         },
-        name: `export-dynamodb-to-s3-glue-job-${WORK_ENV?.toLowerCase()}`,
+        name: job_name_lower,
         glueVersion: '4.0',
         defaultArguments: {
           '--GLUE_DATABASE_NAME': this.glue_crawler.databaseName,
           '--GLUE_TABLE_NAME': table.tableName,
           '--TARGET_S3_BUCKET': `s3://${sourceBucket.bucketName}/glue/`,
-          '--JOB_NAME': `export-dynamodb-to-s3-glue-job-${WORK_ENV?.toLowerCase()}`,
+          '--JOB_NAME': job_name_lower
         },
       },
     );

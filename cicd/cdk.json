@@ -33,19 +33,18 @@
       "aws-cn"
     ],
     "global_consts": {
-      "WORK_ENV": "Env_prd",
-      "APP_NAME": "color-db"
+      "WORK_ENV": "Env_prd"
     },
     "environment_consts": {
       "Env_dvl": {
         "BRANCH_NAME": "dev",
-        "ACCOUNT_NUMBER": "612659717478",
+        "ACCOUNT_NUMBER": "211125473900",
         "AWS_REGION": "us-east-1",
         "COLOR_BACKGROUND": "Magenta"
       },
       "Env_prd": {
         "BRANCH_NAME": "main",
-        "ACCOUNT_NUMBER": "612659717478",
+        "ACCOUNT_NUMBER": "211125473900",
         "AWS_REGION": "us-east-1",
         "COLOR_BACKGROUND": "Cyan"
       }
