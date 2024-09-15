@@ -27,18 +27,6 @@
   "BRANCH_DEV": "dev",
   "PROG_PIPELINE_JSON": "./cicd/program.pipeline.json",
   "-----------------------------------------errors": "",
-  "BACKGROUND_COLORS": {
-    "Red": "[41m",
-    "Green": "[42m",
-    "Magenta": "[45m",
-    "Cyan": "[46m"
-  },
-  "TEXT_COLORS": {
-    "Red": "[31m",
-    "Green": "[32m",
-    "Magenta": "[35m",
-    "Cyan": "[36m"
-  },
   "NO_SQL_OFF_ERROR": "Is 'DDB local' turned on in NoSQL Workbench at port 8000?",
   "VPN_ON_ERROR": "Is there a VPN running?",
   "TABLE_NOT_EXIST": "Does table exist?",
