@@ -1,11 +1,6 @@
-
-
-
-
 import the_constants from '../program.constants.json';
-
-const BACKGROUND_COLORS: any = the_constants.BACKGROUND_COLORS;
-const TEXT_COLORS: any = the_constants.TEXT_COLORS;
+const BACKGROUND_COLORS: Partial<Record<string, string>> = the_constants.BACKGROUND_COLORS;
+const TEXT_COLORS: Partial<Record<string, string>> = the_constants.TEXT_COLORS;
 
 import cdk_config from '../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
