@@ -1,17 +1,19 @@
 
 import React from 'react';
 import { Interfaces } from '../../../program.interfaces';
-import the_constants from '../../../../cicd/program.constants.json';
 import { ColorInt } from '../ColorInt';
 
 import { backendLocal } from './backend-local';
 import { backendAWS } from './backend-aws';
 
+const { NO_SQL_OFF_ERROR, VPN_ON_ERROR,
+  FETCH_TIMEOUT,
+  SERVER_OFF_ERROR
+} = require('../../../program.pipeline.json');
 
-const NO_SQL_OFF_ERROR = the_constants.NO_SQL_OFF_ERROR;
-const VPN_ON_ERROR = the_constants.VPN_ON_ERROR;
-const FETCH_TIMEOUT = the_constants.FETCH_TIMEOUT;
-const SERVER_OFF_ERROR = the_constants.SERVER_OFF_ERROR;
+
+
+
 
 export const getApiUrl = () => {
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {

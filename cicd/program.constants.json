@@ -25,7 +25,7 @@
   "-----------------------------------------builds": "",
   "BRANCH_PROD": "main",
   "BRANCH_DEV": "dev",
-  "PROG_PIPELINE_JSON": "./cicd/program.pipeline.json",
+  "PROG_PIPELINE_JSON": "./program.pipeline.json",
   "-----------------------------------------errors": "",
   "NO_SQL_OFF_ERROR": "Is 'DDB local' turned on in NoSQL Workbench at port 8000?",
   "VPN_ON_ERROR": "Is there a VPN running?",

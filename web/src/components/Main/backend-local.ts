@@ -1,5 +1,8 @@
-import the_constants from '../../../../cicd/program.constants.json';
-const PORT_SERVER = the_constants.PORT_SERVER;
+
+
+const { PORT_SERVER } = require('../../../program.pipeline.json');
+
+
 
 export const backendLocal = () => {
   let SSM_SLACK_WEBHOOK: string;

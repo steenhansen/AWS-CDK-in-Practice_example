@@ -1,23 +1,24 @@
-import program_config from '../../../../cicd/program.config.json';
 
-const { SECRET_PIPELINE_SLACK_WEBHOOK, AWS_Env_prd_dvl
-} = require('../../../../cicd/program.pipeline.json');
 
-let DOMAIN_PROD_SUB_BACKEND = program_config.DOMAIN_PROD_SUB_BACKEND;
-let DOMAIN_DEV_SUB_BACKEND = program_config.DOMAIN_DEV_SUB_BACKEND;
-let DOMAIN_NAME = program_config.DOMAIN_NAME;
-const ENVIRON_PRODUCTION = program_config.ENVIRON_PRODUCTION;
-const ENVIRON_DEVELOP = program_config.ENVIRON_DEVELOP;
+const { AWS_Env_prd_dvl, DOMAIN_PROD_SUB_BACKEND,
+  DOMAIN_DEV_SUB_BACKEND,
+  DOMAIN_NAME,
+  ENVIRON_PRODUCTION,
+  ENVIRON_DEVELOP,
+  SLACK_WEB_HOOK_ALIVE,
+  SECRET_PIPELINE_SLACK_WEBHOOK
+} = require('../../../program.pipeline.json');
+
 
 export const backendAWS = () => {
   let backend_url: string;
   let domain_sub_backend = '';
   let SSM_SLACK_WEBHOOK: string;
 
-  if (SECRET_PIPELINE_SLACK_WEBHOOK !== "") {
+  if (SLACK_WEB_HOOK_ALIVE === "yes") {
     SSM_SLACK_WEBHOOK = SECRET_PIPELINE_SLACK_WEBHOOK;
   } else {
-    SSM_SLACK_WEBHOOK = "un-defined";
+    SSM_SLACK_WEBHOOK = "";
   }
 
   if (AWS_Env_prd_dvl === ENVIRON_PRODUCTION) {
