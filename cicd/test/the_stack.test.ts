@@ -1,3 +1,4 @@
+
 import cdk_config from '../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
@@ -55,10 +56,6 @@ function cdkTests() {
       const the_json = template.toJSON();
       expect(the_json).toMatchSnapshot();
     });
-
-
-
-
   });
 
 }

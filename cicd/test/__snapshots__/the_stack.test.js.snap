@@ -13,10 +13,10 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
     },
   },
   "Outputs": {
-    "FrontendURLProd": {
+    "FrontendURLEnvprd": {
       "Value": {
         "Fn::GetAtt": [
-          "WebBucketProd57B27A18",
+          "WebBucketEnvprd0CDB8D33",
           "DomainName",
         ],
       },
@@ -267,7 +267,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
         "Handler": "index.handler",
         "Layers": [
           {
-            "Ref": "WebBucketDeploymentProdAwsCliLayerD057BE5C",
+            "Ref": "WebBucketDeploymentEnvprdAwsCliLayerFA64AFBF",
           },
         ],
         "Role": {
@@ -367,7 +367,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "WebBucketProd57B27A18",
+                    "WebBucketEnvprd0CDB8D33",
                     "Arn",
                   ],
                 },
@@ -377,7 +377,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                     [
                       {
                         "Fn::GetAtt": [
-                          "WebBucketProd57B27A18",
+                          "WebBucketEnvprd0CDB8D33",
                           "Arn",
                         ],
                       },
@@ -534,12 +534,12 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::IAM::Role",
     },
-    "FrontendAliasRecordProdE00CC8ED": {
+    "FrontendAliasRecordEnvprdD8897694": {
       "Properties": {
         "AliasTarget": {
           "DNSName": {
             "Fn::GetAtt": [
-              "FrontendDistributionProd2A5A5107",
+              "FrontendDistributionEnvprd90063BA9",
               "DomainName",
             ],
           },
@@ -559,7 +559,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::Route53::RecordSet",
     },
-    "FrontendDistributionProd2A5A5107": {
+    "FrontendDistributionEnvprd90063BA9": {
       "Properties": {
         "DistributionConfig": {
           "Aliases": [
@@ -568,7 +568,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           "DefaultCacheBehavior": {
             "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
             "Compress": true,
-            "TargetOriginId": "TheMainStackFrontendDistributionProdOrigin1992E6B2E",
+            "TargetOriginId": "TheMainStackFrontendDistributionEnvprdOrigin1D6F2A4C1",
             "ViewerProtocolPolicy": "redirect-to-https",
           },
           "DefaultRootObject": "index.html",
@@ -591,7 +591,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                       "/",
                       {
                         "Fn::GetAtt": [
-                          "WebBucketProd57B27A18",
+                          "WebBucketEnvprd0CDB8D33",
                           "WebsiteURL",
                         ],
                       },
@@ -599,7 +599,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                   },
                 ],
               },
-              "Id": "TheMainStackFrontendDistributionProdOrigin1992E6B2E",
+              "Id": "TheMainStackFrontendDistributionEnvprdOrigin1D6F2A4C1",
             },
           ],
           "ViewerCertificate": {
@@ -613,10 +613,10 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::CloudFront::Distribution",
     },
-    "GlueDynamoCrawlerProd": {
+    "GlueDynamoCrawlerEnvprd": {
       "Properties": {
-        "DatabaseName": "maintable-gluedb-prod",
-        "Name": "dynanamo-crawler-prod",
+        "DatabaseName": "maintable-gluedb-env_prd",
+        "Name": "dynanamo-crawler-env_prd",
         "Role": {
           "Fn::GetAtt": [
             "GlueDynamoDBRoleProd3D9CA822",
@@ -703,10 +703,10 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::IAM::Policy",
     },
-    "GlueS3CrawlerProd": {
+    "GlueS3CrawlerEnvprd": {
       "Properties": {
-        "DatabaseName": "maintable-gluedb-prod",
-        "Name": "s3-crawler-prod",
+        "DatabaseName": "maintable-gluedb-env_prd",
+        "Name": "s3-crawler-env_prd",
         "Role": {
           "Fn::GetAtt": [
             "GlueDynamoDBRoleProd3D9CA822",
@@ -1576,7 +1576,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "c93880bee1e1bbdb10921a82a2a61190c142c2e8179bf9779ec2f8ed4f429cff.zip",
+          "S3Key": "4be4fec7a1b1eda09d889077fa1c24cd2d95fb663ac1c45c8d05f28e58ff75eb.zip",
         },
         "Environment": {
           "Variables": {
@@ -1736,7 +1736,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "977b6ce804024b94a7e69483d460237097b585b9744914a18408dd5ec81a5ed7.zip",
+          "S3Key": "bbfe39863a6e2a2d3216a1c001de4a7770f175dbe18339af0d224682a5c83e4a.zip",
         },
         "Environment": {
           "Variables": {
@@ -1930,7 +1930,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "b90f7632a0bd150b19b4be0465d78521c9581c2d62d4533ccf6b0948df764be6.zip",
+          "S3Key": "f4a2a447afae7bc34e19c123353508936be1a70b818b44ebfe50189784f8d457.zip",
         },
         "Handler": "index.healthcheck_handler",
         "Role": {
@@ -2006,7 +2006,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "d16c3f297938790ab65963deaf992854c99f690a796c830ad6453b2dbf29208b.zip",
+          "S3Key": "4d08652ae41b7c67a836c83848baee6a05292e587f26e6ed14b32674e72d12cb.zip",
         },
         "Environment": {
           "Variables": {
@@ -2201,7 +2201,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Type": "Custom::DynamodbSeeder",
       "UpdateReplacePolicy": "Delete",
     },
-    "TheGlueProdGlueDynamoDBExportJobProdF10EC4F9": {
+    "TheGlueProdGlueDynamoDBExportJobEnvprd309DE063": {
       "Properties": {
         "Command": {
           "Name": "glueetl",
@@ -2220,11 +2220,11 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           },
         },
         "DefaultArguments": {
-          "--GLUE_DATABASE_NAME": "maintable-gluedb-prod",
+          "--GLUE_DATABASE_NAME": "maintable-gluedb-env_prd",
           "--GLUE_TABLE_NAME": {
             "Ref": "TheDynamoProdColorDbStateDynamoDbProd60B5F4E0",
           },
-          "--JOB_NAME": "export-dynamodb-to-s3-glue-job-prod",
+          "--JOB_NAME": "export-dynamodb-to-s3-glue-job-env_prd",
           "--TARGET_S3_BUCKET": {
             "Fn::Join": [
               "",
@@ -2239,7 +2239,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           },
         },
         "GlueVersion": "4.0",
-        "Name": "export-dynamodb-to-s3-glue-job-prod",
+        "Name": "export-dynamodb-to-s3-glue-job-env_prd",
         "Role": {
           "Fn::GetAtt": [
             "GlueDynamoDBRoleProd3D9CA822",
@@ -2371,7 +2371,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::S3::BucketPolicy",
     },
-    "WebBucketDeploymentProdAwsCliLayerD057BE5C": {
+    "WebBucketDeploymentEnvprdAwsCliLayerFA64AFBF": {
       "Properties": {
         "Content": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
@@ -2381,11 +2381,11 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       },
       "Type": "AWS::Lambda::LayerVersion",
     },
-    "WebBucketDeploymentProdCustomResourceBDCBA0CC": {
+    "WebBucketDeploymentEnvprdCustomResource2AEA87DA": {
       "DeletionPolicy": "Delete",
       "Properties": {
         "DestinationBucketName": {
-          "Ref": "WebBucketProd57B27A18",
+          "Ref": "WebBucketEnvprd0CDB8D33",
         },
         "Prune": true,
         "ServiceToken": {
@@ -2398,13 +2398,13 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           "cdk-hnb659fds-assets-211125473900-us-east-1",
         ],
         "SourceObjectKeys": [
-          "c2c01ea327ee599e427824bab7241e9cbd1f11793e6244bcc6f99c73908a7ff4.zip",
+          "4d6cc3b67233e69cd87845f56e550d7391cb085916b4cade0567e083460ed72b.zip",
         ],
       },
       "Type": "Custom::CDKBucketDeployment",
       "UpdateReplacePolicy": "Delete",
     },
-    "WebBucketProd57B27A18": {
+    "WebBucketEnvprd0CDB8D33": {
       "DeletionPolicy": "Delete",
       "Properties": {
         "AccessControl": "BucketOwnerFullControl",
@@ -2419,7 +2419,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
             "Value": "true",
           },
           {
-            "Key": "aws-cdk:cr-owned:c4b7317c",
+            "Key": "aws-cdk:cr-owned:133c97cb",
             "Value": "true",
           },
         ],
@@ -2431,14 +2431,14 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Delete",
     },
-    "WebBucketProdAutoDeleteObjectsCustomResource3B1F336D": {
+    "WebBucketEnvprdAutoDeleteObjectsCustomResourceDC8DF959": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
-        "WebBucketProdPolicyBDAA4375",
+        "WebBucketEnvprdPolicyE442FACD",
       ],
       "Properties": {
         "BucketName": {
-          "Ref": "WebBucketProd57B27A18",
+          "Ref": "WebBucketEnvprd0CDB8D33",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -2450,10 +2450,10 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Type": "Custom::S3AutoDeleteObjects",
       "UpdateReplacePolicy": "Delete",
     },
-    "WebBucketProdPolicyBDAA4375": {
+    "WebBucketEnvprdPolicyE442FACD": {
       "Properties": {
         "Bucket": {
-          "Ref": "WebBucketProd57B27A18",
+          "Ref": "WebBucketEnvprd0CDB8D33",
         },
         "PolicyDocument": {
           "Statement": [
@@ -2469,7 +2469,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                   [
                     {
                       "Fn::GetAtt": [
-                        "WebBucketProd57B27A18",
+                        "WebBucketEnvprd0CDB8D33",
                         "Arn",
                       ],
                     },
@@ -2497,7 +2497,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "WebBucketProd57B27A18",
+                    "WebBucketEnvprd0CDB8D33",
                     "Arn",
                   ],
                 },
@@ -2507,7 +2507,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                     [
                       {
                         "Fn::GetAtt": [
-                          "WebBucketProd57B27A18",
+                          "WebBucketEnvprd0CDB8D33",
                           "Arn",
                         ],
                       },

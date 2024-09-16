@@ -20,17 +20,11 @@ function backEndTest(cdk_role: Role, back_test_name: string) {
         },
         pre_build: {
           'on-failure': 'ABORT',
-          commands: [
-            'cd server/',
-            'yarn install'],
+          commands: ['cd server/', 'yarn install'],
         },
         build: {
           'on-failure': 'ABORT',
-          commands: [
-            'echo Testing the Back-End...',
-            //            'yarn server-test-AWS'
-            'yarn test'
-          ],
+          commands: ['echo Testing the Back-End...', 'yarn test'],
         },
       },
     }),

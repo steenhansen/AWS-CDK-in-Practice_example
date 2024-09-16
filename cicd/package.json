@@ -8,7 +8,10 @@
     "pipeline": "gulp && cross-env CDK_MODE=ONLY_PIPELINE cdk",
     "cdk": "cdk",
     "watch": "tsc -w",
-    "cicd-test": "gulp && tsc && jest"
+    "cicd-test": "tsc && jest",
+    "cdk-testing": "cross-env     CDK_MODE=ONLY_DEV cdk",
+    "______pipeline": "below is only run in pipeline on AWS",
+    "test": "cross-env     CDK_MODE=ONLY_PROD cdk"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",

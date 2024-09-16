@@ -3,8 +3,8 @@ import React from 'react';         // NB if not present  -    ReferenceError: Re
 import { App } from '../components/App';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-const { TESTING_ALIVE } = require('../../program.pipeline.json');
-
+import the_config from '../../../cicd/program.config.json';
+const TESTING_ALIVE = the_config.TESTING_ALIVE;
 import { render, screen, waitFor } from '@testing-library/react';
 
 if (TESTING_ALIVE === 'yes') {

@@ -18,15 +18,11 @@ function frontEndTest(front_test_name: string) {
         },
         pre_build: {
           'on-failure': 'ABORT',
-          commands: [
-            'cd web/',
-            'yarn install'],
+          commands: ['cd web/', 'yarn install'],
         },
         build: {
           'on-failure': 'ABORT',
-          commands: [
-            'echo Testing the Front-End...',
-            'yarn web-test-AWS'],
+          commands: ['echo Testing the Front-End...', 'yarn test'],
         },
       },
     }),

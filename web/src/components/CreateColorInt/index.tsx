@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Interfaces } from '../../../program.interfaces';
 
 import { CreateColorIntContainer } from './styles';
+//import the_constants from '../../../../cicd/program.constants.json';
 
 
 interface Props {

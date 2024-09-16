@@ -3,23 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { Interfaces } from '../../../program.interfaces';
 import { CreateColorInt } from '../CreateColorInt';
 import { MainContainer, BoxedColor, Zxc } from './styles';
+import program_config from '../../../../cicd/program.config.json';
+import the_constants from '../../../../cicd/program.constants.json';
 
-
-const {
-  DOMAIN_NAME,
-  CLEARDB_SLUG,
-} = require('../../../program.pipeline.json');
-
-
-
-
-
+const PORT_SERVER = the_constants.PORT_SERVER;
+const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
+let DOMAIN_NAME = program_config.DOMAIN_NAME;
 
 const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
 
 const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
+
+  // const initial_state = await getDbRgb(backend_url);
+
   const [color_ints, setUserDatas] = useState<Interfaces.ColorInt[]>([]);
   useEffect(() => {
     const fetchColorInts = async () => {
@@ -54,7 +52,7 @@ export const Main: React.FC = () => {
       <h1>DynamoDB Values </h1>
 
       ssm <h2>{SSM_SLACK_WEBHOOK}</h2>
-
+      constant<h2>{PORT_SERVER}</h2>
 
       config<h2>{DOMAIN_NAME}</h2>
 

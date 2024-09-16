@@ -6,7 +6,7 @@ export const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <div className="brand">
-        <a href="/" data-testid={"header-logo"}>DynamoDB colors via Lambdas ... 1</a>
+        <a href="/" data-testid={"header-logo"}>DynamoDB colors via Lambdas</a>
       </div>
     </HeaderContainer>
   );
