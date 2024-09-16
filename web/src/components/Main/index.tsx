@@ -15,9 +15,6 @@ const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
 const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
-
-  // const initial_state = await getDbRgb(backend_url);
-
   const [color_ints, setUserDatas] = useState<Interfaces.ColorInt[]>([]);
   useEffect(() => {
     const fetchColorInts = async () => {

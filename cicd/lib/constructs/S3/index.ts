@@ -30,7 +30,6 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 //import cdk_config from '../../../cdk.json';
 //const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
-
 const ENVIRON_PRODUCTION = "Env_prd";  //config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = "Env_dvl"; //config.ENVIRON_DEVELOP;
 

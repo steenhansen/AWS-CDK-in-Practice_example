@@ -8,9 +8,15 @@ const PROG_PIPELINE_JSON = constants_config.PROG_PIPELINE_JSON;
 const ON_AWS_WEB_BUILD = constants_config.ON_AWS_WEB_BUILD;
 const ON_AWS_CICD_DEPLOY = constants_config.ON_AWS_CICD_DEPLOY;
 
+import cdk_config from '../../../cdk.json';
+const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
+
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
-  //function pipelineTemplate(cdk_role: Role, build_com: string, deploy_com: string, pipeline_name: string, SLACK_WEBHOOK: string) {
-  const slack_webhook_k_v_obj = ` { "SECRET_PIPELINE_SLACK_WEBHOOK": "${SLACK_WEBHOOK}" }    `;
+  const slack_webhook_k_v_obj =
+    ` { \ 
+        "SECRET_PIPELINE_SLACK_WEBHOOK": "${SLACK_WEBHOOK}" \
+        "AWS_Env_prd_dvl": "${WORK_ENV}" \
+     }    `;
   const pipeline_structure = {
     projectName: pipeline_name,
     role: cdk_role,
