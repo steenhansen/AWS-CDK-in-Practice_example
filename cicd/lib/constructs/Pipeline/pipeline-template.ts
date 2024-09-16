@@ -13,9 +13,9 @@ const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
   const slack_webhook_k_v_obj =
-    ` { \ 
+     ` { \ 
+        "AWS_Env_prd_dvl": "${WORK_ENV}", \
         "SECRET_PIPELINE_SLACK_WEBHOOK": "${SLACK_WEBHOOK}" \
-        "AWS_Env_prd_dvl": "${WORK_ENV}" \
      }    `;
   const pipeline_structure = {
     projectName: pipeline_name,
