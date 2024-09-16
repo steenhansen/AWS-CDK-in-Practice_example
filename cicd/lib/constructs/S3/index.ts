@@ -1,39 +1,6 @@
-/*
-
-Container] 2024/09/15 23:48:45.366236 Running command cd ../cicd
-[Container] 2024/09/15 23:48:45.372830 Running command yarn cdk deploy
-yarn run v1.22.22
-$ cdk deploy
-/codebuild/output/src970661821/src/cicd/lib/constructs/S3/index.ts:6
-const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
-                           ^
-ReferenceError: Cannot access 'program_config_json_1' before initialization
-    at Object.<anonymous> (/codebuild/output/src970661821/src/cicd/lib/constructs/S3/index.ts:6:28)
-    at Module._compile (node:internal/modules/cjs/loader:1358:14)
-    at Module.m._compile (/codebuild/output/src970661821/src/cicd/node_modules/ts-node/src/index.ts:1618:23)
-    at Module._extensions..js (node:internal/modules/cjs/loader:1416:10)
-    at Object.require.extensions.<computed> [as .ts] (/codebuild/output/src970661821/src/cicd/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1208:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:1024:12)
-    at Module.require (node:internal/modules/cjs/loader:1233:19)
-    at require (node:internal/modules/helpers:179:18)
-    at Object.<anonymous> (/codebuild/output/src970661821/src/cicd/lib/the_main_stack.ts:12:1)
-Subprocess exited with error 1
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-
-
-*/
-
-
-////////////// ksdfj
-//import cdk_config from '../../../cdk.json';
-//const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 const ENVIRON_PRODUCTION = "Env_prd";  //config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = "Env_dvl"; //config.ENVIRON_DEVELOP;
-
-//////////////////////// ksdfj
 
 import { printError } from '../../../utils/env-errors';
 import {
@@ -46,7 +13,11 @@ import { Construct } from 'constructs';
 import { resolve } from 'path';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
-import { S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+
+
+import { S3StaticWebsiteOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+
+
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 
@@ -118,16 +89,20 @@ export class S3 extends Construct {
     }
 
 
+    // https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudfront_origins.S3StaticWebsiteOrigin.html
+    //  OLD versions origin: new S3Origin(this.web_bucket),
+
 
     const distribution_name_n = envLabel('Frontend-Distribution');
     this.distribution = new Distribution(
-      scope, distribution_name_n,
+      scope, distribution_name_n,                /// this the problem??
       {
         certificate: props.acm.certificate,
         domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
         defaultRootObject: 'index.html',
         defaultBehavior: {
-          origin: new S3StaticWebsiteOrigin(this.web_bucket),
+          //origin: new S3StaticWebsiteOrigin(this.web_bucket),
+            origin: new S3Origin(this.web_bucket),
           viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         },
       },
