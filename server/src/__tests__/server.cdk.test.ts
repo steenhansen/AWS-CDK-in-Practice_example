@@ -1,23 +1,8 @@
-
-
 const supertest = require("supertest");
-//import supertest from 'supertest';
-
 const { healthApp } = require('../health-app');
-//import { healthApp } from '../health-app';
-
-const { the_constants } = require('../../../cicd/program.constants.json');
-//import the_constants from '../../../cicd/program.constants.json';
-
-
-const { the_config } = require('.../../../cicd/program.config.json');
-//import the_config from '../../../cicd/program.config.json';
-
-const HEALTH_CHECK_OK = the_constants.HEALTH_CHECK_OK;
-const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
+const { HEALTH_CHECK_OK, HEALTH_CHECK_SLUG } = require('../../../cicd/program.constants.json');
+const { TESTING_ALIVE } = require('.../../../cicd/program.config.json');
 const health_check = "/" + HEALTH_CHECK_SLUG;
-const TESTING_ALIVE = the_config.TESTING_ALIVE;
-
 
 if (TESTING_ALIVE === 'yes') {
 
