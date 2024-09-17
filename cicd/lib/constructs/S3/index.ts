@@ -1,10 +1,15 @@
 
-import cdk_config from '../../../cdk.json';
-const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-
 import {
   CloudFrontClient, CreateInvalidationCommand
 } from '@aws-sdk/client-cloudfront';
+
+//const { CloudFrontClient, CreateInvalidationCommand } = require("@aws-sdk/client-cloudfront");
+
+
+import cdk_config from '../../../cdk.json';
+const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
+const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
+const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 
 
 import config from '../../../program.config.json';
@@ -53,6 +58,8 @@ export class S3 extends Construct {
   public readonly web_bucket_deployment: BucketDeployment;
 
   public readonly distribution: Distribution;
+
+  public readonly cfClient: CloudFrontClient;
 
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
@@ -112,6 +119,7 @@ export class S3 extends Construct {
         },
       },
     );
+    //  const cloud_front_target = new CloudFrontTarget(this.distribution);
 
 
     const aRecord_name_n = envLabel('FrontendAliasRecord');
@@ -120,9 +128,9 @@ export class S3 extends Construct {
       {
         zone: props.route53.hosted_zone,
         target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
+        //    target: RecordTarget.fromAlias(cloud_front_target),
         recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
       });
-
 
     const cfn_out_name = envLabel('FrontendURL');
     new CfnOutput(scope,
@@ -133,11 +141,101 @@ export class S3 extends Construct {
 
 
 
+    //////////////////////
+    ///https://github.com/aws/aws-sdk-js-v3/issues/2956
+    // import {
+    //   CloudFront, CreateInvalidationCommandInput,
+    //   CreateInvalidationCommandOutput
+    // } from '@aws-sdk/client-cloudfront';
+
+    // const input: CreateInvalidationCommandInput = {
+    //   DistributionId: cfn_out_name,
+    //   InvalidationBatch: {
+    //     CallerReference: buildHash,
+    //     Paths: {
+    //       Items: invalidationPaths,
+    //       Quantity: invalidationPaths.length
+    //     }
+    //   }
+    // };
+
+    // const res: CreateInvalidationCommandOutput = await new CloudFront({ credentials: fromEnv() }).createInvalidation(input);
+    // const invalidationId = res.Invalidation?.Id;
+
+
+    //////////////////////
+    //https://github.com/aws/aws-sdk-js-v3/issues/3207
+    // import {
+    //   CloudFrontClient, CreateInvalidationCommandInput,
+    //   CreateInvalidationCommandOutput
+    // } from '@aws-sdk/client-cloudfront';
+
+    // this.cfClient = new CloudFrontClient({ region: AWS_REGION });
+
+    // const params: CreateInvalidationCommandInput = {
+    //   DistributionId: id,
+    //   InvalidationBatch: {
+    //     CallerReference: something,
+    //     Paths: {
+    //       Items: [path],
+    //       Quantity: 1,
+    //     },
+    //   },
+    // };
+
+    // const invalidation: Invalidation = (await this.cfClient.send(new CreateInvalidationCommand(params))).Invalidation;
+
+    ///////////////////
+    //   
+    ///   https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/cloudfront/command/CreateInvalidationCommand/
+    ///
+
+
+    // import { CloudFrontClient, CreateInvalidationCommand } from "@aws-sdk/client-cloudfront"; // ES Modules import
+    // const { CloudFrontClient, CreateInvalidationCommand } = require("@aws-sdk/client-cloudfront"); // CommonJS import
+
+
+    // const client = new CloudFrontClient(config);
+    // const input = { // CreateInvalidationRequest
+    //   DistributionId: distribution_name_n, // required
+    //   InvalidationBatch: { // InvalidationBatch
+    //     Paths: { // Paths
+    //       Quantity: Number("int"), // required
+    //       Items: [ // PathList
+    //         "STRING_VALUE",
+    //       ],
+    //     },
+    //     CallerReference: "STRING_VALUE", // required
+    //   },
+    // };
+    // const command = new CreateInvalidationCommand(input);
+    // const response = await client.send(command);
+
+
+    // { // CreateInvalidationResult
+    //   Location: "STRING_VALUE",
+    //   Invalidation: { // Invalidation
+    //     Id: "STRING_VALUE", // required
+    //     Status: "STRING_VALUE", // required
+    //     CreateTime: new Date("TIMESTAMP"), // required
+    //     InvalidationBatch: { // InvalidationBatch
+    //       Paths: { // Paths
+    //         Quantity: Number("int"), // required
+    //         Items: [ // PathList
+    //           "STRING_VALUE",
+    //         ],
+    //       },
+    //       CallerReference: "STRING_VALUE", // required
+    //     },
+    //   },
+    // };
+
+
 
 
     /////////////////////
     //     https://github.com/aws/aws-sdk-js-v3/issues/5245
-
+    //  https://stackoverflow.com/questions/67108190/how-to-invalidate-cloudfrontcahce-for-a-specific-folder-on-s3-in-nodejs
     const cloudFront = new CloudFrontClient({});
 
 
@@ -154,13 +252,6 @@ export class S3 extends Construct {
     cloudFront.send(invCom);
 
     /////////////
-
-
-
-
-
-
-
 
   }
 }
