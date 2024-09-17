@@ -2,7 +2,8 @@ node_modules
 
 *.js
 
-!/src/health-app.js
+!/jest.config.js
+!/babel.config.js
 
 *.d.ts
 !@types/*

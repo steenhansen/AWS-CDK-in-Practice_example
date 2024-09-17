@@ -13,6 +13,8 @@
     "test": "jest --detectOpenHandles"
   },
   "devDependencies": {
+    "babel-jest": "^29.7.0",
+    "@babel/preset-env": "^7.25.4",
     "@types/aws-sdk": "^2.7.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
