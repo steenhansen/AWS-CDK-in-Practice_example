@@ -2,6 +2,10 @@
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
+import {
+  CloudFrontClient, CreateInvalidationCommand
+} from '@aws-sdk/client-cloudfront';
+
 
 import config from '../../../program.config.json';
 
@@ -126,5 +130,37 @@ export class S3 extends Construct {
       {
         value: this.web_bucket.bucketDomainName,
       });
+
+
+
+
+
+    /////////////////////
+    //     https://github.com/aws/aws-sdk-js-v3/issues/5245
+
+    const cloudFront = new CloudFrontClient({});
+
+
+    const invCom: any = new CreateInvalidationCommand({
+      DistributionId: distribution_name_n,
+      InvalidationBatch: {
+        CallerReference: `${Date.now()}`,
+        Paths: {
+          Quantity: 1,
+          Items: ['/*'],
+        },
+      },
+    });
+    cloudFront.send(invCom);
+
+    /////////////
+
+
+
+
+
+
+
+
   }
 }
