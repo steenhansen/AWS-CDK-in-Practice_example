@@ -19,6 +19,7 @@ let DOMAIN_NAME = program_config.DOMAIN_NAME;
 const ENVIRON_PRODUCTION = program_config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = program_config.ENVIRON_DEVELOP;
 const SLACK_WEB_HOOK_ALIVE = program_config.SLACK_WEB_HOOK_ALIVE;
+const TESTING_ALIVE = program_config.TESTING_ALIVE;
 
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
   const slack_webhook_k_v_obj =
@@ -30,6 +31,7 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: 
     ENVIRON_PRODUCTION: ENVIRON_PRODUCTION,
     ENVIRON_DEVELOP: ENVIRON_DEVELOP,
     CLEARDB_SLUG: CLEARDB_SLUG,
+    TESTING_ALIVE: TESTING_ALIVE,
     SLACK_WEB_HOOK_ALIVE: SLACK_WEB_HOOK_ALIVE,
     SECRET_PIPELINE_SLACK_WEBHOOK: "_SLACK_WEBHOOK_"
   };
