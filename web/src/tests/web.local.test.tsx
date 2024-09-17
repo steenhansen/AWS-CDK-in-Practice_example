@@ -13,9 +13,7 @@ if (TESTING_ALIVE === 'yes') {
     snapshotDbTesting();
   } else {
     // in pipeline's Front-End-Test
-
     // cannot snapshot test in pipeline tests, gitignore to ensure
-
     // there are no lambda functions yet to test db stuff
     it('web-at-least-one-local-test', () => {
       expect("web-at-least-one-local-test").toBe("web-at-least-one-local-test");
