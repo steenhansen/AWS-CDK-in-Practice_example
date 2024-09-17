@@ -6,12 +6,12 @@
   "ENVIRON_PRODUCTION": "Env_prd",
   "ENVIRON_DEVELOP": "Env_dvl",
   "CLEARDB_SLUG": "clearDB",
-  "TESTING_ALIVE": "yes",
-  "SLACK_WEB_HOOK_ALIVE": "no",
-  "SECRET_PIPELINE_SLACK_WEBHOOK": "_SLACK_WEBHOOK_",
   "NO_SQL_OFF_ERROR": "Is 'DDB local' turned on in NoSQL Workbench at port 8000?",
   "VPN_ON_ERROR": "Is there a VPN running?",
   "FETCH_TIMEOUT": 1000,
   "SERVER_OFF_ERROR": "Is the local server running at port 3003?",
-  "PORT_SERVER": "3003"
+  "SLACK_WEB_HOOK_ALIVE": "no",
+  "PORT_SERVER": "3003",
+  "TESTING_ALIVE": "yes",
+  "SECRET_PIPELINE_SLACK_WEBHOOK": "_SLACK_WEBHOOK_"
 }

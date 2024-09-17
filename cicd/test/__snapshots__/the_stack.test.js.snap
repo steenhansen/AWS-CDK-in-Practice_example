@@ -2398,7 +2398,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           "cdk-hnb659fds-assets-211125473900-us-east-1",
         ],
         "SourceObjectKeys": [
-          "c2c01ea327ee599e427824bab7241e9cbd1f11793e6244bcc6f99c73908a7ff4.zip",
+          "b66fa2ead7f27ccd8e7c9f2a4aa6f084d30096ecd724af492bc353a1cd929cd1.zip",
         ],
       },
       "Type": "Custom::CDKBucketDeployment",
