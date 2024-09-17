@@ -1,34 +1,7 @@
-/*
-
-Container] 2024/09/15 23:48:45.366236 Running command cd ../cicd
-[Container] 2024/09/15 23:48:45.372830 Running command yarn cdk deploy
-yarn run v1.22.22
-$ cdk deploy
-/codebuild/output/src970661821/src/cicd/lib/constructs/S3/index.ts:6
-const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
-                           ^
-ReferenceError: Cannot access 'program_config_json_1' before initialization
-    at Object.<anonymous> (/codebuild/output/src970661821/src/cicd/lib/constructs/S3/index.ts:6:28)
-    at Module._compile (node:internal/modules/cjs/loader:1358:14)
-    at Module.m._compile (/codebuild/output/src970661821/src/cicd/node_modules/ts-node/src/index.ts:1618:23)
-    at Module._extensions..js (node:internal/modules/cjs/loader:1416:10)
-    at Object.require.extensions.<computed> [as .ts] (/codebuild/output/src970661821/src/cicd/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1208:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:1024:12)
-    at Module.require (node:internal/modules/cjs/loader:1233:19)
-    at require (node:internal/modules/helpers:179:18)
-    at Object.<anonymous> (/codebuild/output/src970661821/src/cicd/lib/the_main_stack.ts:12:1)
-Subprocess exited with error 1
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-
-
-*/
-
 
 ////////////// ksdfj
-//import cdk_config from '../../../cdk.json';
-//const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
+import cdk_config from '../../../cdk.json';
+const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
@@ -107,14 +80,14 @@ export class S3 extends Construct {
       }
     );
 
-    let WORK_ENV2 = 'Env_prd';
+
     let frontEndSubDomain;
-    if (WORK_ENV2 === ENVIRON_PRODUCTION) {
+    if (WORK_ENV === ENVIRON_PRODUCTION) {
       frontEndSubDomain = config.DOMAIN_PROD_SUB_FRONTEND;
-    } else if (WORK_ENV2 === ENVIRON_DEVELOP) {
+    } else if (WORK_ENV === ENVIRON_DEVELOP) {
       frontEndSubDomain = config.DOMAIN_DEV_SUB_FRONTEND;
     } else {
-      printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/S3/', `NODE_ENV="${WORK_ENV2}"`);
+      printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/S3/', `NODE_ENV="${WORK_ENV}"`);
     }
 
 
