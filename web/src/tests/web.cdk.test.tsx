@@ -5,8 +5,7 @@ import { App } from '../components/App';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import the_config from '../../../cicd/program.config.json';
-const TESTING_ALIVE = the_config.TESTING_ALIVE;
+const { TESTING_ALIVE } = require('../../program.pipeline.json');
 
 // in pipeline's Front-End-Test
 

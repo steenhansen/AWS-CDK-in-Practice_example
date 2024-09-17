@@ -37,6 +37,7 @@ import stack_const from '../../../program.constants.json';
 const BRANCH_PROD = stack_const.BRANCH_PROD;
 const BRANCH_DEV = stack_const.BRANCH_DEV;
 
+
 export class PipelineStack extends Construct {
     readonly frontEndTestProject: PipelineProject;
     readonly backEndTestProject: PipelineProject;
@@ -122,6 +123,7 @@ export class PipelineStack extends Construct {
 
         const deploy_stage = deployStage(this.deployProject, outputSource, cdk_role);
         this.pipeline.addStage(deploy_stage);
+
 
         if (CICD_SLACK_ALIVE === 'yes') {
             const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');

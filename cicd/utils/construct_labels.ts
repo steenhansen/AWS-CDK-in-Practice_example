@@ -1,14 +1,5 @@
-
-
-
-
-
-
-////////////// ksdfj
 import cdk_config from '../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-//////////////////////// ksdfj
-
 
 import stack_config from '../program.config.json';
 const STACK_NAME = stack_config.STACK_NAME;

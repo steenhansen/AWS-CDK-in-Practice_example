@@ -13,14 +13,13 @@ import the_constants from '../../../../program.constants.json';
 
 const NODE_RUNTIME = the_constants.NODE_RUNTIME;
 
-////////////// ksdfj
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 
 
-//////////////////////// ksdfj
+
 
 interface IProps {
   vpc?: Vpc;

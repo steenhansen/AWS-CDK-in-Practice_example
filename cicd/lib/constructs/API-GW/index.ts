@@ -1,11 +1,8 @@
 
-////////////// ksdfj
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
 
 
-//////////////////////// ksdfj
 
 
 
