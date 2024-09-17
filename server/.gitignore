@@ -1,6 +1,9 @@
 node_modules
 
 *.js
+
+!/src/health-app.js
+
 *.d.ts
 !@types/*
 
