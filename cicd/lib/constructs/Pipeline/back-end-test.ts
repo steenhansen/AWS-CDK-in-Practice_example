@@ -28,8 +28,8 @@ function backEndTest(cdk_role: Role, back_test_name: string) {
           'on-failure': 'ABORT',
           commands: [
             'echo Testing the Back-End...',
-            //'yarn server-test-AWS'
-            'yarn test'
+            'yarn server-test-AWS'
+            //'yarn test'
           ],
         },
       },
