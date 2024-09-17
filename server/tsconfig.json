@@ -33,6 +33,6 @@
     "node_modules",
     "cdk.out",
     "src/**/*.spec.ts",
-    "src/**/*.tesXXXt.ts"
+    "src/**/*.test.ts"
   ]
 }

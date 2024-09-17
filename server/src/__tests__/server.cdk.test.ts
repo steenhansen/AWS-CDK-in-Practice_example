@@ -1,11 +1,17 @@
 
-import { describe, expect, it } from '@jest/globals';
 
-import supertest from 'supertest';
+const supertest = require("supertest");
+//import supertest from 'supertest';
 
-import { healthApp } from '../health-app';
-import the_constants from '../../../cicd/program.constants.json';
-import the_config from '../../../cicd/program.config.json';
+const { healthApp } = require('../health-app');
+//import { healthApp } from '../health-app';
+
+const { the_constants } = require('../../../cicd/program.constants.json');
+//import the_constants from '../../../cicd/program.constants.json';
+
+
+const { the_config } = require('.../../../cicd/program.config.json');
+//import the_config from '../../../cicd/program.config.json';
 
 const HEALTH_CHECK_OK = the_constants.HEALTH_CHECK_OK;
 const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
