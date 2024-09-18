@@ -236,7 +236,7 @@ export class S3 extends Construct {
     /////////////////////
     //     https://github.com/aws/aws-sdk-js-v3/issues/5245
     //  https://stackoverflow.com/questions/67108190/how-to-invalidate-cloudfrontcahce-for-a-specific-folder-on-s3-in-nodejs
-    const cloudFront = new CloudFrontClient({});
+//    const cloudFront = new CloudFrontClient({});
 
 
  const cloudFront = new CloudFrontClient({});
