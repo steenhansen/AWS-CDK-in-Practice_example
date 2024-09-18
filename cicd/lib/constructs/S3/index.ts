@@ -239,8 +239,9 @@ export class S3 extends Construct {
     const cloudFront = new CloudFrontClient({});
 
 
+ const cloudFront = new CloudFrontClient({});
     const invCom: any = new CreateInvalidationCommand({
-      DistributionId: distribution_name_n,
+      DistributionId: this.distribution.distributionId,
       InvalidationBatch: {
         CallerReference: `${Date.now()}`,
         Paths: {
