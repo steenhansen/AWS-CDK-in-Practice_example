@@ -47,17 +47,19 @@ if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
 
     //    https://stackoverflow.com/questions/69821387/cdk-pipelines-use-stack-output-in-poststep-of-stage
 
-    // const cloudfront_id_2_invalidate = the_main_stack.s3.distribution.distributionId;
+    const cloudfront_id_2_invalidate = the_main_stack.s3.distribution.distributionId;
     // console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ distributionId", the_main_stack.s3.distribution.distributionId);
-    // const invalid_cf_arn = `arn:aws:cloudfront::${ACCOUNT_NUMBER}:distribution/${cloudfront_id_2_invalidate}`;
-    // console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW invalid_cf_arn", invalid_cf_arn);
 
-    // new aws_iam.PolicyStatement({
-    //   effect: aws_iam.Effect.ALLOW,
-    //   actions: ['cloudfront:GetInvalidation'],
-    //   //      resources: [getCloudfrontDistributionArn(Stack.of(the_main_stack).account, the_main_stack.s3.distribution.distributionId)],
-    //   resources: [invalid_cf_arn],
-    // });
+
+    const invalid_cf_arn = `arn:aws:cloudfront::${ACCOUNT_NUMBER}:distribution/${cloudfront_id_2_invalidate}`;
+    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW invalid_cf_arn", invalid_cf_arn);
+
+    new aws_iam.PolicyStatement({
+      effect: aws_iam.Effect.ALLOW,
+      actions: ['cloudfront:GetInvalidation'],
+      //      resources: [getCloudfrontDistributionArn(Stack.of(the_main_stack).account, the_main_stack.s3.distribution.distributionId)],
+      resources: [invalid_cf_arn],
+    });
 
 
 
