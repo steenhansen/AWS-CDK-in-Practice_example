@@ -18,7 +18,7 @@
   "DOMAIN_DEV_SUB_BACKEND": "back-dev",
   "DOMAIN_DEV_SUB_FRONTEND": "front-dev",
   "-----------------------------------------dynamo-db": "",
-  "DYNAMO_ALIVE": "no",
+  "DYNAMO_ALIVE": "yes",
   "DYNAMO_TABLE": "dynamo_table",
   "-----------------------------------------testing": "",
   "TESTING_ALIVE": "no",
