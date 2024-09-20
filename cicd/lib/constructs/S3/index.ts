@@ -88,8 +88,7 @@ export class S3 extends Construct {
       web_bucket_deploy_name_n,
       {
         sources: [Source.asset(web_build_dir)],
-        destinationBucket: this.web_bucket,
-        distributionPaths: []
+        destinationBucket: this.web_bucket
       }
     );
 
