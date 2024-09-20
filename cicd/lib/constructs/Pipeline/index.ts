@@ -1,3 +1,9 @@
+
+
+
+import { aws_cloudfront, aws_codebuild, aws_codepipeline, aws_codepipeline_actions, aws_s3, RemovalPolicy } from 'aws-cdk-lib';
+import { CloudfrontInvalidation } from './cloudfront-invalidation';
+
 import { SecretValue, Tags } from 'aws-cdk-lib';
 import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
@@ -36,6 +42,9 @@ import stack_const from '../../../program.constants.json';
 
 const BRANCH_PROD = stack_const.BRANCH_PROD;
 const BRANCH_DEV = stack_const.BRANCH_DEV;
+
+
+
 
 
 export class PipelineStack extends Construct {
@@ -123,6 +132,35 @@ export class PipelineStack extends Construct {
 
         const deploy_stage = deployStage(this.deployProject, outputSource, cdk_role);
         this.pipeline.addStage(deploy_stage);
+
+        //   if (props.cloudfrontDistribution) { // qbert2
+        //  https://medium.com/@eldhomaniabraham/aws-lambda-function-for-automating-cloudfront-invalidation-from-codepipeline-cd57649f0ab5
+
+
+        // const cloudfront = new aws.CloudFront();
+        // const response = await cloudfront.createInvalidation({
+        //     DistributionId,
+        //     InvalidationBatch: {
+        //         CallerReference: `${Date.now()}`,
+        //         Paths: {
+        //             Items: ["/*"],
+        //             Quantity: 1
+        //         }
+        //     }
+        // }).promise();
+
+
+        // this.pipeline.addStage({
+        //     stageName: 'Invalidation',
+        //     actions: [
+        //         new aws_codepipeline_actions.StepFunctionInvokeAction({
+        //             actionName: 'StepFunctionInvokeAction',
+        //             stateMachine: new CloudfrontInvalidation(this, 'CloudfrontInvalidation', { cloudfrontDistribution: props.cloudfrontDistribution })
+        //                 .stateMachine,
+        //         }),
+        //     ],
+        // });
+        //    }
 
 
         if (CICD_SLACK_ALIVE === 'yes') {

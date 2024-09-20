@@ -15,12 +15,13 @@ import { ThePipelineStack } from '../lib/the-pipeline-stack';
 
 import { printError } from '../utils/env-errors';
 
-
+import { aws_iam, Stack } from 'aws-cdk-lib';
 
 const DOCKER_OFF_ERROR = constants_config.DOCKER_OFF_ERROR;
 
-
 import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
+
+//const getCloudfrontDistributionArn = (account: string, distributionId: string) => `arn:aws:cloudfront::${account}:distribution/${distributionId}`;
 
 const app = new cdk.App();
 
@@ -37,9 +38,29 @@ if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
 
   const the_stack = stackEnvLabel('Run-Stack');
   try {
-    new TheMainStack(app, the_stack, {
+    const the_main_stack = new TheMainStack(app, the_stack, {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
     });
+    console.log("the_main_stack", the_main_stack.s3.distribution);
+
+    // qbertB
+
+    //    https://stackoverflow.com/questions/69821387/cdk-pipelines-use-stack-output-in-poststep-of-stage
+
+    const cloudfront_id_2_invalidate = the_main_stack.s3.distribution.distributionId;
+    console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ distributionId", the_main_stack.s3.distribution.distributionId);
+    const invalid_cf_arn = `arn:aws:cloudfront::${ACCOUNT_NUMBER}:distribution/${cloudfront_id_2_invalidate}`;
+    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWW invalid_cf_arn", invalid_cf_arn);
+
+    new aws_iam.PolicyStatement({
+      effect: aws_iam.Effect.ALLOW,
+      actions: ['cloudfront:GetInvalidation'],
+      //      resources: [getCloudfrontDistributionArn(Stack.of(the_main_stack).account, the_main_stack.s3.distribution.distributionId)],
+      resources: [invalid_cf_arn],
+    });
+
+
+
   } catch (e: any) {
     printError(DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PROD', e.message);
   }

@@ -81,6 +81,7 @@ export class AWSGlue extends Construct {
       destinationKeyPrefix: 'scripts',
       prune: false,
       memoryLimit: 256,
+      distributionPaths: []
     }); // upload the script into s3
 
     const crawler_name = envLabel('Glue-Dynamo-Crawler');

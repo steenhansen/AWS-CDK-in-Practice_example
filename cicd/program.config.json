@@ -9,7 +9,7 @@
   "GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "GITHUB_OWNER": "steenhansen",
   "------------------------------------------slack_cicd_messages": "",
-  "CICD_SLACK_ALIVE": "yes",
+  "CICD_SLACK_ALIVE": "no",
   "-----------------------------------------route-53": "",
   "DOMAIN_ALIVE": "yes",
   "DOMAIN_NAME": "steenhansen.click",
@@ -18,10 +18,10 @@
   "DOMAIN_DEV_SUB_BACKEND": "back-dev",
   "DOMAIN_DEV_SUB_FRONTEND": "front-dev",
   "-----------------------------------------dynamo-db": "",
-  "DYNAMO_ALIVE": "yes",
+  "DYNAMO_ALIVE": "no",
   "DYNAMO_TABLE": "dynamo_table",
   "-----------------------------------------testing": "",
-  "TESTING_ALIVE": "yes",
+  "TESTING_ALIVE": "no",
   "ENVIRON_PRODUCTION": "Env_prd",
   "ENVIRON_DEVELOP": "Env_dvl"
 }

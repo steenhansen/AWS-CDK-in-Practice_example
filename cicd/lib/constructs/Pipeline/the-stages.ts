@@ -86,3 +86,28 @@ export function deployStage(deploy_proj: PipelineProject, outputSource: Artifact
   };
   return deploy_stage;
 }
+
+
+
+
+
+
+//    https://stackoverflow.com/questions/69821387/cdk-pipelines-use-stack-output-in-poststep-of-stage
+// qbert 2
+
+
+export function invalidateStage(deploy_proj: PipelineProject, outputSource: Artifact, cdk_role: Role) {
+  const invalidate_stage = {
+    stageName: 'Invalidate-CloudFront',
+    actions: [
+      new CodeBuildAction({
+        actionName: 'Invalidate-CloudFront-Now',
+        project: deploy_proj,
+        input: outputSource,
+        outputs: undefined,
+        role: cdk_role
+      }),
+    ],
+  };
+  return invalidate_stage;
+}

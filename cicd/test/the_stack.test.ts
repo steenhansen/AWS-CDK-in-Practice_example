@@ -39,6 +39,9 @@ function cdkTests() {
         main_stack = new TheMainStack(app, 'Chapter9Stack', {
           env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
         });
+
+        main_stack.s3.distribution;       /// qbert4
+
       } catch (e: any) {
         printError(DOCKER_OFF_ERROR, 'cdk/test/the_stack.test.ts', e.message);
       }
