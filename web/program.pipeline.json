@@ -12,6 +12,6 @@
   "SERVER_OFF_ERROR": "Is the local server running at port 3003?",
   "SLACK_WEB_HOOK_ALIVE": "no",
   "PORT_SERVER": "3003",
-  "TESTING_ALIVE": "yes",
+  "TESTING_ALIVE": "no",
   "SECRET_PIPELINE_SLACK_WEBHOOK": "_SLACK_WEBHOOK_"
 }
