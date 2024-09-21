@@ -21,7 +21,7 @@
   "DYNAMO_ALIVE": "yes",
   "DYNAMO_TABLE": "dynamo_table",
   "-----------------------------------------testing": "",
-  "TESTING_ALIVE": "no",
+  "TESTING_ALIVE": "yes",
   "ENVIRON_PRODUCTION": "Env_prd",
   "ENVIRON_DEVELOP": "Env_dvl"
 }
