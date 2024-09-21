@@ -16,7 +16,7 @@ import { envLabel, stackLabel } from '../../../utils/construct_labels';
 import { pipelineTemplate } from './pipeline-template';
 import { backEndTest } from './back-end-test';
 import { frontEndTest } from './front-end-test';
-import { sourceStage, backEndStage, frontEndStage, deployStage, invalidateStage } from './the-stages';
+import { sourceStage, backEndStage, frontEndStage, deployStage } from './the-stages';
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
