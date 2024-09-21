@@ -1584,7 +1584,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "c93880bee1e1bbdb10921a82a2a61190c142c2e8179bf9779ec2f8ed4f429cff.zip",
+          "S3Key": "7955375c94aef97d823be9668f1f7274c8feed5d85a551b3388290d66421de89.zip",
         },
         "Environment": {
           "Variables": {
@@ -1744,7 +1744,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "977b6ce804024b94a7e69483d460237097b585b9744914a18408dd5ec81a5ed7.zip",
+          "S3Key": "d298563b02c794950289ebfafb920a7c51c577c4735fc60a9c7c0b468dc4b3a3.zip",
         },
         "Environment": {
           "Variables": {
@@ -2014,7 +2014,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-211125473900-us-east-1",
-          "S3Key": "d16c3f297938790ab65963deaf992854c99f690a796c830ad6453b2dbf29208b.zip",
+          "S3Key": "888e37ddfd8bfee7da660d33df63bce4a28013d87b5b232e6d090831bc5558fc.zip",
         },
         "Environment": {
           "Variables": {
@@ -2412,7 +2412,7 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
           "cdk-hnb659fds-assets-211125473900-us-east-1",
         ],
         "SourceObjectKeys": [
-          "b66fa2ead7f27ccd8e7c9f2a4aa6f084d30096ecd724af492bc353a1cd929cd1.zip",
+          "35a5e2af26ca16db83d33c7c6d9588f0fc848413ebb8034663f6135853b24044.zip",
         ],
       },
       "Type": "Custom::CDKBucketDeployment",
