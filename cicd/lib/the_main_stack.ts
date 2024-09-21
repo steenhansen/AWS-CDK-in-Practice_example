@@ -57,11 +57,6 @@ export class TheMainStack extends Stack {
       route53: this.route53,
     });
 
-    // ii step2    this.s3.distribution
-    // ii step3    TheMainStack.s3.distribution
-    //console.log("ii2222222222222222222 33333333333333", this.s3.distribution.distributionId);
-
-
     const the_api = envLabel('Prog-API-Gw');
     new ApiGateway(this, the_api, {
       route53: this.route53,

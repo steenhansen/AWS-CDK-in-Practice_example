@@ -1,11 +1,7 @@
-
-
-import { aws_iam, Stack } from 'aws-cdk-lib';
-
 import { SecretValue, Tags } from 'aws-cdk-lib';
 import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
-import { PipelineProject, BuildSpec } from 'aws-cdk-lib/aws-codebuild';
+import { PipelineProject } from 'aws-cdk-lib/aws-codebuild';
 import { PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
@@ -19,12 +15,10 @@ import { frontEndTest } from './front-end-test';
 import { sourceStage, backEndStage, frontEndStage, deployStage } from './the-stages';
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
-const ACCOUNT_NUMBER = THE_ENVIRONMENTS[WORK_ENV].ACCOUNT_NUMBER;
+
 
 import { the_cdk_role, code_build_policy, slack_events } from './roles';
 interface Props {
-    //s3_cloudFront: String;
 }
 import { printError } from '../../../utils/env-errors';
 
@@ -42,9 +36,6 @@ import stack_const from '../../../program.constants.json';
 
 const BRANCH_PROD = stack_const.BRANCH_PROD;
 const BRANCH_DEV = stack_const.BRANCH_DEV;
-
-
-
 
 
 export class PipelineStack extends Construct {
@@ -132,49 +123,6 @@ export class PipelineStack extends Construct {
 
         const deploy_stage = deployStage(this.deployProject, outputSource, cdk_role);
         this.pipeline.addStage(deploy_stage);
-
-
-
-        // https://github.com/aws/aws-cdk/blob/20a2820ee4d022663fcd0928fbc0f61153ae953f/packages/@aws-cdk/aws-codepipeline-actions/README.md#invalidating-the-cloudfront-cache-when-deploying-to-s3
-        // BBBB
-        // ii step5
-        // console.log("ii555555555555555555555555", props.s3_cloudFront);
-        // this.invalidateCloudFront = new PipelineProject(this, `InvalidateProject`, {
-        //     buildSpec: BuildSpec.fromObject({
-        //         version: '0.2',
-        //         phases: {
-        //             build: {
-        //                 commands: [
-        //                     'aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"',
-        //                     // Choose whatever files or paths you'd like, or all files as specified here
-        //                 ],
-        //             },
-        //         },
-        //     }),
-        //     environmentVariables: {
-        //         CLOUDFRONT_ID: { value: props.s3_cloudFront },
-        //     },
-        // });
-
-        // const distributionArn = `arn:aws:cloudfront::${ACCOUNT_NUMBER}:distribution/${props.s3_cloudFront}`;
-        // this.invalidateCloudFront.addToRolePolicy(new aws_iam.PolicyStatement({
-        //     resources: [distributionArn],
-        //     actions: [
-        //         'cloudfront:CreateInvalidation',
-        //     ],
-        // }));
-
-
-
-        // const invalidate_stage = invalidateStage(this, this.invalidateCloudFront, outputSource, cdk_role);
-        // this.pipeline.addStage(invalidate_stage);
-
-
-
-
-
-
-
 
 
         if (CICD_SLACK_ALIVE === 'yes') {

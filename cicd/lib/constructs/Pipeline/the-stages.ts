@@ -1,10 +1,6 @@
 
 
-import { CodeBuildAction, GitHubSourceAction, GitHubTrigger, S3DeployAction } from 'aws-cdk-lib/aws-codepipeline-actions';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-
-import { Construct } from 'constructs';
-
+import { CodeBuildAction, GitHubSourceAction, GitHubTrigger } from 'aws-cdk-lib/aws-codepipeline-actions';
 import { Artifact } from 'aws-cdk-lib/aws-codepipeline';
 import { SecretValue } from 'aws-cdk-lib';
 import { Role } from 'aws-cdk-lib/aws-iam';
@@ -90,28 +86,3 @@ export function deployStage(deploy_proj: PipelineProject, outputSource: Artifact
   };
   return deploy_stage;
 }
-
-
-
-
-
-
-//    https://stackoverflow.com/questions/69821387/cdk-pipelines-use-stack-output-in-poststep-of-stage
-// // qbert 2
-
-
-// export function invalidateStage(deploy_proj: PipelineProject, outputSource: Artifact, cdk_role: Role) {
-//   const invalidate_stage = {
-//     stageName: 'Invalidate-CloudFront',
-//     actions: [
-//       new CodeBuildAction({
-//         actionName: 'Invalidate-CloudFront-Now',
-//         project: deploy_proj,
-//         input: outputSource,
-//         outputs: undefined,
-//         role: cdk_role
-//       }),
-//     ],
-//   };
-//   return invalidate_stage;
-// }

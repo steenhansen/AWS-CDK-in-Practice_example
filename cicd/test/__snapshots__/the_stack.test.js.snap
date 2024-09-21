@@ -387,6 +387,14 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
                 },
               ],
             },
+            {
+              "Action": [
+                "cloudfront:GetInvalidation",
+                "cloudfront:CreateInvalidation",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -2387,6 +2395,12 @@ exports[`Unit Testing Infrastructure. Testing cdk code. TheMainStack matches the
         "DestinationBucketName": {
           "Ref": "WebBucketProd57B27A18",
         },
+        "DistributionId": {
+          "Ref": "FrontendDistributionProd2A5A5107",
+        },
+        "DistributionPaths": [
+          "/*",
+        ],
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [

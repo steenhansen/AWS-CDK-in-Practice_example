@@ -1,13 +1,6 @@
 
-
-import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
-
-
-
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
-const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 
 
 import config from '../../../program.config.json';
@@ -26,7 +19,7 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import { resolve } from 'path';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
-
+import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
 
 
 import { S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
@@ -57,7 +50,6 @@ export class S3 extends Construct {
 
   public readonly distribution: Distribution;
 
-
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
 
@@ -79,19 +71,18 @@ export class S3 extends Construct {
     );
 
 
-    const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
-
-
-    const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
-    this.web_bucket_deployment = new BucketDeployment(
-      scope,
-      web_bucket_deploy_name_n,
-      {
-        sources: [Source.asset(web_build_dir)],
-        destinationBucket: this.web_bucket,
-        distributionPaths: ['/*']
-      }
-    );
+    // const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
+    // const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
+    // this.web_bucket_deployment = new BucketDeployment(
+    //   scope,
+    //   web_bucket_deploy_name_n,
+    //   {
+    //     sources: [Source.asset(web_build_dir)],
+    //     destinationBucket: this.web_bucket,
+    //     distribution: cdn,
+    //     distributionPaths: ['/*']
+    //   }
+    // );
 
     let frontEndSubDomain;
     if (WORK_ENV === ENVIRON_PRODUCTION) {
@@ -103,13 +94,7 @@ export class S3 extends Construct {
     }
 
     const distribution_name_n = envLabel('Frontend-Distribution');
-    // https://github.com/aws/aws-cdk/blob/20a2820ee4d022663fcd0928fbc0f61153ae953f/packages/@aws-cdk/aws-codepipeline-actions/README.md#invalidating-the-cloudfront-cache-when-deploying-to-s3
-    // AAAA
-
-
-    // https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3_deployment.BucketDeployment.html#distributionpaths
-
-    this.distribution = new Distribution(      // qbertA 
+    this.distribution = new Distribution(
       scope, distribution_name_n,
       {
         certificate: props.acm.certificate,
@@ -119,14 +104,21 @@ export class S3 extends Construct {
           origin: new S3StaticWebsiteOrigin(this.web_bucket),
           viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         },
-        //distributionPaths: []
       },
     );
-    console.log("ii1111111111111111111111111111 EO16DCP5KEZZA ", this.distribution.distributionId);
 
-    // ii step1   S3.distribution
-
-
+    const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
+    const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
+    this.web_bucket_deployment = new BucketDeployment(
+      scope,
+      web_bucket_deploy_name_n,
+      {
+        sources: [Source.asset(web_build_dir)],
+        destinationBucket: this.web_bucket,
+        distribution: this.distribution,
+        distributionPaths: ['/*']
+      }
+    );
 
     const aRecord_name_n = envLabel('FrontendAliasRecord');
     new ARecord(scope,
@@ -137,15 +129,12 @@ export class S3 extends Construct {
         recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
       });
 
+
     const cfn_out_name = envLabel('FrontendURL');
     new CfnOutput(scope,
       cfn_out_name,
       {
         value: this.web_bucket.bucketDomainName,
       });
-
-
-
-
   }
 }
