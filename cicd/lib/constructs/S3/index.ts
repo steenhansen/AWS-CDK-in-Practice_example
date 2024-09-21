@@ -8,6 +8,8 @@ import config from '../../../program.config.json';
 const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
 const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
 
+const AUTO_INVALIDATE_CLOUDFRONT = config.AUTO_INVALIDATE_CLOUDFRONT;
+
 
 import { printError } from '../../../utils/env-errors';
 import {
@@ -71,19 +73,6 @@ export class S3 extends Construct {
     );
 
 
-    // const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
-    // const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
-    // this.web_bucket_deployment = new BucketDeployment(
-    //   scope,
-    //   web_bucket_deploy_name_n,
-    //   {
-    //     sources: [Source.asset(web_build_dir)],
-    //     destinationBucket: this.web_bucket,
-    //     distribution: cdn,
-    //     distributionPaths: ['/*']
-    //   }
-    // );
-
     let frontEndSubDomain;
     if (WORK_ENV === ENVIRON_PRODUCTION) {
       frontEndSubDomain = config.DOMAIN_PROD_SUB_FRONTEND;
@@ -109,6 +98,12 @@ export class S3 extends Construct {
 
     const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
     const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
+    let invalidate_cloudfront_path;
+    if (AUTO_INVALIDATE_CLOUDFRONT === 'yes') {
+      invalidate_cloudfront_path = '/*';
+    } else {
+      invalidate_cloudfront_path = '';
+    }
     this.web_bucket_deployment = new BucketDeployment(
       scope,
       web_bucket_deploy_name_n,
@@ -116,7 +111,7 @@ export class S3 extends Construct {
         sources: [Source.asset(web_build_dir)],
         destinationBucket: this.web_bucket,
         distribution: this.distribution,
-        distributionPaths: ['/*']
+        distributionPaths: [invalidate_cloudfront_path]
       }
     );
 
