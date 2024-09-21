@@ -51,6 +51,7 @@ export class PipelineStack extends Construct {
     readonly frontEndTestProject: PipelineProject;
     readonly backEndTestProject: PipelineProject;
     readonly deployProject: PipelineProject;
+    readonly invalidateCloudFront: PipelineProject;
     readonly pipeline: Pipeline;
 
     constructor(scope: Construct, id: string, props: Props) {

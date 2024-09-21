@@ -88,7 +88,8 @@ export class S3 extends Construct {
       web_bucket_deploy_name_n,
       {
         sources: [Source.asset(web_build_dir)],
-        destinationBucket: this.web_bucket
+        destinationBucket: this.web_bucket,
+        distributionPaths: ['/*']
       }
     );
 
@@ -102,10 +103,13 @@ export class S3 extends Construct {
     }
 
     const distribution_name_n = envLabel('Frontend-Distribution');
+    // https://github.com/aws/aws-cdk/blob/20a2820ee4d022663fcd0928fbc0f61153ae953f/packages/@aws-cdk/aws-codepipeline-actions/README.md#invalidating-the-cloudfront-cache-when-deploying-to-s3
+    // AAAA
 
-    //  const cloudfrontDistribution = new aws_cloudfront.Distribution(this, 
-    //    const cloudfrontDistribution = new Distribution(      // qbert1  frontend.ts
-    this.distribution = new Distribution(      // qbert1  frontend.ts
+
+    // https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3_deployment.BucketDeployment.html#distributionpaths
+
+    this.distribution = new Distribution(      // qbertA 
       scope, distribution_name_n,
       {
         certificate: props.acm.certificate,
@@ -115,22 +119,13 @@ export class S3 extends Construct {
           origin: new S3StaticWebsiteOrigin(this.web_bucket),
           viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         },
+        //distributionPaths: []
       },
     );
+    console.log("ii1111111111111111111111111111 EO16DCP5KEZZA ", this.distribution.distributionId);
 
-    /* this.distribution = cloudfrontDistribution;     /* new Distribution(
-    scope, distribution_name_n,
-    {
-      certificate: props.acm.certificate,
-      domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
-      defaultRootObject: 'index.html',
-      defaultBehavior: {
-        origin: new S3StaticWebsiteOrigin(this.web_bucket),
-        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-      },
-    },
-    );
-*/;
+    // ii step1   S3.distribution
+
 
 
     const aRecord_name_n = envLabel('FrontendAliasRecord');
@@ -150,35 +145,6 @@ export class S3 extends Construct {
       });
 
 
-    //    https://stackoverflow.com/questions/69821387/cdk-pipelines-use-stack-output-in-poststep-of-stage
-    // qbertA
-    // const cfn_distribution_name = envLabel('cloudFrontDist');
-    // const cloudfront_id_to_invalidate = this.distribution.distributionId;
-    // new CfnOutput(scope,
-    //   cfn_distribution_name,
-    //   {
-    //     exportName: "cloudFront_to_invalidate_at_pipeline_end",
-    //     value: cloudfront_id_to_invalidate
-    //   });
-
-    /*
-
-              const the_stack = getCloudfrontDistributionArn(Stack.of(this).account;
-              new aws_iam.PolicyStatement({
-                effect: aws_iam.Effect.ALLOW,
-                actions: ['cloudfront:GetInvalidation'],
-                resources: [the_stack,                        do not follow
-                 cloudfront_id_to_invalidate)]
-              })
-
-
-              new aws_iam.PolicyStatement({
-                effect: aws_iam.Effect.ALLOW,
-                actions: ['cloudfront:GetInvalidation'],
-                resources: [getCloudfrontDistributionArn(Stack.of(this).account,
-                 props.cloudfrontDistribution.distributionId)]
-              })
-    */
 
 
   }

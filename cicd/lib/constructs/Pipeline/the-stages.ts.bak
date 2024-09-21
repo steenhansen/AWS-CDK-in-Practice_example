@@ -91,7 +91,33 @@ export function deployStage(deploy_proj: PipelineProject, outputSource: Artifact
   return deploy_stage;
 }
 
+// ii step6
 
+export function invalidateStage(the_construct: Construct, invalidateCloudFront: PipelineProject, outputSource: Artifact, cdk_role: Role) {
+
+  //   https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_codepipeline_actions.CodeBuildActionProps.html
+  const deployBucket = new Bucket(the_construct, 'DeployBucket');
+  const deployInput = new Artifact('Frontend-Distribution');        //'DeployInput');
+
+  const deploy_stage = {
+    stageName: 'Invalidate-cloundFront',
+    actions: [
+      new S3DeployAction({
+        actionName: 'S3Deploy',
+        bucket: deployBucket,
+        input: deployInput,
+        runOrder: 1,
+      }),
+      new CodeBuildAction({
+        actionName: 'InvalidateCache',
+        project: invalidateCloudFront,
+        input: deployInput,
+        runOrder: 2,
+      }),
+    ],
+  };
+  return deploy_stage;
+}
 
 
 

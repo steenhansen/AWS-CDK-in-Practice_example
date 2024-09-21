@@ -17,6 +17,7 @@ interface PipelineProps extends StackProps {
   bucket?: IBucket;
   repository?: IRepository;
   expressAppService?: IBaseService;
+  //s3_cloudFront: String;
 }
 
 export class ThePipelineStack extends Stack {
@@ -27,6 +28,7 @@ export class ThePipelineStack extends Stack {
     const label_project = "The-Project";
 
     const pipe_prod = stackLabel(label_prod_pipeline);
+    //    new PipelineStack(this, pipe_prod, { s3_cloudFront: props.s3_cloudFront });
     new PipelineStack(this, pipe_prod, {});
 
     const the_project = stackLabel(label_project);
