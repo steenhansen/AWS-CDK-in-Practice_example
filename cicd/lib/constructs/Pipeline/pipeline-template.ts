@@ -5,35 +5,15 @@ import { Role } from 'aws-cdk-lib/aws-iam';
 
 import constants_config from '../../../program.constants.json';
 
-let web_constants = require('../../../program.constants.json');
-let web_configs = require('../../../program.config.json');
-let web_switches = require('../../../program.switches.json');
+import web_constants from '../../../program.constants.json';
+import web_configs from '../../../program.config.json';
+import web_switches from '../../../program.switches.json';
+import { getConfigConstants } from '../../../utils/getWebConsts';
 
-const getConfigConstants = require('../../../utils/getWebConsts');
 
 const C_cicd_NODE_RUNTIME = constants_config.C_cicd_NODE_RUNTIME;
 const C_cicd_LINUX_VERSION = constants_config.C_cicd_LINUX_VERSION;
 const C_cicd_PROG_PIPELINE_JSON = constants_config.C_cicd_PROG_PIPELINE_JSON;
-
-//const C_cicd_serv_web_CLEARDB_SLUG = constants_config.C_cicd_serv_web_CLEARDB_SLUG;
-//const C_cicd_ON_AWS_WEB_BUILD = constants_config.C_cicd_ON_AWS_WEB_BUILD;
-//const C_cicd_ON_AWS_CICD_DEPLOY = constants_config.C_cicd_ON_AWS_CICD_DEPLOY;
-
-//import cdk_config from '../../../cdk.json';
-//const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-
-//import program_config from '../../../program.config.json';
-//let C_cicd_web_DOMAIN_PROD_SUB_BACKEND = program_config.C_cicd_web_DOMAIN_PROD_SUB_BACKEND;
-//let C_cicd_web_DOMAIN_DEV_SUB_BACKEND = program_config.C_cicd_web_DOMAIN_DEV_SUB_BACKEND;
-//let C_cicd_web_DOMAIN_NAME = program_config.C_cicd_web_DOMAIN_NAME;
-//const C_cicd_web_ENVIRON_PRODUCTION = program_config.C_cicd_web_ENVIRON_PRODUCTION;
-//const C_cicd_web_ENVIRON_DEVELOP = program_config.C_cicd_web_ENVIRON_DEVELOP;
-//const GLOBAL_WEB_VAR = program_config.GLOBAL_WEB_VAR;
-
-//import program_switches from '../../../program.switches.json';
-//const C_cicd_web_SLACK_WEB_HOOK_ALIVE = program_switches.C_cicd_web_SLACK_WEB_HOOK_ALIVE;
-//const C_cicd_serv_web_TESTING_ALIVE = program_switches.C_cicd_serv_web_TESTING_ALIVE;
-
 
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
   let aws_to_web_constants = getConfigConstants(web_constants, web_configs, web_switches);
