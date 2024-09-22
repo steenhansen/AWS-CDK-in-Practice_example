@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 
 
 import stack_config from '../../../program.config.json';
-const DOMAIN_NAME = stack_config.DOMAIN_NAME;
+const C_cicd_web_DOMAIN_NAME = stack_config.C_cicd_web_DOMAIN_NAME;
 
 
 interface Props {
@@ -18,9 +18,9 @@ export class ACM extends Construct {
     super(scope, id);
 
     this.certificate = new Certificate(scope, 'Certificate', {
-      domainName: DOMAIN_NAME,
+      domainName: C_cicd_web_DOMAIN_NAME,
       validation: CertificateValidation.fromDns(props.hosted_zone),
-      subjectAlternativeNames: [`*.${DOMAIN_NAME}`],
+      subjectAlternativeNames: [`*.${C_cicd_web_DOMAIN_NAME}`],
     });
   }
 }

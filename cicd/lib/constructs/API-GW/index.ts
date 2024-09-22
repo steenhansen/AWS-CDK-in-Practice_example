@@ -24,12 +24,12 @@ import { Route53 } from '../Route53';
 
 import config from '../../../program.config.json';
 
-const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
-const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
+const C_cicd_web_ENVIRON_PRODUCTION = config.C_cicd_web_ENVIRON_PRODUCTION;
+const C_cicd_web_ENVIRON_DEVELOP = config.C_cicd_web_ENVIRON_DEVELOP;
 
 import the_constants from '../../../program.constants.json';
-const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
-const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
+const C_cicd_serv_HEALTH_CHECK_SLUG = the_constants.C_cicd_serv_HEALTH_CHECK_SLUG;
+const C_cicd_serv_web_CLEARDB_SLUG = the_constants.C_cicd_serv_web_CLEARDB_SLUG;
 
 import { HealthCheckLambda } from '../Lambda/healthcheck';
 import { DynamoGet } from '../Lambda/get';
@@ -53,11 +53,11 @@ export class ApiGateway extends Construct {
 
     let backEndSubDomain;
     let stage_name;
-    if (WORK_ENV === ENVIRON_PRODUCTION) {
-      backEndSubDomain = config.DOMAIN_PROD_SUB_BACKEND;
+    if (WORK_ENV === C_cicd_web_ENVIRON_PRODUCTION) {
+      backEndSubDomain = config.C_cicd_web_DOMAIN_PROD_SUB_BACKEND;
       stage_name = 'Prod';
-    } else if (WORK_ENV === ENVIRON_DEVELOP) {
-      backEndSubDomain = config.DOMAIN_DEV_SUB_BACKEND;
+    } else if (WORK_ENV === C_cicd_web_ENVIRON_DEVELOP) {
+      backEndSubDomain = config.C_cicd_web_DOMAIN_DEV_SUB_BACKEND;
       stage_name = 'Dev';
     } else {
       printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/API-GW/', `NODE_ENV="${WORK_ENV}"`);
@@ -74,7 +74,7 @@ export class ApiGateway extends Construct {
       description: 'serverless api using lambda functions',
       domainName: {
         certificate: acm.certificate,
-        domainName: `${backEndSubDomain}.${config.DOMAIN_NAME}`,
+        domainName: `${backEndSubDomain}.${config.C_cicd_web_DOMAIN_NAME}`,
         endpointType: EndpointType.REGIONAL,
         securityPolicy: SecurityPolicy.TLS_1_2,
       },
@@ -112,7 +112,7 @@ export class ApiGateway extends Construct {
     const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
 
     // Resources (Path)
-    const healthcheck = restApi.root.addResource(HEALTH_CHECK_SLUG);
+    const healthcheck = restApi.root.addResource(C_cicd_serv_HEALTH_CHECK_SLUG);
     const rootResource = restApi.root;
 
     // Methods
@@ -137,7 +137,7 @@ export class ApiGateway extends Construct {
 
     // Resources (Path)
     //    const clear_db = restApi.root.addResource('clearDB');
-    const clear_db = restApi.root.addResource(CLEARDB_SLUG);
+    const clear_db = restApi.root.addResource(C_cicd_serv_web_CLEARDB_SLUG);
     clear_db.addMethod('GET', dynamoClearIntegration);
     clear_db.addCorsPreflight({
       allowOrigins: ['*'],
@@ -158,7 +158,7 @@ export class ApiGateway extends Construct {
     new ARecord(this, 'BackendAliasRecord', {
       zone: route53.hosted_zone,
       target: RecordTarget.fromAlias(new targets.ApiGateway(restApi)),
-      recordName: `${backEndSubDomain}.${config.DOMAIN_NAME}`,
+      recordName: `${backEndSubDomain}.${config.C_cicd_web_DOMAIN_NAME}`,
     });
   }
 }

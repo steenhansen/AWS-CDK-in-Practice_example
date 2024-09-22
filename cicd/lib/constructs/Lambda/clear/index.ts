@@ -12,7 +12,7 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 
 import stack_config from '../../../../program.constants.json';
-const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
 
 import cdk_config from '../../../../cdk.json';
@@ -31,7 +31,7 @@ interface IProps {
 import { nodeRuntime } from '../../../../utils/nodeVersion';
 
 
-const the_runtime = nodeRuntime(NODE_RUNTIME);
+const the_runtime = nodeRuntime(C_cicd_NODE_RUNTIME);
 
 
 

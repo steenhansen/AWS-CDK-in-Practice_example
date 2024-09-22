@@ -10,9 +10,9 @@ import { dynamo_clear_handler } from '../../cicd/lib/constructs/Lambda/clear/rou
 import { printError } from '../../cicd/utils/env-errors';
 
 import the_constants from '../../cicd/program.constants.json';
-const CLEARDB_SLUG = the_constants.CLEARDB_SLUG;
-const NO_SQL_OFF_ERROR = the_constants.NO_SQL_OFF_ERROR;
-const VPN_ON_ERROR = the_constants.VPN_ON_ERROR;
+const C_cicd_serv_web_CLEARDB_SLUG = the_constants.C_cicd_serv_web_CLEARDB_SLUG;
+const C_cicd_serv_web_NO_SQL_OFF_ERROR = the_constants.C_cicd_serv_web_NO_SQL_OFF_ERROR;
+const C_cicd_serv_web_VPN_ON_ERROR = the_constants.C_cicd_serv_web_VPN_ON_ERROR;
 
 import { healthApp, corsResponse } from './health-app';
 
@@ -21,7 +21,7 @@ function checkNoSqlWork(response_json: any) {
   if (response_json.hasOwnProperty('message')) {
     const err_mess = response_json.message;
     if (err_mess.startsWith("Inaccessible host:")) {
-      const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR;
+      const error_mess = C_cicd_serv_web_NO_SQL_OFF_ERROR + " or " + C_cicd_serv_web_VPN_ON_ERROR;
       printError(error_mess, 'server/src/createApp.ts', err_mess);
     }
   }
@@ -30,7 +30,7 @@ function checkNoSqlWork(response_json: any) {
 const createApp = () => {
   const app = healthApp();
 
-  const clear_db = "/" + CLEARDB_SLUG;
+  const clear_db = "/" + C_cicd_serv_web_CLEARDB_SLUG;
   app.get(clear_db, async (_req, res) => {
     try {
       const response = await dynamo_clear_handler();

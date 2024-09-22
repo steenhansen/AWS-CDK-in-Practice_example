@@ -4,8 +4,8 @@ const UserContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 100%;
+  width:100px;
+  
 
   input[type="checkbox"] {
     margin-top: 10px;
@@ -24,9 +24,9 @@ const UserBox = styled.div`
   display: flex;
 
   padding: 8px 16px;
-/* border: 1px solid rgba(0, 0, 0, 0.2); */
+ 
   border-radius: 8px;
-  
+    width:100px;
   flex: 1;
 
   h1 {
@@ -43,8 +43,9 @@ const UserBox = styled.div`
 const UserContent = styled.div`
   display: flex;
   flex-direction: column;
-
+ font-size: 10px;
   flex: 1;
+
 `;
 
 

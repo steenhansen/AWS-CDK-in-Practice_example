@@ -4,16 +4,14 @@ const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 const ACCOUNT_NUMBER = THE_ENVIRONMENTS[WORK_ENV].ACCOUNT_NUMBER;
 
-
-import config from '../program.config.json';
-const TESTING_ALIVE = config.TESTING_ALIVE;
-
+import program_switches from '../program.switches.json';
+const C_cicd_serv_web_TESTING_ALIVE = program_switches.C_cicd_serv_web_TESTING_ALIVE;
 
 import { printError } from '../utils/env-errors';
 
 import constants_config from '../program.constants.json';
 
-const DOCKER_OFF_ERROR = constants_config.DOCKER_OFF_ERROR;
+const C_cicd_DOCKER_OFF_ERROR = constants_config.C_cicd_DOCKER_OFF_ERROR;
 
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
@@ -21,7 +19,7 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { TheMainStack } from '../lib/the_main_stack';
 
 describe('Unit Testing Infrastructure.', () => {
-  if (TESTING_ALIVE === 'yes') {
+  if (C_cicd_serv_web_TESTING_ALIVE === 'yes') {
     cdkTests();
   } else {
     it('sentinal cdk test', () => {
@@ -40,7 +38,7 @@ function cdkTests() {
           env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
         });
       } catch (e: any) {
-        printError(DOCKER_OFF_ERROR, 'cdk/test/the_stack.test.ts', e.message);
+        printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/test/the_stack.test.ts', e.message);
       }
       const template = Template.fromStack(main_stack);
       template.resourceCountIs('AWS::Lambda::Function', 9);

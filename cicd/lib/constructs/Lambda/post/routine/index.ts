@@ -4,11 +4,11 @@ import { httpResponse } from '../../handlers/httpResponse';
 import { Interfaces } from '../../../../../../web/program.interfaces';
 import the_constants from '../../../../../program.constants.json';
 import { dynamoClient, dynamoName, dynamoError, dynamoDelete, makeColorInt, makeScan } from '../../handlers/dynamo-client';
-const REGEX_0_255 = the_constants.REGEX_0_255;
+const C_cicd_REGEX_0_255 = the_constants.C_cicd_REGEX_0_255;
 export interface PostEvent {
   body: string;
 }
-const regex_0_255 = new RegExp(REGEX_0_255);
+const regex_0_255 = new RegExp(C_cicd_REGEX_0_255);
 
 export const dynamo_post_handler = async (event: PostEvent) => {
   try {

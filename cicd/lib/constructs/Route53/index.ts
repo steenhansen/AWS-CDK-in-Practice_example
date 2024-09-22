@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 
 import stack_config from '../../../program.config.json';
 
-const DOMAIN_NAME = stack_config.DOMAIN_NAME;
+const C_cicd_web_DOMAIN_NAME = stack_config.C_cicd_web_DOMAIN_NAME;
 
 
 export class Route53 extends Construct {
@@ -14,7 +14,7 @@ export class Route53 extends Construct {
     super(scope, id);
 
     this.hosted_zone = HostedZone.fromLookup(scope, 'HostedZone', {
-      domainName: DOMAIN_NAME          //config.domain_name,
+      domainName: C_cicd_web_DOMAIN_NAME          //config.domain_name,
     });
   }
 }

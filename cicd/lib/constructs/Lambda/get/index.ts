@@ -11,7 +11,7 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import the_constants from '../../../../program.constants.json';
 
-const NODE_RUNTIME = the_constants.NODE_RUNTIME;
+const C_cicd_NODE_RUNTIME = the_constants.C_cicd_NODE_RUNTIME;
 
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
@@ -32,7 +32,7 @@ import { nodeRuntime } from '../../../../utils/nodeVersion';
 
 
 
-const the_runtime = nodeRuntime(NODE_RUNTIME);
+const the_runtime = nodeRuntime(C_cicd_NODE_RUNTIME);
 
 
 export class DynamoGet extends Construct {

@@ -8,7 +8,7 @@ export const CreateColorIntContainer = styled.div`
     border: none;
     border-radius: 4px;
 
-    background: #000;
+    background: #2a2;
     color: #fff;
 
     padding: 4px 16px;

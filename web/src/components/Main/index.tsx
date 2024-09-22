@@ -4,23 +4,24 @@ import { Interfaces } from '../../../program.interfaces';
 import { CreateColorInt } from '../CreateColorInt';
 import { MainContainer, BoxedColor, Zxc } from './styles';
 
-
 const {
-  DOMAIN_NAME,
-  CLEARDB_SLUG,
-} = require('../../../program.pipeline.json');
-
-
-
+  C_cicd_web_DOMAIN_NAME,
+  C_cicd_serv_web_CLEARDB_SLUG,
+} = require('../../../program.pipeline_2_web.json');
 
 
 
 const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
 
-const handle_clear = `${backend_url}/${CLEARDB_SLUG}`;
+const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
   const [color_ints, setUserDatas] = useState<Interfaces.ColorInt[]>([]);
+
+  useEffect(() => {
+    document.title = C_cicd_web_DOMAIN_NAME;
+  }, []);
+
   useEffect(() => {
     const fetchColorInts = async () => {
       let all_data = await getDbRgb(backend_url);
@@ -51,12 +52,9 @@ export const Main: React.FC = () => {
 
   return (
     <MainContainer >
-      <h1>DynamoDB Values </h1>
 
       ssm <h2>{SSM_SLACK_WEBHOOK}</h2>
 
-
-      config<h2>{DOMAIN_NAME}</h2>
 
       <BoxedColor style={rgb_styles} id={"the-color_box"}>
         <Zxc data-testid={"test-color_box"}  >

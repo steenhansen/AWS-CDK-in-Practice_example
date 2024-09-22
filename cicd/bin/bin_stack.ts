@@ -17,7 +17,7 @@ import { printError } from '../utils/env-errors';
 
 
 
-const DOCKER_OFF_ERROR = constants_config.DOCKER_OFF_ERROR;
+const C_cicd_DOCKER_OFF_ERROR = constants_config.C_cicd_DOCKER_OFF_ERROR;
 
 
 import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
@@ -31,7 +31,7 @@ if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
     });
   } catch (e: any) {
-    printError(DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PIPELINE', e.message);
+    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PIPELINE', e.message);
   }
 } else {
 
@@ -41,7 +41,7 @@ if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
     });
   } catch (e: any) {
-    printError(DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PROD', e.message);
+    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PROD', e.message);
   }
 }
 

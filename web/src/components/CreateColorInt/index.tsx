@@ -60,13 +60,13 @@ export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
 
       <br />  <br />
 
-      <button type="button" data-testid="test-change" onClick={() => handleAdd({ new_color_int })}>AddChange</button>
+      <button type="button" data-testid="test-change" onClick={() => handleAdd({ new_color_int })}>Add or Change</button>
 
       &nbsp;&nbsp;&nbsp;
       <button type="button"
         onClick={() => handleClear()}
         data-testid="test-clear">
-        Clear all 3 rgb color indexes
+        Clear All 3 rgb
       </button>
 
     </CreateColorIntContainer>

@@ -4,8 +4,8 @@ import cors from 'cors';
 
 import { healthcheck_handler } from '../../cicd/lib/constructs/Lambda/healthcheck/routine/';
 import the_constants from '../../cicd/program.constants.json';
-const HEALTH_CHECK_SLUG = the_constants.HEALTH_CHECK_SLUG;
-const health_check = "/" + HEALTH_CHECK_SLUG;
+const C_cicd_serv_HEALTH_CHECK_SLUG = the_constants.C_cicd_serv_HEALTH_CHECK_SLUG;
+const health_check = "/" + C_cicd_serv_HEALTH_CHECK_SLUG;
 
 export function corsResponse(the_response: string) {
   const cors_resp = {

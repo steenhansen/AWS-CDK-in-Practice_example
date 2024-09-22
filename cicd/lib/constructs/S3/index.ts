@@ -5,10 +5,13 @@ const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 import config from '../../../program.config.json';
 
-const ENVIRON_PRODUCTION = config.ENVIRON_PRODUCTION;
-const ENVIRON_DEVELOP = config.ENVIRON_DEVELOP;
+const C_cicd_web_ENVIRON_PRODUCTION = config.C_cicd_web_ENVIRON_PRODUCTION;
+const C_cicd_web_ENVIRON_DEVELOP = config.C_cicd_web_ENVIRON_DEVELOP;
 
-const AUTO_INVALIDATE_CLOUDFRONT = config.AUTO_INVALIDATE_CLOUDFRONT;
+
+import switches from '../../../program.switches.json';
+
+const C_cicd_AUTO_INVALIDATE_CLOUDFRONT = switches.C_cicd_AUTO_INVALIDATE_CLOUDFRONT;
 
 
 import { printError } from '../../../utils/env-errors';
@@ -34,7 +37,7 @@ import { Route53 } from '../Route53';
 import { ACM } from '../ACM';
 
 
-const S3_UNIQUE_ID = config.S3_UNIQUE_ID;
+const C_cicd_S3_UNIQUE_ID = config.C_cicd_S3_UNIQUE_ID;
 interface Props {
   acm: ACM;
   route53: Route53;
@@ -56,7 +59,7 @@ export class S3 extends Construct {
     super(scope, id);
 
     const webB_name = envLabel('WebBucket');
-    const bucketNameLow = lowerStatefulEnvLabel(S3_UNIQUE_ID);
+    const bucketNameLow = lowerStatefulEnvLabel(C_cicd_S3_UNIQUE_ID);
     this.web_bucket = new Bucket(
       scope,
       webB_name,
@@ -74,10 +77,10 @@ export class S3 extends Construct {
 
 
     let frontEndSubDomain;
-    if (WORK_ENV === ENVIRON_PRODUCTION) {
-      frontEndSubDomain = config.DOMAIN_PROD_SUB_FRONTEND;
-    } else if (WORK_ENV === ENVIRON_DEVELOP) {
-      frontEndSubDomain = config.DOMAIN_DEV_SUB_FRONTEND;
+    if (WORK_ENV === C_cicd_web_ENVIRON_PRODUCTION) {
+      frontEndSubDomain = config.C_cicd_DOMAIN_PROD_SUB_FRONTEND;
+    } else if (WORK_ENV === C_cicd_web_ENVIRON_DEVELOP) {
+      frontEndSubDomain = config.C_cicd_DOMAIN_DEV_SUB_FRONTEND;
     } else {
       printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/S3/', `NODE_ENV="${WORK_ENV}"`);
     }
@@ -87,7 +90,7 @@ export class S3 extends Construct {
       scope, distribution_name_n,
       {
         certificate: props.acm.certificate,
-        domainNames: [`${frontEndSubDomain}.${config.DOMAIN_NAME}`],
+        domainNames: [`${frontEndSubDomain}.${config.C_cicd_web_DOMAIN_NAME}`],
         defaultRootObject: 'index.html',
         defaultBehavior: {
           origin: new S3StaticWebsiteOrigin(this.web_bucket),
@@ -99,7 +102,7 @@ export class S3 extends Construct {
     const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
     const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
     let invalidate_cloudfront_path;
-    if (AUTO_INVALIDATE_CLOUDFRONT === 'yes') {
+    if (C_cicd_AUTO_INVALIDATE_CLOUDFRONT === 'yes') {
       invalidate_cloudfront_path = '/*';
     } else {
       invalidate_cloudfront_path = '';
@@ -121,7 +124,7 @@ export class S3 extends Construct {
       {
         zone: props.route53.hosted_zone,
         target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
-        recordName: `${frontEndSubDomain}.${config.DOMAIN_NAME}`,
+        recordName: `${frontEndSubDomain}.${config.C_cicd_web_DOMAIN_NAME}`,
       });
 
 

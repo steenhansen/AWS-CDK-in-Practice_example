@@ -1,11 +1,11 @@
 import { httpResponse } from '../../handlers/httpResponse';
 
 import the_constants from '../../../../../program.constants.json';
-const HEALTH_CHECK_OK = the_constants.HEALTH_CHECK_OK;
+const C_cicd_serv_HEALTH_CHECK_OK = the_constants.C_cicd_serv_HEALTH_CHECK_OK;
 
 export const healthcheck_handler = async () => {
   try {
-    return httpResponse(200, JSON.stringify(HEALTH_CHECK_OK));
+    return httpResponse(200, JSON.stringify(C_cicd_serv_HEALTH_CHECK_OK));
   } catch (error: any) {
     console.error(error);
 

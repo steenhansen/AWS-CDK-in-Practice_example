@@ -10,7 +10,7 @@ import the_constants from '../../cicd/program.constants.json';
 
 let port: string;
 if (process.env["SERVER_LOCAL_MODE"]?.toLowerCase() === 'yes') {
-  port = the_constants.PORT_SERVER || '80';
+  port = the_constants.C_serv_web_PORT_SERVER || '80';
 } else {
   port = process.env.PORT || '80';
 }

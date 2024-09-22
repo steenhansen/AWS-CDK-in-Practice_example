@@ -6,10 +6,10 @@ import { ColorInt } from '../ColorInt';
 import { backendLocal } from './backend-local';
 import { backendAWS } from './backend-aws';
 
-const { NO_SQL_OFF_ERROR, VPN_ON_ERROR,
-  FETCH_TIMEOUT,
-  SERVER_OFF_ERROR
-} = require('../../../program.pipeline.json');
+const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
+  C_cicd_web_FETCH_TIMEOUT,
+  C_web_SERVER_OFF_ERROR
+} = require('../../../program.pipeline_2_web.json');
 
 
 
@@ -27,7 +27,7 @@ export const getApiUrl = () => {
 
 export async function fastLocalFetch(backend_url: string, options: object) {
   if (process.env["REACT_APP__LOCAL_MODE"] !== "yes") {
-    options = Object.assign(options, { signal: AbortSignal.timeout(FETCH_TIMEOUT) });
+    options = Object.assign(options, { signal: AbortSignal.timeout(C_cicd_web_FETCH_TIMEOUT) });
   }
   let response = await fetch(backend_url, options);
   if (!response.ok) {
@@ -48,7 +48,7 @@ export const getDbRgb = async (backend_url: string) => {
     const all_data = json.color_ints;
     return all_data;
   } catch (e) {
-    const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+    const error_mess = C_cicd_serv_web_NO_SQL_OFF_ERROR + " or " + C_cicd_serv_web_VPN_ON_ERROR + " or " + C_web_SERVER_OFF_ERROR;
     console.log(error_mess, 'web/src/components/Main/index.tsx - useEffect()', backend_url);
   };
   return {};
@@ -70,7 +70,7 @@ export const putDbRgb = async ({ new_color_int, backend_url }: {
     json = await fastLocalFetch(backend_url, options);
   } catch (error: any) {
 
-    const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+    const error_mess = C_cicd_serv_web_NO_SQL_OFF_ERROR + " or " + C_cicd_serv_web_VPN_ON_ERROR + " or " + C_web_SERVER_OFF_ERROR;
     console.log(error_mess, 'web/src/components/Main/index.tsx - handleAdd()', backend_url);
   };
   const new_obj = json.color_int;
@@ -88,7 +88,7 @@ export const clearDbRgb = async (handle_clear: string) => {
     const all_data = json.color_ints;
     return all_data;
   } catch (e) {
-    const error_mess = NO_SQL_OFF_ERROR + " or " + VPN_ON_ERROR + " or " + SERVER_OFF_ERROR;
+    const error_mess = C_cicd_serv_web_NO_SQL_OFF_ERROR + " or " + C_cicd_serv_web_VPN_ON_ERROR + " or " + C_web_SERVER_OFF_ERROR;
     console.log(error_mess, 'web/src/components/Main/index.tsx - handleClear()', "9078 backend_url");
   };
   return {};
@@ -97,13 +97,17 @@ export const clearDbRgb = async (handle_clear: string) => {
 export const currentRGB = (color_ints: Interfaces.ColorInt[]) => {
   let rgb: any = { "red": 0, "green": 0, "blue": 0 };
   if (color_ints) {
-    color_ints.forEach(an_object => {
-      if (typeof an_object !== 'undefined') {
-        const the_color: string = an_object.the_color;
-        const the_integer = an_object.the_integer;
-        rgb[the_color] = the_integer;
-      }
-    });
+    try {
+      color_ints.forEach(an_object => {
+        if (typeof an_object !== 'undefined') {
+          const the_color: string = an_object.the_color;
+          const the_integer = an_object.the_integer;
+          rgb[the_color] = the_integer;
+        }
+      });
+    } catch (e) {
+      console.log(C_cicd_serv_web_NO_SQL_OFF_ERROR, e);
+    }
   }
   const rgb_val = rgb["red"] + " " + rgb["green"] + " " + rgb["blue"];
   const rgb_statment = "rgb(" + rgb_val + ")";
@@ -113,13 +117,17 @@ export const currentRGB = (color_ints: Interfaces.ColorInt[]) => {
 export function colorValues(color_ints: Interfaces.ColorInt[]) {
   let list_of_objects: Array<React.JSX.Element> = [];
   if (color_ints) {
-    color_ints.forEach(an_object => {
-      if (typeof an_object !== 'undefined') {
-        const color_html = <ColorInt color_int={an_object} key={an_object.id} />;
-        list_of_objects.push(color_html);
+    try {
+      color_ints.forEach(an_object => {
+        if (typeof an_object !== 'undefined') {
+          const color_html = <ColorInt color_int={an_object} key={an_object.id} />;
+          list_of_objects.push(color_html);
+        }
       }
+      );
+    } catch (e) {
+      console.log(C_cicd_serv_web_NO_SQL_OFF_ERROR, e);
     }
-    );
   }
   return list_of_objects;
 }

@@ -24,6 +24,7 @@ export const Global = createGlobalStyle`
 
   ul {
     list-style: none;
+    display: inline-flex;
   }
 
   a {

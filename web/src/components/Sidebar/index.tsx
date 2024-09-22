@@ -1,8 +1,8 @@
 import React from 'react';
 import { SidebarContainer } from './styles';
 
-const { AWS_Env_prd_dvl
-} = require('../../../program.pipeline.json');
+const { C_cicd_web_AWS_Env_prd_dvl
+} = require('../../../program.pipeline_2_web.json');
 
 
 
@@ -10,7 +10,7 @@ const { AWS_Env_prd_dvl
 
 export const Sidebar: React.FC = () => {
   return <SidebarContainer>
-    Environment {AWS_Env_prd_dvl}
+    Environment {C_cicd_web_AWS_Env_prd_dvl}
 
   </SidebarContainer>;
 };

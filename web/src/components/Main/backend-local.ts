@@ -1,6 +1,6 @@
 
 
-const { PORT_SERVER } = require('../../../program.pipeline.json');
+const { C_serv_web_PORT_SERVER } = require('../../../program.pipeline_2_web.json');
 
 
 
@@ -13,7 +13,7 @@ export const backendLocal = () => {
   } else {
     SSM_SLACK_WEBHOOK = "un-defined";
   }
-  backend_url = `http://localhost:${PORT_SERVER}`;
+  backend_url = `http://localhost:${C_serv_web_PORT_SERVER}`;
 
   return [SSM_SLACK_WEBHOOK, backend_url];
 };

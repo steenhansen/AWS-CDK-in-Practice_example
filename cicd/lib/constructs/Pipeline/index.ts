@@ -7,7 +7,7 @@ import { Topic } from 'aws-cdk-lib/aws-sns';
 import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
 import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
-import console = require("console");
+
 import { envLabel, stackLabel } from '../../../utils/construct_labels';
 import { pipelineTemplate } from './pipeline-template';
 import { backEndTest } from './back-end-test';
@@ -23,19 +23,21 @@ interface Props {
 import { printError } from '../../../utils/env-errors';
 
 import stack_config from '../../../program.config.json';
-const SSM_SECRETS_NAME = stack_config.SSM_SECRETS_NAME;
-const CICD_SLACK_ALIVE = stack_config.CICD_SLACK_ALIVE;
+const C_cicd_SSM_SECRETS_NAME = stack_config.C_cicd_SSM_SECRETS_NAME;
+
+import stack_switches from '../../../program.switches.json';
+const C_cicd_SLACK_ALIVE = stack_switches.C_cicd_SLACK_ALIVE;
 
 
-const ENVIRON_PRODUCTION = stack_config.ENVIRON_PRODUCTION;
-const ENVIRON_DEVELOP = stack_config.ENVIRON_DEVELOP;
+const C_cicd_web_ENVIRON_PRODUCTION = stack_config.C_cicd_web_ENVIRON_PRODUCTION;
+const C_cicd_web_ENVIRON_DEVELOP = stack_config.C_cicd_web_ENVIRON_DEVELOP;
 
 
 
 import stack_const from '../../../program.constants.json';
 
-const BRANCH_PROD = stack_const.BRANCH_PROD;
-const BRANCH_DEV = stack_const.BRANCH_DEV;
+const C_cicd_BRANCH_PROD = stack_const.C_cicd_BRANCH_PROD;
+const C_cicd_BRANCH_DEV = stack_const.C_cicd_BRANCH_DEV;
 
 
 export class PipelineStack extends Construct {
@@ -62,7 +64,7 @@ export class PipelineStack extends Construct {
         const back_end_test = backEndTest(cdk_role, back_test_name);
         this.backEndTestProject = new PipelineProject(scope, back_test_name, back_end_test);
 
-        const lambda_creds_str = ssm.StringParameter.valueFromLookup(this, SSM_SECRETS_NAME);
+        const lambda_creds_str = ssm.StringParameter.valueFromLookup(this, C_cicd_SSM_SECRETS_NAME);
 
 
         let lambda_creds_obj;
@@ -103,10 +105,10 @@ export class PipelineStack extends Construct {
 
 
         let env_branch = '';
-        if (WORK_ENV === ENVIRON_PRODUCTION) {
-            env_branch = BRANCH_PROD;
-        } else if (WORK_ENV === ENVIRON_DEVELOP) {
-            env_branch = BRANCH_DEV;
+        if (WORK_ENV === C_cicd_web_ENVIRON_PRODUCTION) {
+            env_branch = C_cicd_BRANCH_PROD;
+        } else if (WORK_ENV === C_cicd_web_ENVIRON_DEVELOP) {
+            env_branch = C_cicd_BRANCH_DEV;
         } else {
             printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/API-GW/', `NODE_ENV="${WORK_ENV}"`);
         }
@@ -125,7 +127,7 @@ export class PipelineStack extends Construct {
         this.pipeline.addStage(deploy_stage);
 
 
-        if (CICD_SLACK_ALIVE === 'yes') {
+        if (C_cicd_SLACK_ALIVE === 'yes') {
             const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
             const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
             const snsTopic = new Topic(this, slack_topic_name);

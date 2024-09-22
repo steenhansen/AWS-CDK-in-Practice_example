@@ -6,11 +6,11 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Duration, aws_logs as logs } from 'aws-cdk-lib';
 
 import stack_config from '../../../../program.constants.json';
-const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { nodeRuntime } from '../../../../utils/nodeVersion';
-const the_runtime: Runtime = nodeRuntime(NODE_RUNTIME);
+const the_runtime: Runtime = nodeRuntime(C_cicd_NODE_RUNTIME);
 
 export class HealthCheckLambda extends Construct {
   public readonly func: NodejsFunction;

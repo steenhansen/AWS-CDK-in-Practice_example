@@ -37,7 +37,7 @@ export const BoxedColor = styled.nav`
     background: #010203;
 
     width: 300px;
-    height: 200px;
+    height: 130px;
 
     padding: 42px;
 `;

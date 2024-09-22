@@ -14,7 +14,7 @@ import { DynamoDBSeeder, Seeds } from '@cloudcomponents/cdk-dynamodb-seeder';
 import { statefulEnvLabel, lowerEnvLabel, lowerLocalAwsDbLabel } from '../../../utils/construct_labels';
 
 import the_constants from '../../../program.constants.json';
-const LOCATION_AWS = the_constants.LOCATION_AWS;
+const C_cicd_LOCATION_AWS = the_constants.C_cicd_LOCATION_AWS;
 
 export class DynamoDB extends Construct {
   readonly table: Table;
@@ -27,7 +27,7 @@ export class DynamoDB extends Construct {
 
     const seeder_name = statefulEnvLabel(label_seeder);
 
-    const tablename_lower = lowerLocalAwsDbLabel(LOCATION_AWS);
+    const tablename_lower = lowerLocalAwsDbLabel(C_cicd_LOCATION_AWS);
 
 
 

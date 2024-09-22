@@ -13,7 +13,7 @@ import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda'
 import stack_config from '../../../../program.constants.json';
 import { nodeRuntime } from '../../../../utils/nodeVersion';
 
-const NODE_RUNTIME = stack_config.NODE_RUNTIME;
+const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
 ////////////// ksdfj
 import cdk_config from '../../../../cdk.json';
@@ -29,7 +29,7 @@ interface IProps {
 }
 
 
-const the_runtime = nodeRuntime(NODE_RUNTIME);
+const the_runtime = nodeRuntime(C_cicd_NODE_RUNTIME);
 
 
 export class DynamoPost extends Construct {

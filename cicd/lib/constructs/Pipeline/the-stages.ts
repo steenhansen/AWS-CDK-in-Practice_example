@@ -5,8 +5,8 @@ import { Artifact } from 'aws-cdk-lib/aws-codepipeline';
 import { SecretValue } from 'aws-cdk-lib';
 import { Role } from 'aws-cdk-lib/aws-iam';
 import stack_config from '../../../program.config.json';
-const GITHUB_REPO = stack_config.GITHUB_REPO;
-const GITHUB_OWNER = stack_config.GITHUB_OWNER;
+const C_cicd_GITHUB_REPO = stack_config.C_cicd_GITHUB_REPO;
+const C_cicd_GITHUB_OWNER = stack_config.C_cicd_GITHUB_OWNER;
 import {
   BuildSpec,
   LinuxBuildImage,
@@ -18,8 +18,8 @@ export function sourceStage(outputSource: Artifact, secretToken: SecretValue, pr
     actions: [
       new GitHubSourceAction({
         actionName: 'Source',
-        owner: GITHUB_OWNER,
-        repo: GITHUB_REPO,
+        owner: C_cicd_GITHUB_OWNER,
+        repo: C_cicd_GITHUB_REPO,
         branch: prod_or_dev_branch,
         oauthToken: secretToken,
         output: outputSource,
