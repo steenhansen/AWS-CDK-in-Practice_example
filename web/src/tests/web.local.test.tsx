@@ -3,7 +3,7 @@ import React from 'react';         // NB if not present  -    ReferenceError: Re
 import { App } from '../components/App';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-const { C_cicd_serv_web_TESTING_ALIVE } = require('../../program.switches.json');
+const { C_cicd_serv_web_TESTING_ALIVE } = require('../../program.pipeline_2_web.json');
 
 import { render, screen, waitFor } from '@testing-library/react';
 

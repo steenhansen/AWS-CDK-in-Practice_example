@@ -61,7 +61,11 @@ gulp.task('default', function (cb) {
     C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK: "_SLACK_WEBHOOK_"
   };
   const stringified = JSON.stringify(slack_webhook_k_v_obj, null, 2);
-  fs.writeFileSync('./program.pipeline.json', stringified);
+
+
+
+
+  fs.writeFileSync(C_cicd_PROG_PIPELINE_JSON, stringified);
   printConfig(WORK_ENV, C_cicd_STACK_NAME);
   cb();
 });
@@ -94,41 +98,3 @@ gulp.task('check-local-server', function (cb) {
   cb();
 });
 
-
-
-// //////////////////////////
-// let web_constants = require('../cicd/program.constants.json');
-// let web_configs = require('../cicd/program.config.json');
-// let web_switches = require('../cicd/program.switches.json');
-
-// function getConfigConstants2() {
-//   let slack_webhook_k_v_obj2 = {};
-
-//   for (let c_var in web_constants) {
-//     if (c_var.startsWith("C_") && c_var.includes("_web_")) {
-//       const c_value = web_constants[c_var];
-//       slack_webhook_k_v_obj2[c_var] = c_value;
-//     }
-//   }
-
-//   for (let a_var in web_configs) {
-//     if (a_var.startsWith("C_") && a_var.includes("_web_")) {
-//       const a_value = web_configs[a_var];
-//       slack_webhook_k_v_obj2[a_var] = a_value;
-//     }
-//   }
-
-//   for (let s_var in web_switches) {
-//     if (s_var.startsWith("C_") && s_var.includes("_web_")) {
-//       const s_value = web_switches[s_var];
-//       slack_webhook_k_v_obj2[s_var] = s_value;
-//     }
-//   }
-//   console.log(213, slack_webhook_k_v_obj2);
-// }
-
-// //yarn gulp cc
-// gulp.task('cc', function (cb) {
-//   getConfigConstants2();
-//   cb();
-// });
