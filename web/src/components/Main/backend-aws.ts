@@ -1,5 +1,4 @@
 
-
 const { C_cicd_web_AWS_Env_prd_dvl,
   C_cicd_web_DOMAIN_PROD_SUB_BACKEND,
   C_cicd_web_DOMAIN_DEV_SUB_BACKEND,
@@ -12,6 +11,7 @@ const { C_cicd_web_AWS_Env_prd_dvl,
   //C_cicd_web_FETCH_TIMEOUT,
   //C_web_SERVER_OFF_ERROR,
   C_cicd_web_SLACK_WEB_HOOK_ALIVE,
+  //C_web_SLACK_NUMBER,
   //C_serv_web_PORT_SERVER,
   //C_cicd_serv_web_TESTING_ALIVE,
   C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK

@@ -74,7 +74,8 @@ export class PipelineStack extends Construct {
             console.log("SSM not ready yet, try again.", e);
             throw "asdflkjsadflkj";
         }
-
+        console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+        console.log("213 lambda_creds_obj=", lambda_creds_obj);
         const {
             GITHUB_TOKEN, SLACK_WEBHOOK,
             SLACK_PROD_CHANNEL_ID,

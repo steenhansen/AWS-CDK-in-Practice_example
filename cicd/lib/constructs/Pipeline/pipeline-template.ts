@@ -21,8 +21,11 @@ const C_cicd_PROG_PIPELINE_JSON = constants_config.C_cicd_PROG_PIPELINE_JSON;
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
   let aws_to_web_constants: Str_to_Str_or_Num = getConfigConstants(web_constants, web_configs, web_switches);
   aws_to_web_constants["C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK"] = SLACK_WEBHOOK;
-
-  const web_constants_k_v_str = JSON.stringify(aws_to_web_constants, null, 2);;
+  console.log("354 SLACK_WEBHOOK=", SLACK_WEBHOOK);
+  console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+  console.log("324 aws_to_web_constants=", aws_to_web_constants);
+  const web_constants_k_v_str = JSON.stringify(aws_to_web_constants, null, 2);
+  console.log("789 web_constants_k_v_str=", web_constants_k_v_str);
   const pipeline_structure = {
     projectName: pipeline_name,
     role: cdk_role,
