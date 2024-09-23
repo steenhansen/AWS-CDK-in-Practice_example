@@ -1,6 +1,10 @@
 import cdk_config from '../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
+interface Str_to_Obj {
+  [key: string]: { [key: string]: string; };
+
+}
+const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 const ACCOUNT_NUMBER = THE_ENVIRONMENTS[WORK_ENV].ACCOUNT_NUMBER;
 
@@ -32,16 +36,16 @@ function cdkTests() {
   describe('Testing cdk code.', () => {
     test('The stack has 9 lambda functions', () => {
       const app = new App();
-      let main_stack: any;
+      let main_stack: TheMainStack;
       try {
         main_stack = new TheMainStack(app, 'Chapter9Stack', {
           env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
         });
+        const template = Template.fromStack(main_stack);
+        template.resourceCountIs('AWS::Lambda::Function', 9);
       } catch (e: any) {
         printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/test/the_stack.test.ts', e.message);
       }
-      const template = Template.fromStack(main_stack);
-      template.resourceCountIs('AWS::Lambda::Function', 9);
     });
 
     it('TheMainStack matches the snapshot.', () => {

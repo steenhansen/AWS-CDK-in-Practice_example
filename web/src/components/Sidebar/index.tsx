@@ -10,7 +10,9 @@ const { C_cicd_web_AWS_Env_prd_dvl
 
 export const Sidebar: React.FC = () => {
   return <SidebarContainer>
-    Environment {C_cicd_web_AWS_Env_prd_dvl}
+    Environment
+    <br />
+    {C_cicd_web_AWS_Env_prd_dvl}
 
   </SidebarContainer>;
 };

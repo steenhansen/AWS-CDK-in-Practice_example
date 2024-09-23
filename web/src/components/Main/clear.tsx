@@ -16,8 +16,10 @@ const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
 
 
 export const getApiUrl = () => {
+  //  console.log("GGGGGGGGGGGGGGGGG", process.env["REACT_APP__LOCAL_MODE"]);
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
     const [SSM_SLACK_WEBHOOK, backend_url_local] = backendLocal();
+    // console.log("FFF", SSM_SLACK_WEBHOOK, backend_url_local);
     return [SSM_SLACK_WEBHOOK, backend_url_local];
   } else {
     const [SSM_SLACK_WEBHOOK, backend_url_aws] = backendAWS();
@@ -94,8 +96,12 @@ export const clearDbRgb = async (handle_clear: string) => {
   return {};
 };
 
+interface Str_to_Int {
+  [key: string]: number;
+}
+
 export const currentRGB = (color_ints: Interfaces.ColorInt[]) => {
-  let rgb: any = { "red": 0, "green": 0, "blue": 0 };
+  let rgb: Str_to_Int = { "red": 0, "green": 0, "blue": 0 };
   if (color_ints) {
     try {
       color_ints.forEach(an_object => {

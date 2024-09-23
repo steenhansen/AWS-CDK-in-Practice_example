@@ -1,30 +1,16 @@
-
-
-
-
-//  curl - X POST - H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/AAAAAAAAAAA/BBBBBBBBBBB/CCCCCCCCCCCCCCCCCCCCCCCC
-
-import { C_cicd_web_SLACK_WEB_HOOK_ALIVE, C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK } from '../program.pipeline_2_web.json';
-
-
-export function directSlackMess(direct_message: string) {
-  try {
-    if (C_cicd_web_SLACK_WEB_HOOK_ALIVE === 'yes') {
-      const slack_payload = {
-        attachments: [{ text: direct_message }]
-      };
-      const options = {
-        method: 'post',
-        baseURL: C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        data: slack_payload
-      };
-
+export function directSlackMess(SSM_SLACK_WEBHOOK: string, slack_text_mess: string) {
+  const slack_options = {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+    body: JSON.stringify({ text: slack_text_mess })
+  };
+  (async () => {
+    try {
+      const slack_response = await fetch(SSM_SLACK_WEBHOOK, slack_options);
+      console.log(slack_response);
+    } catch (e: any) {
+      console.error(SSM_SLACK_WEBHOOK, slack_text_mess, e);
     }
-  } catch (error) {
-    console.error(error);
-  }
+  })();
 }
 

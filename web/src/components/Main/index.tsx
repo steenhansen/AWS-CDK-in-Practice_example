@@ -2,15 +2,23 @@ import { getDbRgb, putDbRgb, clearDbRgb, currentRGB, getApiUrl, colorValues } fr
 import React, { useEffect, useState } from 'react';
 import { Interfaces } from '../../../program.interfaces';
 import { CreateColorInt } from '../CreateColorInt';
-import { MainContainer, BoxedColor, Zxc } from './styles';
+import { MainContainer, BoxedColor, RgbBox, WebHook } from './styles';
+
+
+import { directSlackMess } from '../../slack_mess';
+
+
+const all_aws_constants = require('../../../program.pipeline_2_web.json');
+console.log(all_aws_constants);
 
 const {
   C_cicd_web_DOMAIN_NAME,
+  C_web_SLACK_NUMBER,
   C_cicd_serv_web_CLEARDB_SLUG,
 } = require('../../../program.pipeline_2_web.json');
 
 
-
+const SLACK_NUMBER = Number(C_web_SLACK_NUMBER);
 const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
 
 const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
@@ -35,6 +43,16 @@ export const Main: React.FC = () => {
     const trunc_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
     const new_list = [...trunc_list, new_obj];
     setUserDatas(_ => new_list);
+
+    if (SSM_SLACK_WEBHOOK !== "") {
+      const { the_color, the_integer } = new_color_int;
+      const as_number = Number(the_integer);
+      if (as_number === SLACK_NUMBER) {
+        const slack_text_mess = `${the_color} is ${C_web_SLACK_NUMBER}`;
+        directSlackMess(SSM_SLACK_WEBHOOK, slack_text_mess);
+      }
+    }
+
   };
 
   const handleClear = async () => {
@@ -53,13 +71,14 @@ export const Main: React.FC = () => {
   return (
     <MainContainer >
 
-      ssm <h2>{SSM_SLACK_WEBHOOK}</h2>
+      Slack Web Hook called when a {C_web_SLACK_NUMBER} is entered.
+      <WebHook>{SSM_SLACK_WEBHOOK}</WebHook>
 
 
       <BoxedColor style={rgb_styles} id={"the-color_box"}>
-        <Zxc data-testid={"test-color_box"}  >
+        <RgbBox data-testid={"test-color_box"}  >
           {rgb_statment}
-        </Zxc>
+        </RgbBox>
       </BoxedColor>
       <br></br>
       <CreateColorInt handleAdd={handleAdd} handleClear={handleClear} />

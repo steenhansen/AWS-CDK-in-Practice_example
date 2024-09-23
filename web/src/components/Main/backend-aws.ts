@@ -21,12 +21,12 @@ const { C_cicd_web_AWS_Env_prd_dvl,
 export const backendAWS = () => {
   let backend_url: string;
   let domain_sub_backend = '';
-  let SSM_SLACK_WEBHOOK: string;
+  let SSM_SLACK_WEBHOOK = "";
 
   if (C_cicd_web_SLACK_WEB_HOOK_ALIVE === "yes") {
-    SSM_SLACK_WEBHOOK = C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK;
-  } else {
-    SSM_SLACK_WEBHOOK = "";
+    if (C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK !== '') {
+      SSM_SLACK_WEBHOOK = C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK;
+    }
   }
 
   if (C_cicd_web_AWS_Env_prd_dvl === C_cicd_web_ENVIRON_PRODUCTION) {

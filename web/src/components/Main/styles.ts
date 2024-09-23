@@ -42,7 +42,13 @@ export const BoxedColor = styled.nav`
     padding: 42px;
 `;
 
-export const Zxc = styled.nav`
+export const RgbBox = styled.nav`
     background: #ffffff;
    padding: 12px;
+`;
+
+export const WebHook = styled.nav`
+    background: #ffffff;
+   padding-bottom: 24px;
+    font-size: 10px;
 `;

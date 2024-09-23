@@ -26,7 +26,7 @@ import stack_config from '../../../program.config.json';
 const C_cicd_SSM_SECRETS_NAME = stack_config.C_cicd_SSM_SECRETS_NAME;
 
 import stack_switches from '../../../program.switches.json';
-const C_cicd_SLACK_ALIVE = stack_switches.C_cicd_SLACK_ALIVE;
+const C_cicd_CHATBOT_ALIVE = stack_switches.C_cicd_CHATBOT_ALIVE;
 
 
 const C_cicd_web_ENVIRON_PRODUCTION = stack_config.C_cicd_web_ENVIRON_PRODUCTION;
@@ -127,7 +127,7 @@ export class PipelineStack extends Construct {
         this.pipeline.addStage(deploy_stage);
 
 
-        if (C_cicd_SLACK_ALIVE === 'yes') {
+        if (C_cicd_CHATBOT_ALIVE === 'yes') {
             const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
             const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
             const snsTopic = new Topic(this, slack_topic_name);

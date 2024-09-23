@@ -1,5 +1,9 @@
-export function getConfigConstants(web_constants: any, web_configs: any, web_switches: any) {
-  let aws_to_web_constants: any = {};
+interface Str_to_Str_or_Num {
+  [key: string]: string | number;
+}
+
+export function getConfigConstants(web_constants: Str_to_Str_or_Num, web_configs: Str_to_Str_or_Num, web_switches: Str_to_Str_or_Num): Str_to_Str_or_Num {
+  let aws_to_web_constants: Str_to_Str_or_Num = {};
 
   for (let c_var in web_constants) {
     if (c_var.startsWith("C_") && c_var.includes("_web_")) {

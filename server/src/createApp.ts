@@ -37,8 +37,8 @@ const createApp = () => {
       const response_json = JSON.stringify(response);
       checkNoSqlWork(response_json);
       return res.status(200).send(response_json);
-    } catch (e: unknown) {
-      return corsResponse("the_e");
+    } catch (e: any) {
+      return corsResponse(e.message);
     }
   });
 
@@ -48,8 +48,8 @@ const createApp = () => {
       const response_json = JSON.parse(response.body);
       checkNoSqlWork(response_json);
       return res.status(200).send(response_json);
-    } catch (e: unknown) {
-      return corsResponse("the_e");
+    } catch (e: any) {
+      return corsResponse(e.message);
     }
   });
 
@@ -61,8 +61,8 @@ const createApp = () => {
       const response_json = JSON.parse(response.body);
       checkNoSqlWork(response_json);
       return res.status(200).send(response_json);
-    } catch (e: unknown) {
-      return corsResponse("the_e");
+    } catch (e: any) {
+      return corsResponse(e.message);
     }
   });
 

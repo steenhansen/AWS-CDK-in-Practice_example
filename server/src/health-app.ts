@@ -29,8 +29,8 @@ export const healthApp = () => {
       const response = await healthcheck_handler();
       const response_json = JSON.stringify(response);
       return res.status(200).send(response_json);
-    } catch (e: unknown) {
-      return corsResponse("the_e");
+    } catch (e: any) {
+      return corsResponse(e.message);
     }
   });
   return app;

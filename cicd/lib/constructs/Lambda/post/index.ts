@@ -16,10 +16,15 @@ import { nodeRuntime } from '../../../../utils/nodeVersion';
 const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
 ////////////// ksdfj
+
+interface Str_to_Obj {
+  [key: string]: { [key: string]: string; };
+}
+
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-const THE_ENVIRONMENTS: any = cdk_config.context.environment_consts;
-const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
+const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
+const AWS_REGION: string = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 
 
 //////////////////////// ksdfj

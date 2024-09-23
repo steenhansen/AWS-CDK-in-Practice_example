@@ -15,7 +15,7 @@ const the_runtime: Runtime = nodeRuntime(C_cicd_NODE_RUNTIME);
 export class HealthCheckLambda extends Construct {
   public readonly func: NodejsFunction;
 
-  constructor(scope: Construct, id: string, props: any) {
+  constructor(scope: Construct, id: string, props: unknown) {
     super(scope, id);
 
     this.func = new NodejsFunction(scope, 'health-check-lambda', {   //label_health

@@ -1,17 +1,21 @@
 
 
-const { C_serv_web_PORT_SERVER } = require('../../../program.pipeline_2_web.json');
+const { C_cicd_web_SLACK_WEB_HOOK_ALIVE } = require('../../../../cicd/program.switches.json');
 
+const { C_serv_web_PORT_SERVER } = require('../../../../cicd/program.constants.json');
 
 
 export const backendLocal = () => {
-  let SSM_SLACK_WEBHOOK: string;
   let backend_url: string;
 
-  if (typeof process.env["REACT_APP__SLACK_HOOK"] !== 'undefined') {
-    SSM_SLACK_WEBHOOK = process.env["REACT_APP__SLACK_HOOK"];
-  } else {
-    SSM_SLACK_WEBHOOK = "un-defined";
+  let SSM_SLACK_WEBHOOK = "";
+  // console.log("bbbbbbbbbbbbbb    ", C_cicd_web_SLACK_WEB_HOOK_ALIVE);
+  if (C_cicd_web_SLACK_WEB_HOOK_ALIVE === "yes") {
+    // console.log("ccccccccccccccc    ", typeof process.env["REACT_APP__SLACK_HOOK"]);
+    if (typeof process.env["REACT_APP__SLACK_HOOK"] !== 'undefined') {
+      SSM_SLACK_WEBHOOK = process.env["REACT_APP__SLACK_HOOK"];
+      // console.log("dddddddddddddddd x ccc  ", SSM_SLACK_WEBHOOK);
+    }
   }
   backend_url = `http://localhost:${C_serv_web_PORT_SERVER}`;
 

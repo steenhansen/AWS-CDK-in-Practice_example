@@ -2,6 +2,9 @@ import { BuildSpec, LinuxBuildImage, } from 'aws-cdk-lib/aws-codebuild';
 import { Role } from 'aws-cdk-lib/aws-iam';
 
 
+interface Str_to_Str_or_Num {
+  [key: string]: string | number;
+}
 
 import constants_config from '../../../program.constants.json';
 
@@ -16,7 +19,7 @@ const C_cicd_LINUX_VERSION = constants_config.C_cicd_LINUX_VERSION;
 const C_cicd_PROG_PIPELINE_JSON = constants_config.C_cicd_PROG_PIPELINE_JSON;
 
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: string) {
-  let aws_to_web_constants = getConfigConstants(web_constants, web_configs, web_switches);
+  let aws_to_web_constants: Str_to_Str_or_Num = getConfigConstants(web_constants, web_configs, web_switches);
   aws_to_web_constants["C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK"] = SLACK_WEBHOOK;
 
   const web_constants_k_v_str = JSON.stringify(aws_to_web_constants, null, 2);;
