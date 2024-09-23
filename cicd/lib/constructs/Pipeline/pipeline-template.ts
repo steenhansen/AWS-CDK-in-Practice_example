@@ -37,7 +37,10 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: 
         pre_build: {
           'on-failure': 'ABORT',
           commands: [
-            `echo '${web_constants_k_v_str}' > ${C_cicd_PROG_PIPELINE_JSON}      `,    // from SystemsManager.ParameterStore
+            `echo 'IIII SLACK_WEBHOOK == ${SLACK_WEBHOOK}      `,
+            `echo 'UUUU aws_to_web_constants == ${aws_to_web_constants}      `,
+            `echo '${web_constants_k_v_str}' > ${C_cicd_PROG_PIPELINE_JSON}      `,
+            `echo '${web_constants_k_v_str}' > ./web/program.pipeline_2_web.json  `,
             'cd web',
             'yarn install',
             'cd ../server',
@@ -47,12 +50,19 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, SLACK_WEBHOOK: 
         },
         build: {
           'on-failure': 'ABORT',
-          commands: ['cd ../web',
+          commands: [
+            `echo 'NNNN  build SLACK_WEBHOOK == ${SLACK_WEBHOOK}      `,
+            'cd ../web',
             'yarn web-build-AWS',
             'cd ../cicd',
             'yarn cdk deploy']
         },
-        post_build: { 'on-failure': 'ABORT', commands: [''] },
+        post_build: {
+          'on-failure': 'ABORT',
+          commands: [
+            `echo 'MMMMM  post_build  SLACK_WEBHOOK == ${SLACK_WEBHOOK}      `
+          ]
+        },
       },
     }),
   };
