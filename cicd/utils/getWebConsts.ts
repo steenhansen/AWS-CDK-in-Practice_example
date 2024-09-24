@@ -1,6 +1,6 @@
-interface Str_to_Str_or_Num {
-  [key: string]: string | number;
-}
+
+import { Str_to_Str_or_Num } from '../../web/shapes';
+
 
 export function getConfigConstants(web_constants: Str_to_Str_or_Num, web_configs: Str_to_Str_or_Num, web_switches: Str_to_Str_or_Num): Str_to_Str_or_Num {
   let aws_to_web_constants: Str_to_Str_or_Num = {};

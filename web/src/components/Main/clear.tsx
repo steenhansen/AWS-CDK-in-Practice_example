@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Interfaces } from '../../../program.interfaces';
-import { ColorInt } from '../ColorInt';
+import { ColorBox } from '../ColorBox';
+import { ColorInt, Str_to_Int } from '../../../shapes';
 
 import { backendLocal } from './backend-local';
 import { backendAWS } from './backend-aws';
@@ -16,10 +16,8 @@ const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
 
 
 export const getApiUrl = () => {
-  //  console.log("GGGGGGGGGGGGGGGGG", process.env["REACT_APP__LOCAL_MODE"]);
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
     const [SSM_SLACK_WEBHOOK, backend_url_local] = backendLocal();
-    // console.log("FFF", SSM_SLACK_WEBHOOK, backend_url_local);
     return [SSM_SLACK_WEBHOOK, backend_url_local];
   } else {
     const [SSM_SLACK_WEBHOOK, backend_url_aws] = backendAWS();
@@ -61,7 +59,7 @@ export const getDbRgb = async (backend_url: string) => {
 };
 
 export const putDbRgb = async ({ new_color_int, backend_url }: {
-  new_color_int: Interfaces.ColorInt; backend_url: string;
+  new_color_int: ColorInt; backend_url: string;
 }) => {
   let json;
   try {
@@ -100,11 +98,8 @@ export const clearDbRgb = async (handle_clear: string) => {
   return {};
 };
 
-interface Str_to_Int {
-  [key: string]: number;
-}
 
-export const currentRGB = (color_ints: Interfaces.ColorInt[]) => {
+export const currentRGB = (color_ints: ColorInt[]) => {
   let rgb: Str_to_Int = { "red": 0, "green": 0, "blue": 0 };
   if (color_ints) {
     try {
@@ -124,13 +119,13 @@ export const currentRGB = (color_ints: Interfaces.ColorInt[]) => {
   return rgb_statment;
 };
 
-export function colorValues(color_ints: Interfaces.ColorInt[]) {
+export function colorValues(color_ints: ColorInt[]) {
   let list_of_objects: Array<React.JSX.Element> = [];
   if (color_ints) {
     try {
       color_ints.forEach(an_object => {
         if (typeof an_object !== 'undefined') {
-          const color_html = <ColorInt color_int={an_object} key={an_object.id} />;
+          const color_html = <ColorBox color_int={an_object} key={an_object.id} />;
           list_of_objects.push(color_html);
         }
       }

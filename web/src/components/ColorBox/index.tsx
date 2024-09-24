@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { Interfaces } from '../../../program.interfaces';
+import { ColorInt } from '../../../shapes';
+
 
 import { UserBox, UserContainer, UserContent } from './styles';
 
-interface Props {
-  color_int: Interfaces.ColorInt;
+interface BoxProps {
+  color_int: ColorInt;
 }
 
 
-export const ColorInt: React.FC<Props> = ({ color_int }) => {
+export const ColorBox: React.FC<BoxProps> = ({ color_int }) => {
   return (
     <UserContainer key={color_int.the_color}>
       <UserBox>

@@ -38,7 +38,7 @@ import { ACM } from '../ACM';
 
 
 const C_cicd_S3_UNIQUE_ID = config.C_cicd_S3_UNIQUE_ID;
-interface Props {
+interface S3Props {
   acm: ACM;
   route53: Route53;
 }
@@ -55,7 +55,7 @@ export class S3 extends Construct {
 
   public readonly distribution: Distribution;
 
-  constructor(scope: Construct, id: string, props: Props) {
+  constructor(scope: Construct, id: string, props: S3Props) {
     super(scope, id);
 
     const webB_name = envLabel('WebBucket');

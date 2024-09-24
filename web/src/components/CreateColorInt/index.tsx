@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { Interfaces } from '../../../program.interfaces';
+
+import { ColorInt } from '../../../shapes';
+
 
 import { CreateColorIntContainer } from './styles';
 
 
-interface Props {
+interface AddClearProps {
   handleAdd: ({
     new_color_int,
   }: {
-    new_color_int: Interfaces.ColorInt;
+    new_color_int: ColorInt;
   }) => Promise<void>;
 
   handleClear: () => Promise<void>;
 }
 
-export const CreateColorInt: React.FC<Props> = ({ handleAdd, handleClear }) => {
+export const CreateColorInt: React.FC<AddClearProps> = ({ handleAdd, handleClear }) => {
 
-  const [new_color_int, setNewColorInt] = useState<Interfaces.ColorInt>({
+  const [new_color_int, setNewColorInt] = useState<ColorInt>({
     id: '',
     the_color: 'purple',
     the_integer: 49

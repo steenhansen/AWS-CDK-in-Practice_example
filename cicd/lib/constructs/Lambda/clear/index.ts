@@ -14,12 +14,10 @@ import { Code, LayerVersion, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda'
 import stack_config from '../../../../program.constants.json';
 const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
-
+import { Str_to_Obj } from '../../../../../web/shapes';
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-interface Str_to_Obj {
-  [key: string]: { [key: string]: string; };
-}
+
 
 const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
 

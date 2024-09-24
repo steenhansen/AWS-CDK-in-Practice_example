@@ -3,30 +3,26 @@ import { Artifact, Pipeline, PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { Construct } from 'constructs';
 import { PipelineProject } from 'aws-cdk-lib/aws-codebuild';
 import { PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
-import { Topic } from 'aws-cdk-lib/aws-sns';
-import { SlackChannelConfiguration } from 'aws-cdk-lib/aws-chatbot';
-import { NotificationRule } from 'aws-cdk-lib/aws-codestarnotifications';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
-
 import { envLabel, stackLabel } from '../../../utils/construct_labels';
 import { pipelineTemplate } from './pipeline-template';
 import { backEndTest } from './back-end-test';
 import { frontEndTest } from './front-end-test';
+
+import { chatBot } from './chat-bot';
+
 import { sourceStage, backEndStage, frontEndStage, deployStage } from './the-stages';
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
 
 import { the_cdk_role, code_build_policy, slack_events } from './roles';
-interface Props {
-}
-import { printError } from '../../../utils/env-errors';
+
+import { printConfig, printError } from '../../../utils/env-errors';
 
 import stack_config from '../../../program.config.json';
 const C_cicd_SSM_SECRETS_NAME = stack_config.C_cicd_SSM_SECRETS_NAME;
 
-import stack_switches from '../../../program.switches.json';
-const C_cicd_CHATBOT_ALIVE = stack_switches.C_cicd_CHATBOT_ALIVE;
 
 
 const C_cicd_web_ENVIRON_PRODUCTION = stack_config.C_cicd_web_ENVIRON_PRODUCTION;
@@ -40,13 +36,16 @@ const C_cicd_BRANCH_PROD = stack_const.C_cicd_BRANCH_PROD;
 const C_cicd_BRANCH_DEV = stack_const.C_cicd_BRANCH_DEV;
 
 
+interface PipelineProps {
+}
+
 export class PipelineStack extends Construct {
     readonly frontEndTestProject: PipelineProject;
     readonly backEndTestProject: PipelineProject;
     readonly deployProject: PipelineProject;
     readonly pipeline: Pipeline;
 
-    constructor(scope: Construct, id: string, props: Props) {
+    constructor(scope: Construct, id: string, props: PipelineProps) {
         super(scope, id);
 
         const prd_or_dvl_tag = stackLabel('prd-pipeline');
@@ -71,15 +70,20 @@ export class PipelineStack extends Construct {
         try {
             lambda_creds_obj = JSON.parse(lambda_creds_str);
         } catch (e) {
-            console.log("SSM not ready yet, try again.", e);
-            throw "asdflkjsadflkj";
+            printConfig("SSM not ready yet", "Will try again");
+            throw "Waiting for SSM to be ready";
         }
-        console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-        console.log("213 lambda_creds_obj=", lambda_creds_obj);
+
+        printConfig("If AWS Parameters change then use new name", `C_cicd_SSM_SECRETS_NAME = "lambda-creds7"`);
+        printConfig("AWS Parameters ", lambda_creds_obj);
         const {
-            GITHUB_TOKEN, SLACK_WEBHOOK,
-            SLACK_PROD_CHANNEL_ID,
-            SLACK_WORKSPACE_ID } = lambda_creds_obj;
+            GITHUB_TOKEN,
+            SLACK_WEBHOOK,
+            CHATBOT_PROD_CHANNEL_ID,
+            CHATBOT_DEV_CHANNEL_ID,
+            CHATBOT_WORKSPACE_ID } = lambda_creds_obj;
+
+
 
         const pipeline_name = stackLabel(label_back_build);
 
@@ -129,23 +133,7 @@ export class PipelineStack extends Construct {
         const deploy_stage = deployStage(this.deployProject, outputSource, cdk_role);
         this.pipeline.addStage(deploy_stage);
 
-
-        if (C_cicd_CHATBOT_ALIVE === 'yes') {
-            const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
-            const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
-            const snsTopic = new Topic(this, slack_topic_name);
-            const slackConfig = new SlackChannelConfiguration(this, 'SlackChannel', {
-                slackChannelConfigurationName: pipeline_slack_config,
-                slackWorkspaceId: SLACK_WORKSPACE_ID,
-                slackChannelId: SLACK_PROD_CHANNEL_ID
-            });
-            const rule = new NotificationRule(this, 'SlackNotificationRule', {
-                source: this.pipeline,
-                events: slack_events,
-                targets: [snsTopic],
-            });
-            rule.addTarget(slackConfig);
-        }
+        chatBot(this, CHATBOT_PROD_CHANNEL_ID, CHATBOT_DEV_CHANNEL_ID, CHATBOT_WORKSPACE_ID, slack_events);
 
         Tags.of(this).add('Context', prd_or_dvl_tag);
     }

@@ -15,10 +15,9 @@ const C_cicd_NODE_RUNTIME = the_constants.C_cicd_NODE_RUNTIME;
 
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
+import { Str_to_Obj } from '../../../../../web/shapes';
 
-interface Str_to_Obj {
-  [key: string]: { [key: string]: string; };
-}
+
 
 const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;

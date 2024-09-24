@@ -1,8 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
-//import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { lowerLocalAwsDbLabel } from '../../../../utils/construct_labels';
 import { printError } from '../../../../utils/env-errors';
-import { Interfaces } from '../../../../../web/program.interfaces';
+import { ColorInt, Str_to_Obj } from '../../../../../web/shapes';
 import { v4 as uuidv4 } from 'uuid';
 
 import the_constants from '../../../../program.constants.json';
@@ -18,10 +17,7 @@ const C_cicd_LOCATION_LOCAL = the_constants.C_cicd_LOCATION_LOCAL;
 
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-interface Str_to_Obj {
-  [key: string]: { [key: string]: string; };
 
-}
 const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
 const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 
@@ -88,7 +84,7 @@ export const dynamoDelete = async (dynamo_DB: DynamoDB.DocumentClient,
 
 export const makeColorInt = (the_color: string, the_integer: string) => {
   const checked_int = +the_integer;
-  const new_color_int: Interfaces.ColorInt = {
+  const new_color_int: ColorInt = {
     id: uuidv4(),
     the_color,
     the_integer: checked_int

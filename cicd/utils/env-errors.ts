@@ -1,15 +1,9 @@
 import cdk_config from '../cdk.json';
 
+import { Str_to_Str_or_Num, Str_to_Obj } from '../../web/shapes';
+
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
-interface Str_to_Obj {
-  [key: string]: { [key: string]: string; };
-}
-
 const THE_ENVIRONMENTS: Str_to_Obj = cdk_config.context.environment_consts;
-
-interface Str_to_Str_or_Num {
-  [key: string]: string | number;
-}
 
 const BACKGROUND_COLORS: Str_to_Str_or_Num = {
   "Red": "[41m",

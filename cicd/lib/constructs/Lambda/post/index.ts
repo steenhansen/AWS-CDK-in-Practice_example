@@ -16,10 +16,7 @@ import { nodeRuntime } from '../../../../utils/nodeVersion';
 const C_cicd_NODE_RUNTIME = stack_config.C_cicd_NODE_RUNTIME;
 
 ////////////// ksdfj
-
-interface Str_to_Obj {
-  [key: string]: { [key: string]: string; };
-}
+import { Str_to_Obj } from '../../../../../web/shapes';
 
 import cdk_config from '../../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;

@@ -6,7 +6,7 @@
   "C_cicd_web_ENVIRON_DEVELOP": "Env_dvl",
   "C_cicd_STACK_NAME": "ColorDb",
   "C_cicd_S3_UNIQUE_ID": "kill-devil",
-  "C_cicd_SSM_SECRETS_NAME": "lambda-creds",
+  "C_cicd_SSM_SECRETS_NAME": "lambda-creds-2",
   "C_cicd_GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "C_cicd_GITHUB_OWNER": "steenhansen",
   "C_cicd_web_DOMAIN_DEV_SUB_BACKEND": "back-dev",

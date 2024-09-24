@@ -1,6 +1,10 @@
 import { getDbRgb, putDbRgb, clearDbRgb, currentRGB, getApiUrl, colorValues } from './clear';
 import React, { useEffect, useState } from 'react';
-import { Interfaces } from '../../../program.interfaces';
+
+
+
+import { ColorInt } from '../../../shapes';
+
 import { CreateColorInt } from '../CreateColorInt';
 import { MainContainer, BoxedColor, RgbBox, WebHook } from './styles';
 
@@ -24,7 +28,7 @@ const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
 const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
-  const [color_ints, setUserDatas] = useState<Interfaces.ColorInt[]>([]);
+  const [color_ints, setUserDatas] = useState<ColorInt[]>([]);
 
   useEffect(() => {
     document.title = C_cicd_web_DOMAIN_NAME;
@@ -38,7 +42,7 @@ export const Main: React.FC = () => {
     fetchColorInts();
   }, []);
 
-  const handleAdd = async ({ new_color_int, }: { new_color_int: Interfaces.ColorInt; }) => {
+  const handleAdd = async ({ new_color_int, }: { new_color_int: ColorInt; }) => {
     let new_obj = await putDbRgb({ new_color_int, backend_url });
     const trunc_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
     const new_list = [...trunc_list, new_obj];
@@ -72,6 +76,7 @@ export const Main: React.FC = () => {
     <MainContainer >
 
       Slack Web Hook called when a {C_web_SLACK_NUMBER} is entered.
+      Values stored in AWS Systems Manage / Parameter store, and is injected in pipeline, does not exist in GitHub.
       <WebHook>{SSM_SLACK_WEBHOOK}</WebHook>
 
 

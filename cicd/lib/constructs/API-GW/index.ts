@@ -36,7 +36,7 @@ import { DynamoGet } from '../Lambda/get';
 import { DynamoPost } from '../Lambda/post';
 import { DynamoClear } from '../Lambda/clear';
 
-interface Props {
+interface ApigwProps {
   acm: ACM;
   route53: Route53;
   dynamoTable: Table;
@@ -46,7 +46,7 @@ import { printError } from '../../../utils/env-errors';
 import { stackLabel, stackEnvLabel } from '../../../utils/construct_labels';
 
 export class ApiGateway extends Construct {
-  constructor(scope: Construct, id: string, props: Props) {
+  constructor(scope: Construct, id: string, props: ApigwProps) {
     super(scope, id);
 
     const { acm, route53, dynamoTable } = props;

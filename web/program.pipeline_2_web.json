@@ -1,3 +1,3 @@
 {
-  "C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK": "this_will_be_filled_in_by_pipelineTemplate()_in_the_aws_pipeline"
+  "SLACK_WEBHOOK": "this_will_be_filled_in_by_pipelineTemplate()_in_the_aws_pipeline"
 }
