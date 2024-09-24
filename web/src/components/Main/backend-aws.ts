@@ -14,7 +14,9 @@ const { C_cicd_web_AWS_Env_prd_dvl,
   //C_web_SLACK_NUMBER,
   //C_serv_web_PORT_SERVER,
   //C_cicd_serv_web_TESTING_ALIVE,
-  C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK
+} = require('../../../program.web_values.json');
+
+const { C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK
 } = require('../../../program.pipeline_2_web.json');
 
 

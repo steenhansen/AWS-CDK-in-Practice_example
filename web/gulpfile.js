@@ -14,13 +14,13 @@ const web_configs = require('../cicd/program.config.json');
 const web_switches = require('../cicd/program.switches.json');
 const { getConfigConstants } = require('../cicd/utils/getWebConsts');
 
-const { C_cicd_PROG_PIPELINE_JSON } = require('../cicd/program.constants.json');
+const { C_cicd_web_WEB_VALUES_JSON } = require('../cicd/program.constants.json');
 
 gulp.task('default', function (cb) {
   let aws_to_web_constants = getConfigConstants(web_constants, web_configs, web_switches);
   aws_to_web_constants["C_cicd_web_AWS_Env_prd_dvl"] = WORK_ENV;
   const stringified = JSON.stringify(aws_to_web_constants, null, 2);
-  fs.writeFileSync(C_cicd_PROG_PIPELINE_JSON, stringified);
+  fs.writeFileSync(C_cicd_web_WEB_VALUES_JSON, stringified);
   printConfig(cdk_work_env, C_cicd_STACK_NAME);
   cb();
 });

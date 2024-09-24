@@ -2,7 +2,7 @@ import React from 'react';
 import { SidebarContainer } from './styles';
 
 const { C_cicd_web_AWS_Env_prd_dvl
-} = require('../../../program.pipeline_2_web.json');
+} = require('../../../program.web_values.json');
 
 
 

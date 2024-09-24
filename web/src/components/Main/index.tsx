@@ -8,14 +8,14 @@ import { MainContainer, BoxedColor, RgbBox, WebHook } from './styles';
 import { directSlackMess } from '../../slack_mess';
 
 
-const all_aws_constants = require('../../../program.pipeline_2_web.json');
+const all_aws_constants = require('../../../program.web_values.json');
 console.log(all_aws_constants);
 
 const {
   C_cicd_web_DOMAIN_NAME,
   C_web_SLACK_NUMBER,
   C_cicd_serv_web_CLEARDB_SLUG,
-} = require('../../../program.pipeline_2_web.json');
+} = require('../../../program.web_values.json');
 
 
 const SLACK_NUMBER = Number(C_web_SLACK_NUMBER);

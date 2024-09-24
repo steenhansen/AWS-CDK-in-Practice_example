@@ -83,7 +83,9 @@ export class PipelineStack extends Construct {
 
         const pipeline_name = stackLabel(label_back_build);
 
-        const pipeline_template = pipelineTemplate(cdk_role, pipeline_name, SLACK_WEBHOOK);
+
+        const aws_pipeline_2_web_vals = { SLACK_WEBHOOK: SLACK_WEBHOOK };
+        const pipeline_template = pipelineTemplate(cdk_role, pipeline_name, aws_pipeline_2_web_vals);
 
         this.deployProject = new PipelineProject(this, pipeline_name, pipeline_template);
         this.deployProject.addToRolePolicy(codeBuildPolicy);

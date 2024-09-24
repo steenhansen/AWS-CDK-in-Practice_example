@@ -9,7 +9,7 @@ import { backendAWS } from './backend-aws';
 const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
   C_cicd_web_FETCH_TIMEOUT,
   C_web_SERVER_OFF_ERROR
-} = require('../../../program.pipeline_2_web.json');
+} = require('../../../program.web_values.json');
 
 
 
@@ -29,10 +29,12 @@ export const getApiUrl = () => {
 
 export async function fastLocalFetch(backend_url: string, options: object) {
   if (process.env["REACT_APP__LOCAL_MODE"] !== "yes") {
+    console.error("doing abort on timeout", C_cicd_web_FETCH_TIMEOUT);
     options = Object.assign(options, { signal: AbortSignal.timeout(C_cicd_web_FETCH_TIMEOUT) });
   }
   let response = await fetch(backend_url, options);
   if (!response.ok) {
+    console.error(response);
     throw new Error(`Response status: ${response.status}`);
   }
   const json = await response.json();
@@ -43,7 +45,9 @@ export const getDbRgb = async (backend_url: string) => {
   try {
     let json;
     try {
+      console.error(backend_url);
       json = await fastLocalFetch(backend_url, {});
+      console.error(json);
     } catch (error: any) {
       console.error(error.message);
     }
