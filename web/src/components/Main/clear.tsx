@@ -17,11 +17,11 @@ const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
 
 export const getApiUrl = () => {
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
-    const [SSM_SLACK_WEBHOOK, backend_url_local] = backendLocal();
-    return [SSM_SLACK_WEBHOOK, backend_url_local];
+    const [REACT_APP__SPEC_COLOR, REACT_APP__SPEC_NUM, backend_url_local] = backendLocal();
+    return [REACT_APP__SPEC_COLOR, REACT_APP__SPEC_NUM, backend_url_local];
   } else {
-    const [SSM_SLACK_WEBHOOK, backend_url_aws] = backendAWS();
-    return [SSM_SLACK_WEBHOOK, backend_url_aws];
+    const [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url_aws] = backendAWS();
+    return [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url_aws];
   }
 };
 

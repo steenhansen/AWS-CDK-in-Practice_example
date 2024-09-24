@@ -1,6 +1,6 @@
 {
   "C_cicd_serv_web_TESTING_ALIVE": "yes",
-  "C_cicd_web_SLACK_WEB_HOOK_ALIVE": "yes",
+  "C_cicd_web_SPECIAL_ALIVE": "yes",
   "C_cicd_CHATBOT_ALIVE": "no",
   "C_cicd_AUTO_INVALIDATE_CLOUDFRONT": "yes"
 }

@@ -74,11 +74,12 @@ export class PipelineStack extends Construct {
             throw "Waiting for SSM to be ready";
         }
 
-        printConfig("If AWS Parameters change then use new name", `C_cicd_SSM_SECRETS_NAME = "lambda-creds7"`);
+        printConfig("If AWS Parameters change then use new name", `C_cicd_SSM_SECRETS_NAME = "lambda-creds-197"`);
         printConfig("AWS Parameters ", lambda_creds_obj);
         const {
             GITHUB_TOKEN,
-            SLACK_WEBHOOK,
+            SPECIAL_AWS_COLOR,
+            SPECIAL_AWS_NUMBER,
             CHATBOT_PROD_CHANNEL_ID,
             CHATBOT_DEV_CHANNEL_ID,
             CHATBOT_WORKSPACE_ID } = lambda_creds_obj;
@@ -88,7 +89,7 @@ export class PipelineStack extends Construct {
         const pipeline_name = stackLabel(label_back_build);
 
 
-        const aws_pipeline_2_web_vals = { SLACK_WEBHOOK: SLACK_WEBHOOK };
+        const aws_pipeline_2_web_vals = { SPECIAL_AWS_COLOR, SPECIAL_AWS_NUMBER };
         const pipeline_template = pipelineTemplate(cdk_role, pipeline_name, aws_pipeline_2_web_vals);
 
         this.deployProject = new PipelineProject(this, pipeline_name, pipeline_template);

@@ -18,7 +18,7 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
   const copy_aws_to_web = `   '${web_constants_k_v_str}' > ${C_cicd_web_AWS_VALUES_JSON}  `;
 
   console.log("\n");
-  printConfig("SLACK_WEBHOOK Parameter to AWS web ", copy_aws_to_web);
+  printConfig("SPECIAL_AWS_NUMBER + SPECIAL_AWS_COLOR Parameters to web ", copy_aws_to_web);
 
   const pipeline_structure = {
     projectName: pipeline_name,

@@ -6,10 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { ColorInt } from '../../../shapes';
 
 import { CreateColorInt } from '../CreateColorInt';
-import { MainContainer, BoxedColor, RgbBox, WebHook } from './styles';
+import { MainContainer, BoxedColor, RgbBox, SpecialColor } from './styles';
 
 
-import { directSlackMess } from '../../slack_mess';
 
 
 const all_aws_constants = require('../../../program.web_values.json');
@@ -17,18 +16,18 @@ console.log(all_aws_constants);
 
 const {
   C_cicd_web_DOMAIN_NAME,
-  C_web_SLACK_NUMBER,
   C_cicd_serv_web_CLEARDB_SLUG,
 } = require('../../../program.web_values.json');
 
 
-const SLACK_NUMBER = Number(C_web_SLACK_NUMBER);
-const [SSM_SLACK_WEBHOOK, backend_url] = getApiUrl();
+
+const [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url] = getApiUrl();
 
 const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
 
 export const Main: React.FC = () => {
   const [color_ints, setUserDatas] = useState<ColorInt[]>([]);
+
 
   useEffect(() => {
     document.title = C_cicd_web_DOMAIN_NAME;
@@ -44,18 +43,21 @@ export const Main: React.FC = () => {
 
   const handleAdd = async ({ new_color_int, }: { new_color_int: ColorInt; }) => {
     let new_obj = await putDbRgb({ new_color_int, backend_url });
+    console.log("CCCII", color_ints);
     const trunc_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
     const new_list = [...trunc_list, new_obj];
     setUserDatas(_ => new_list);
 
-    if (SSM_SLACK_WEBHOOK !== "") {
-      const { the_color, the_integer } = new_color_int;
-      const as_number = Number(the_integer);
-      if (as_number === SLACK_NUMBER) {
-        const slack_text_mess = `${the_color} is ${C_web_SLACK_NUMBER}`;
-        directSlackMess(SSM_SLACK_WEBHOOK, slack_text_mess);
-      }
-    }
+    // if (SSM_AWS_COLOR !== "" && SSM_AWS_NUMBER !== "") {
+    //   const { the_color, the_integer } = new_color_int;
+    //   const the_int_as_number = Number(the_integer);
+    //   const the_aws_as_number = Number(SSM_AWS_NUMBER);
+    //   if (the_int_as_number === the_aws_as_number) {
+    //     const slack_text_mess = `${the_color} matches ${the_aws_as_number} for the color ${SSM_AWS_COLOR}`;
+    //     special_styles = { color: SSM_AWS_COLOR };
+    //     console.log(slack_text_mess, SSM_AWS_COLOR);
+    //   }
+    // }
 
   };
 
@@ -68,16 +70,46 @@ export const Main: React.FC = () => {
     ]);
   };
 
+  let special_styles = { color: "" };
+  if (SSM_AWS_COLOR !== "" && SSM_AWS_NUMBER !== "") {
+    if (color_ints) {
+      try {
+        color_ints.forEach(an_object => {
+          if (typeof an_object !== 'undefined') {
+            const the_color: string = an_object.the_color;
+            const the_integer = an_object.the_integer;
+
+            const the_aws_as_number = Number(SSM_AWS_NUMBER);
+            if (the_integer === the_aws_as_number) {
+              const slack_text_mess = `${the_color} matches ${the_aws_as_number} for the color ${SSM_AWS_COLOR}`;
+              special_styles = { color: SSM_AWS_COLOR };
+              console.log(slack_text_mess, SSM_AWS_COLOR);
+            }
+          }
+        });
+      } catch (e) {
+        console.log("sdfds", e);
+      }
+
+    }
+  }
+
   const rgb_statment = currentRGB(color_ints);
   const rgb_styles = { backgroundColor: rgb_statment };
   const list_of_objects: Array<React.JSX.Element> = colorValues(color_ints);
-
   return (
-    <MainContainer >
+    <MainContainer>
 
-      Slack Web Hook called when a {C_web_SLACK_NUMBER} is entered.
-      Values stored in AWS Systems Manage / Parameter store, and is injected in pipeline, does not exist in GitHub.
-      <WebHook>{SSM_SLACK_WEBHOOK}</WebHook>
+      <SpecialColor style={special_styles}>
+        When a '{SSM_AWS_NUMBER}' exists then this text color is set to '{SSM_AWS_COLOR}'.
+        <br /><br />
+        '{SSM_AWS_NUMBER}' and '{SSM_AWS_COLOR}' are stored in the AWS Systems Manager/Parameter store.
+        <br /><br />
+        And are injected during the AWS pipeline, '{SSM_AWS_NUMBER}' and '{SSM_AWS_COLOR}' do not come from code.
+      </SpecialColor>
+      <br /><br />
+      <br />
+
 
 
       <BoxedColor style={rgb_styles} id={"the-color_box"}>

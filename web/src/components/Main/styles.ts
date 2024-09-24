@@ -47,8 +47,7 @@ export const RgbBox = styled.nav`
    padding: 12px;
 `;
 
-export const WebHook = styled.nav`
-    background: #ffffff;
-   padding-bottom: 24px;
-    font-size: 10px;
+
+export const SpecialColor = styled.nav`
+   color: #000;
 `;

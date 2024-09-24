@@ -23,6 +23,5 @@
   "C_cicd_serv_web_CLEARDB_SLUG": "clearDB",
   "C_cicd_web_FETCH_TIMEOUT": 1000,
   "C_serv_web_PORT_SERVER": "3003",
-  "C_web_SERVER_OFF_ERROR": "Is the local server running at port 3003?",
-  "C_web_SLACK_NUMBER": 42
+  "C_web_SERVER_OFF_ERROR": "Is the local server running at port 3003?"
 }

@@ -36,7 +36,7 @@ Local Developement
     yarn server-start
     START NoSQL Workbench for Amazon DynamoDB
     yarn web-build
-    yarn cross-env  REACT_APP__SLACK_HOOK=https://hooks.slack.com/services/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  yarn web-start
+    yarn cross-env  REACT_APP__SPEC_COLOR=Orange  REACT_APP__SPEC_NUM=199  yarn web-start
 
 Local Tests
     yarn cicd-build
