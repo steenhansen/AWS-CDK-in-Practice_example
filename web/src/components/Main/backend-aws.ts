@@ -16,7 +16,7 @@ const { C_cicd_web_AWS_Env_prd_dvl,
   //C_cicd_serv_web_TESTING_ALIVE,
 } = require('../../../program.web_values.json');
 
-const { C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK
+const { SLACK_WEBHOOK
 } = require('../../../program.pipeline_2_web.json');
 
 
@@ -26,8 +26,8 @@ export const backendAWS = () => {
   let SSM_SLACK_WEBHOOK = "";
 
   if (C_cicd_web_SLACK_WEB_HOOK_ALIVE === "yes") {
-    if (C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK !== '') {
-      SSM_SLACK_WEBHOOK = C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK;
+    if (SLACK_WEBHOOK !== '') {
+      SSM_SLACK_WEBHOOK = SLACK_WEBHOOK;
     }
   }
 
