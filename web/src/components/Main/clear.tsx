@@ -28,7 +28,7 @@ export const getApiUrl = () => {
 };
 
 export async function fastLocalFetch(backend_url: string, options: object) {
-  if (process.env["REACT_APP__LOCAL_MODE"] !== "yes") {
+  if (process.env["REACT_APP__LOCAL_MODE"] === "yes") {
     console.error("doing abort on timeout", C_cicd_web_FETCH_TIMEOUT);
     options = Object.assign(options, { signal: AbortSignal.timeout(C_cicd_web_FETCH_TIMEOUT) });
   }
