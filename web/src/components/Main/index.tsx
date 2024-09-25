@@ -1,4 +1,4 @@
-import { getDbRgb, putDbRgb, clearDbRgb, currentRGB, getApiUrl, colorValues } from './clear';
+import { getDbRgb, putDbRgb, clearDbRgb, currentRGB, getSpecialColorNumber, colorValues } from './clear';
 import React, { useEffect, useState } from 'react';
 
 
@@ -21,7 +21,7 @@ const {
 
 
 
-const [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url] = getApiUrl();
+const [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url] = getSpecialColorNumber();
 
 const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
 
@@ -43,22 +43,9 @@ export const Main: React.FC = () => {
 
   const handleAdd = async ({ new_color_int, }: { new_color_int: ColorInt; }) => {
     let new_obj = await putDbRgb({ new_color_int, backend_url });
-    console.log("CCCII", color_ints);
     const trunc_list = color_ints.filter(an_object => an_object.the_color !== new_obj.the_color);
     const new_list = [...trunc_list, new_obj];
     setUserDatas(_ => new_list);
-
-    // if (SSM_AWS_COLOR !== "" && SSM_AWS_NUMBER !== "") {
-    //   const { the_color, the_integer } = new_color_int;
-    //   const the_int_as_number = Number(the_integer);
-    //   const the_aws_as_number = Number(SSM_AWS_NUMBER);
-    //   if (the_int_as_number === the_aws_as_number) {
-    //     const slack_text_mess = `${the_color} matches ${the_aws_as_number} for the color ${SSM_AWS_COLOR}`;
-    //     special_styles = { color: SSM_AWS_COLOR };
-    //     console.log(slack_text_mess, SSM_AWS_COLOR);
-    //   }
-    // }
-
   };
 
   const handleClear = async () => {

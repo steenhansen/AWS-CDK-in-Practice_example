@@ -64,13 +64,14 @@ export class PipelineStack extends Construct {
         this.backEndTestProject = new PipelineProject(scope, back_test_name, back_end_test);
 
         const lambda_creds_str = ssm.StringParameter.valueFromLookup(this, C_cicd_SSM_SECRETS_NAME);
-
+        console.log("C_cicd_SSM_SECRETS_NAME", C_cicd_SSM_SECRETS_NAME);
 
         let lambda_creds_obj;
         try {
             lambda_creds_obj = JSON.parse(lambda_creds_str);
-        } catch (e) {
-            printConfig("SSM not ready yet", "Will try again");
+        } catch (e: any) {
+            printConfig("lambda_creds_obj", lambda_creds_obj);
+            printConfig("SSM not ready yet Will try again", e);
             throw "Waiting for SSM to be ready";
         }
 

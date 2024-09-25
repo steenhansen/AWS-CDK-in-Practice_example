@@ -26,8 +26,6 @@ export function getConfigConstants(web_constants: Str_to_Str_or_Num, web_configs
     }
   }
 
-  aws_to_web_constants["C_cicd_web_SECRET_PIPELINE_SLACK_WEBHOOK"] = "this_will_be_filled_in_by_pipelineTemplate()_in_the_aws_pipeline";
-
 
   return aws_to_web_constants;
 }

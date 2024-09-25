@@ -15,7 +15,7 @@ const { C_cicd_serv_web_NO_SQL_OFF_ERROR, C_cicd_serv_web_VPN_ON_ERROR,
 
 
 
-export const getApiUrl = () => {
+export const getSpecialColorNumber = () => {
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
     const [REACT_APP__SPEC_COLOR, REACT_APP__SPEC_NUM, backend_url_local] = backendLocal();
     return [REACT_APP__SPEC_COLOR, REACT_APP__SPEC_NUM, backend_url_local];
