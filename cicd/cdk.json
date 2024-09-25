@@ -33,7 +33,7 @@
       "aws-cn"
     ],
     "global_consts": {
-      "WORK_ENV": "Env_prd"
+      "WORK_ENV": "Env_dvl"
     },
     "environment_consts": {
       "Env_dvl": {

@@ -8,7 +8,7 @@ const { C_cicd_web_AWS_Env_prd_dvl
 
 
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FunctionComponent = () => {
   return <SidebarContainer>
     Environment
     <br />

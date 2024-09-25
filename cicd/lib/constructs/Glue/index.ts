@@ -49,7 +49,7 @@ export class AWSGlue extends Construct {
 
     const glue_role = envLabel(label_glue_dynamo);
     const glue_name = lowerEnvLabel(label_glue_role);
-    // Roles:
+
     this.glue_dynamo_role = new Role(
       scope,
       glue_role,
@@ -72,7 +72,7 @@ export class AWSGlue extends Construct {
       }),
     );
 
-    // Script:
+
     const SCRIPTS_LOCATION = [__dirname, '.', 'scripts'];
 
     new BucketDeployment(this, 'GlueScript', {

@@ -2,10 +2,6 @@
 import cdk_config from '../../../cdk.json';
 const WORK_ENV = cdk_config.context.global_consts.WORK_ENV;
 
-
-
-
-
 const label_api_gw = "Pipe-Api-Gw";
 const label_rest_api = "Pipe-Rest-Api";
 
@@ -36,6 +32,13 @@ import { DynamoGet } from '../Lambda/get';
 import { DynamoPost } from '../Lambda/post';
 import { DynamoClear } from '../Lambda/clear';
 
+const ALLOWS_STATUS = {
+  allowOrigins: ['*'],
+  allowHeaders: ['*'],
+  allowMethods: ['*'],
+  statusCode: 204,
+};
+
 interface ApigwProps {
   acm: ACM;
   route53: Route53;
@@ -63,11 +66,8 @@ export class ApiGateway extends Construct {
       printError("WORK_ENV <> 'Env_prd' nor 'Env_dvl' ", 'cdk/lib/constructs/API-GW/', `NODE_ENV="${WORK_ENV}"`);
     }
 
-
-
     const apigw_name = stackLabel(label_rest_api);
     const rest_api = stackEnvLabel(label_api_gw);
-
 
     const restApi = new RestApi(this, apigw_name, {
       restApiName: rest_api,
@@ -83,78 +83,34 @@ export class ApiGateway extends Construct {
       },
     });
 
-    // Lambdas:
-    const healthCheckLambda = new HealthCheckLambda(
-      this,
-      'health-check-lambda-api-endpoint',
-      {},
-    );
+    const healthCheckLambda = new HealthCheckLambda(this, 'health-check-lambda-api-endpoint', {});
+    const dynamoPost = new DynamoPost(this, 'dynamo-post-lambda', { dynamoTable, });
+    const dynamoGet = new DynamoGet(this, 'dynamo-get-lambda', { dynamoTable, });
+    const dynamoClear = new DynamoClear(this, 'dynamo-clear-lambda', { dynamoTable, });
 
-    const dynamoPost = new DynamoPost(this, 'dynamo-post-lambda', {
-      dynamoTable,
-    });
-
-    const dynamoGet = new DynamoGet(this, 'dynamo-get-lambda', {
-      dynamoTable,
-    });
-    const dynamoClear = new DynamoClear(this, 'dynamo-clear-lambda', {
-      dynamoTable,
-    });
-
-    // Integrations:
-    const healthCheckLambdaIntegration = new LambdaIntegration(
-      healthCheckLambda.func,
-    );
-
+    const healthCheckLambdaIntegration = new LambdaIntegration(healthCheckLambda.func,);
     const dynamoPostIntegration = new LambdaIntegration(dynamoPost.func);
+    const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
     const dynamoClearIntegration = new LambdaIntegration(dynamoClear.func);
 
-    const dynamoGetIntegration = new LambdaIntegration(dynamoGet.func);
-
-    // Resources (Path)
     const healthcheck = restApi.root.addResource(C_cicd_serv_HEALTH_CHECK_SLUG);
     const rootResource = restApi.root;
 
-    // Methods
     healthcheck.addMethod('GET', healthCheckLambdaIntegration);
-    healthcheck.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
+    healthcheck.addCorsPreflight(ALLOWS_STATUS);
 
 
-    // Resources (Path)
     const slack_calls = restApi.root.addResource('slackCalls');
+    slack_calls.addCorsPreflight(ALLOWS_STATUS);
 
-    slack_calls.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
-
-    // Resources (Path)
-    //    const clear_db = restApi.root.addResource('clearDB');
     const clear_db = restApi.root.addResource(C_cicd_serv_web_CLEARDB_SLUG);
     clear_db.addMethod('GET', dynamoClearIntegration);
-    clear_db.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
+    clear_db.addCorsPreflight(ALLOWS_STATUS);
+
     rootResource.addMethod('POST', dynamoPostIntegration);
     rootResource.addMethod('GET', dynamoGetIntegration);
-    rootResource.addCorsPreflight({
-      allowOrigins: ['*'],
-      allowHeaders: ['*'],
-      allowMethods: ['*'],
-      statusCode: 204,
-    });
+    rootResource.addCorsPreflight(ALLOWS_STATUS);
 
-    // ARecord:
     new ARecord(this, 'BackendAliasRecord', {
       zone: route53.hosted_zone,
       target: RecordTarget.fromAlias(new targets.ApiGateway(restApi)),

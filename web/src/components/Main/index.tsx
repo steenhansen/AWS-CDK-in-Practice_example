@@ -25,7 +25,7 @@ const [SSM_AWS_COLOR, SSM_AWS_NUMBER, backend_url] = getSpecialColorNumber();
 
 const handle_clear = `${backend_url}/${C_cicd_serv_web_CLEARDB_SLUG}`;
 
-export const Main: React.FC = () => {
+export const Main: React.FunctionComponent = () => {
   const [color_ints, setUserDatas] = useState<ColorInt[]>([]);
 
 

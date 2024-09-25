@@ -6,7 +6,7 @@ import { Main } from '../Main';
 
 import { AppContainer, MainSection } from './styles';
 
-export const App: React.FC = () => {
+export const App: React.FunctionComponent = () => {
   return (
     <AppContainer>
       <Header />

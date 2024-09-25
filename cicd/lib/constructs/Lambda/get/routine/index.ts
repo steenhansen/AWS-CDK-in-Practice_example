@@ -1,5 +1,4 @@
 import { DynamoDB } from 'aws-sdk';
-//import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { httpResponse } from '../../handlers/httpResponse';
 import { dynamoClient, dynamoName, dynamoError } from '../../handlers/dynamo-client';
 
@@ -11,7 +10,6 @@ export const dynamo_get_handler = async () => {
       const all_color_ints: DynamoDB.ScanOutput = await dynamo_DB
         .scan({ TableName: dynamo_table_name })
         .promise();
-      // console.log("in cdk all_color_ints=", all_color_ints);
       return httpResponse(200, JSON.stringify({ color_ints: all_color_ints.Items }));
     } catch (error: any) {
       const json_error = dynamoError(dynamo_table_name, error);

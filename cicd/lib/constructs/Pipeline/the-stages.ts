@@ -7,11 +7,7 @@ import { Role } from 'aws-cdk-lib/aws-iam';
 import stack_config from '../../../program.config.json';
 const C_cicd_GITHUB_REPO = stack_config.C_cicd_GITHUB_REPO;
 const C_cicd_GITHUB_OWNER = stack_config.C_cicd_GITHUB_OWNER;
-import {
-  BuildSpec,
-  LinuxBuildImage,
-  PipelineProject,
-} from 'aws-cdk-lib/aws-codebuild';
+import { PipelineProject, } from 'aws-cdk-lib/aws-codebuild';
 export function sourceStage(outputSource: Artifact, secretToken: SecretValue, prod_or_dev_branch: string) {
   const source_stage = {
     stageName: 'Source',

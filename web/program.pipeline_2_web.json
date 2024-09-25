@@ -1,3 +1,4 @@
 {
-  "SLACK_WEBHOOK": "this_will_be_filled_in_by_pipelineTemplate()_in_the_aws_pipeline"
+  "SPECIAL_AWS_COLOR": "this_will_be_filled_in_by_pipelineTemplate()_in_the_aws_pipeline",
+  "SPECIAL_AWS_NUMBER": "during the building of /web in AWS pipeline"
 }

@@ -9,7 +9,7 @@
     "web-build-AWS": "craco build",
     "web-build": "gulp && craco build",
     "web-start": "gulp && cross-env PORT=$npm_package_LOCAL_VAR_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
-    "web-test": "gulp check-local-server && cross-env                                    REACT_APP__LOCAL_MODE=yes   craco  test  --watchAll=false --verbose=true",
+    "web-test": "gulp check-local-server && cross-env                         REACT_APP__LOCAL_MODE=yes  craco  test  --watchAll=false --verbose=true",
     "web-test-AWS": "craco  test --watchAll=false",
     "eject": "craco  eject"
   },

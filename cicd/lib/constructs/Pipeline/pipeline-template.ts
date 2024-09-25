@@ -11,15 +11,10 @@ const C_cicd_LINUX_VERSION = constants_config.C_cicd_LINUX_VERSION;
 const C_cicd_web_AWS_VALUES_JSON = constants_config.C_cicd_web_AWS_VALUES_JSON;
 
 function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_web_vals: Str_to_Obj) {
-
   const web_constants_k_v_str = JSON.stringify(aws_pipeline_2_web_vals, null, 2);
-
-
   const copy_aws_to_web = `   '${web_constants_k_v_str}' > ${C_cicd_web_AWS_VALUES_JSON}  `;
-
   console.log("\n");
   printConfig("SPECIAL_AWS_NUMBER + SPECIAL_AWS_COLOR Parameters to web ", copy_aws_to_web);
-
   const pipeline_structure = {
     projectName: pipeline_name,
     role: cdk_role,
@@ -31,7 +26,6 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
         pre_build: {
           'on-failure': 'ABORT',
           commands: [
-            //   `echo ${copy_aws_to_web2}  `,         // the real one !!!
             'cd web',
             `echo ${copy_aws_to_web}   `,
             'yarn install',
@@ -43,7 +37,6 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
         build: {
           'on-failure': 'ABORT',
           commands: [
-            `echo 'NNNN  build  '   `,
             'cd ../web',
             'yarn web-build-AWS',
             'cd ../cicd',
@@ -52,7 +45,7 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
         post_build: {
           'on-failure': 'ABORT',
           commands: [
-            `echo 'MMMMM  post_build  '   `
+            `echo 'pipeline post_build  '   `
           ]
         },
       },

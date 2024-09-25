@@ -1,7 +1,7 @@
 const label_dynamo = "Dynamo-Db";
 const label_seeder = "Dynamo-Seeder";
 
-import { RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import {
   AttributeType,
   BillingMode,

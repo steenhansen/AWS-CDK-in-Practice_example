@@ -75,7 +75,7 @@ export const dynamoDelete = async (dynamo_DB: DynamoDB.DocumentClient,
       };
       await dynamo_DB.delete(fileItem, function (err, data) {
         if (err) {
-          console.log("dynamo-clear", err);
+          console.log("dynamoDelete", err);
         }
       }).promise();
     }

@@ -14,7 +14,7 @@ export class Route53 extends Construct {
     super(scope, id);
 
     this.hosted_zone = HostedZone.fromLookup(scope, 'HostedZone', {
-      domainName: C_cicd_web_DOMAIN_NAME          //config.domain_name,
+      domainName: C_cicd_web_DOMAIN_NAME
     });
   }
 }

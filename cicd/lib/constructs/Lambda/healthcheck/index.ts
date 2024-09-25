@@ -18,7 +18,7 @@ export class HealthCheckLambda extends Construct {
   constructor(scope: Construct, id: string, props: unknown) {
     super(scope, id);
 
-    this.func = new NodejsFunction(scope, 'health-check-lambda', {   //label_health
+    this.func = new NodejsFunction(scope, 'health-check-lambda', {
       runtime: the_runtime,
       entry: path.resolve(__dirname, 'routine', 'index.ts'),
       handler: 'healthcheck_handler',

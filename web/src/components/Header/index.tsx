@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HeaderContainer } from './styles';
 
-export const Header: React.FC = () => {
+export const Header: React.FunctionComponent = () => {
   return (
     <HeaderContainer>
       <div className="brand">

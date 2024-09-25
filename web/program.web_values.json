@@ -14,5 +14,5 @@
   "C_cicd_web_DOMAIN_DEV_SUB_BACKEND": "back-dev",
   "C_cicd_serv_web_TESTING_ALIVE": "yes",
   "C_cicd_web_SPECIAL_ALIVE": "yes",
-  "C_cicd_web_AWS_Env_prd_dvl": "Env_prd"
+  "C_cicd_web_AWS_Env_prd_dvl": "Env_dvl"
 }

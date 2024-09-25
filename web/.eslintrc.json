@@ -1,0 +1,45 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "warnOnUnsupportedTypeScriptVersion": false
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "ignorePatterns": [
+    "/*.js"
+  ],
+  "rules": {
+    "camelcase": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/no-relative-packages": "off",
+    "no-alert": "error",
+    "no-console": "off",
+    "no-new": "off",
+    "no-param-reassign": "off",
+    "no-useless-constructor": "off",
+     "@typescript-eslint/no-unused-vars": "off",
+     "@typescript-eslint/no-require-imports": "off",
+     "@typescript-eslint/no-explicit-any": "off",
+         "prefer-const": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}

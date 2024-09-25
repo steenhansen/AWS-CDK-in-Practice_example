@@ -10,7 +10,7 @@ interface BoxProps {
 }
 
 
-export const ColorBox: React.FC<BoxProps> = ({ color_int }) => {
+export const ColorBox: React.FunctionComponent<BoxProps> = ({ color_int }) => {
   return (
     <UserContainer key={color_int.the_color}>
       <UserBox>

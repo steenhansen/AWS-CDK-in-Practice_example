@@ -16,7 +16,7 @@ interface AddClearProps {
   handleClear: () => Promise<void>;
 }
 
-export const CreateColorInt: React.FC<AddClearProps> = ({ handleAdd, handleClear }) => {
+export const CreateColorInt: React.FunctionComponent<AddClearProps> = ({ handleAdd, handleClear }) => {
 
   const [new_color_int, setNewColorInt] = useState<ColorInt>({
     id: '',

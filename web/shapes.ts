@@ -20,8 +20,6 @@ export interface Str_to_Int {
   [key: string]: number;
 }
 
-// import { ColorInt, Str_to_Obj } from '../../../../../web/shapes';
-
 import 'styled-components';
 
 declare module 'styled-components' {
