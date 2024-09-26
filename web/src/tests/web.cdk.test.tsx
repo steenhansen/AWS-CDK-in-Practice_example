@@ -2,7 +2,7 @@ import React from 'react';         // NB if not present  -    ReferenceError: Re
 import { App } from '../components/App';
 import '@testing-library/jest-dom';
 
-const { C_cicd_serv_web_TESTING_ALIVE } = require('../../program.web_values.json');
+const { C_cicd_serv_web_REAL_TESTS_ALIVE } = require('../../program.web_values.json');
 import { render, screen, waitFor } from '@testing-library/react';
 
 
@@ -10,7 +10,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 // cannot snapshot test in pipeline tests gitignore to ensure
 // there are no lambda functions yet to test db stuff
 
-if (C_cicd_serv_web_TESTING_ALIVE === 'yes') {
+if (C_cicd_serv_web_REAL_TESTS_ALIVE === 'yes') {
 
   test('renders the  logo', async () => {
     render(<App />);

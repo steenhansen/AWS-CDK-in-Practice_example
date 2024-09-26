@@ -1,5 +1,5 @@
 {
-  "C_cicd_serv_web_TESTING_ALIVE": "yes",
+  "C_cicd_serv_web_REAL_TESTS_ALIVE": "yes",
   "C_cicd_web_SPECIAL_ALIVE": "yes",
   "C_cicd_CHATBOT_ALIVE": "yes",
   "C_cicd_AUTO_INVALIDATE_CLOUDFRONT": "yes"

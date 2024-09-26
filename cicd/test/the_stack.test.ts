@@ -10,7 +10,7 @@ const AWS_REGION = THE_ENVIRONMENTS[WORK_ENV].AWS_REGION;
 const ACCOUNT_NUMBER = THE_ENVIRONMENTS[WORK_ENV].ACCOUNT_NUMBER;
 
 import program_switches from '../program.switches.json';
-const C_cicd_serv_web_TESTING_ALIVE = program_switches.C_cicd_serv_web_TESTING_ALIVE;
+const C_cicd_serv_web_REAL_TESTS_ALIVE = program_switches.C_cicd_serv_web_REAL_TESTS_ALIVE;
 
 import { printError } from '../utils/env-errors';
 
@@ -24,7 +24,7 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { TheMainStack } from '../lib/the_main_stack';
 
 describe('Unit Testing Infrastructure.', () => {
-  if (C_cicd_serv_web_TESTING_ALIVE === 'yes') {
+  if (C_cicd_serv_web_REAL_TESTS_ALIVE === 'yes') {
     cdkTests();
   } else {
     it('sentinal cdk test', () => {

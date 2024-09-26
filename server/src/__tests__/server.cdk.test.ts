@@ -4,12 +4,12 @@ import { healthApp } from '../health-app';
 
 import supertest from 'supertest';
 const { C_cicd_serv_HEALTH_CHECK_OK, C_cicd_serv_HEALTH_CHECK_SLUG } = require('../../../cicd/program.constants.json');
-const { C_cicd_serv_web_TESTING_ALIVE } = require('.../../../cicd/program.switches.json');
+const { C_cicd_serv_web_REAL_TESTS_ALIVE } = require('.../../../cicd/program.switches.json');
 const health_check = "/" + C_cicd_serv_HEALTH_CHECK_SLUG;
 
 const app = healthApp();
 
-if (C_cicd_serv_web_TESTING_ALIVE === 'yes') {
+if (C_cicd_serv_web_REAL_TESTS_ALIVE === 'yes') {
 
   const health_check_ok = `"${C_cicd_serv_HEALTH_CHECK_OK}"`;
 

@@ -3,11 +3,11 @@ import React from 'react';         // NB if not present  -    ReferenceError: Re
 import { App } from '../components/App';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-const { C_cicd_serv_web_TESTING_ALIVE } = require('../../program.web_values.json');
+const { C_cicd_serv_web_REAL_TESTS_ALIVE } = require('../../program.web_values.json');
 
 import { render, screen, waitFor } from '@testing-library/react';
 
-if (C_cicd_serv_web_TESTING_ALIVE === 'yes') {
+if (C_cicd_serv_web_REAL_TESTS_ALIVE === 'yes') {
 
   if (process.env["REACT_APP__LOCAL_MODE"] === 'yes') {
     snapshotDbTesting();

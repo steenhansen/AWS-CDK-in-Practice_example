@@ -12,7 +12,7 @@ const { C_cicd_web_AWS_Env_prd_dvl,
   //C_web_SERVER_OFF_ERROR,
   C_cicd_web_SPECIAL_ALIVE,
   //C_serv_web_PORT_SERVER,
-  //C_cicd_serv_web_TESTING_ALIVE,
+  //C_cicd_serv_web_REAL_TESTS_ALIVE,
 } = require('../../../program.web_values.json');
 
 const { SPECIAL_AWS_COLOR, SPECIAL_AWS_NUMBER
