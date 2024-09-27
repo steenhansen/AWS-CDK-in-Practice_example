@@ -1,5 +1,8 @@
 node_modules
 
+!/craco.config.js
+!/gulpfile.js
+
 *.js
 *.d.ts
 !@types/*

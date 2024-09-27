@@ -1,9 +1,13 @@
 node_modules
 
+!/babel.config.js
+!/gulpfile.js
+!/jest.config.js
+
+
 *.js
 
-!/jest.config.js
-!/babel.config.js
+
 
 *.d.ts
 !@types/*
