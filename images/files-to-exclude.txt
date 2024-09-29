@@ -3,4 +3,6 @@
 
 
 
-*.d.ts, *.map, *.md , node_modules, *.lock, build, cdk.out, lib\**\*.js, src\**\*.js, utils\*.js, *.snap, bin\*.js
+*.d.ts, *.map, *.md , node_modules, *.lock, build, cdk.out, lib\**\*.js, src\**\*.js, utils\*.js, *.snap, bin\*.js, *.py 
+
+

@@ -1,5 +1,6 @@
 {
   "C_cicd_web_DOMAIN_NAME": "steenhansen.click",
+  "----------------": "-------------------------",
   "C_cicd_GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "C_cicd_GITHUB_OWNER": "steenhansen",
   "C_cicd_SSM_SECRETS_NAME": "lambda-creds-6",

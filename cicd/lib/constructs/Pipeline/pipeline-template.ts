@@ -38,7 +38,7 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
           'on-failure': 'ABORT',
           commands: [
             'cd ../web',
-            'yarn web-build-AWS',
+            'yarn web-on-AWS-build',
             'cd ../cicd',
             'yarn cdk deploy']
         },

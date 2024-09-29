@@ -6,11 +6,11 @@
     "PORT_BROWSER": "3004"
   },
   "scripts": {
-    "web-build-AWS": "craco build",
-    "web-build": "gulp && craco build",
+    "web-on-AWS-build": "craco build",
+    "web-build": "craco build && gulp",
     "web-start": "gulp && cross-env PORT=$npm_package_LOCAL_VAR_PORT_BROWSER  REACT_APP__LOCAL_MODE=yes  craco  start",
     "web-test": "gulp check-local-server && cross-env                         REACT_APP__LOCAL_MODE=yes  craco  test  --watchAll=false --verbose=true",
-    "web-test-AWS": "craco  test --watchAll=false",
+    "web-test-on-AWS": "craco  test --watchAll=false",
     "eject": "craco  eject"
   },
   "dependencies": {

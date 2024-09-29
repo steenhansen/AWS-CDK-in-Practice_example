@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "license": "MIT",
   "scripts": {
-    "server-build": "gulp && tsc",
+    "server-build": "tsc && gulp",
     "server-start": "gulp && cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes nodemon --watch src src/index.ts",
     "server-test": "cross-env AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1 SERVER_LOCAL_MODE=yes jest --detectOpenHandles",
     "server-test-AWS": "jest --detectOpenHandles",

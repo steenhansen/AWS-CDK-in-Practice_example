@@ -101,21 +101,17 @@ export class S3 extends Construct {
 
     const web_build_dir = resolve(__dirname, '..', '..', '..', '..', 'web', 'build');
     const web_bucket_deploy_name_n = envLabel('WebBucketDeployment');
-    let invalidate_cloudfront_path;
+    let the_deployment: any = {
+      sources: [Source.asset(web_build_dir)],
+      destinationBucket: this.web_bucket,
+      distribution: this.distribution
+    };
     if (C_cicd_AUTO_INVALIDATE_CLOUDFRONT === 'yes') {
-      invalidate_cloudfront_path = '/*';
-    } else {
-      invalidate_cloudfront_path = '';
+      the_deployment["distributionPaths"] = ['/*'];
     }
     this.web_bucket_deployment = new BucketDeployment(
       scope,
-      web_bucket_deploy_name_n,
-      {
-        sources: [Source.asset(web_build_dir)],
-        destinationBucket: this.web_bucket,
-        distribution: this.distribution,
-        distributionPaths: [invalidate_cloudfront_path]
-      }
+      web_bucket_deploy_name_n, the_deployment
     );
 
     const aRecord_name_n = envLabel('FrontendAliasRecord');

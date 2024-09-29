@@ -28,14 +28,14 @@ import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
 
 const app = new cdk.App();
 
-if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
+if (process.env.CDK_MODE === 'INFRA_PIPELINE') {
   const pipeline_stack = stackLabel('Pipeline-Stack');
   try {
     new ThePipelineStack(app, pipeline_stack, {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
     });
   } catch (e: any) {
-    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PIPELINE', e.message);
+    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - INFRA_PIPELINE', e.message);
   }
 } else {
   const the_stack = stackEnvLabel('Run-Stack');
@@ -44,7 +44,7 @@ if (process.env.CDK_MODE === 'ONLY_PIPELINE') {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
     });
   } catch (e: any) {
-    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - ONLY_PROD', e.message);
+    printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - Run-Stack', e.message);
   }
 }
 

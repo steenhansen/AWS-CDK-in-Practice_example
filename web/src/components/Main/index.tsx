@@ -57,7 +57,7 @@ export const Main: React.FunctionComponent = () => {
     ]);
   };
 
-  let special_styles = { color: "" };
+  let special_styles = {};
   if (SSM_AWS_COLOR !== "" && SSM_AWS_NUMBER !== "") {
     if (color_ints) {
       try {
@@ -75,10 +75,11 @@ export const Main: React.FunctionComponent = () => {
           }
         });
       } catch (e) {
-        console.log("sdfds", e);
+        console.log("color_ints error", e);
       }
-
     }
+  } else {
+    special_styles = { visibility: "hidden" };
   }
 
   const rgb_statment = currentRGB(color_ints);

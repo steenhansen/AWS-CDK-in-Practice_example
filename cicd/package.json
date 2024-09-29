@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "cicd-build": "gulp && tsc",
-    "cicd-prog": "gulp && cdk",
-    "cicd-pipeline": "gulp && cross-env CDK_MODE=ONLY_PIPELINE cdk",
+    "cicd-build": "tsc && cross-env CDK_MODE=INFRA_BUILD && gulp",
+    "cicd-to-cloud": "cross-env CDK_MODE=INFRA_DEPLOY && gulp && cdk",
+    "cicd-to-pipeline": "cross-env CDK_MODE=INFRA_PIPELINE && gulp && cdk",
     "cdk": "cdk",
     "watch": "tsc -w",
     "cicd-test": "gulp && tsc && jest"

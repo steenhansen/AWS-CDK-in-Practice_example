@@ -14,7 +14,8 @@ const web_configs = require('../cicd/program.config.json');
 const web_switches = require('../cicd/program.switches.json');
 const { getConfigConstants } = require('../cicd/utils/getWebConsts');
 
-const { C_cicd_web_WEB_VALUES_JSON } = require('../cicd/program.constants.json');
+const { C_cicd_web_WEB_VALUES_JSON, C_web_SERVER_OFF_ERROR, C_serv_web_PORT_SERVER, C_cicd_serv_HEALTH_CHECK_SLUG } = require('../cicd/program.constants.json');
+
 
 gulp.task('default', function (cb) {
   let aws_to_web_constants = getConfigConstants(web_constants, web_configs, web_switches);
@@ -31,14 +32,8 @@ function printError(error_mess) {
 }
 
 gulp.task('check-local-server', function (cb) {
-
-  const {
-    C_cicd_serv_HEALTH_CHECK_SLUG,
-    C_serv_web_PORT_SERVER } = require('./program.pipeline_2_web.json');
-
   const health_url = 'http://localhost:' + C_serv_web_PORT_SERVER + "/" + C_cicd_serv_HEALTH_CHECK_SLUG;
   const get_url = 'http://localhost:' + C_serv_web_PORT_SERVER;
-
 
   fetch(health_url, { signal: AbortSignal.timeout(1000) })
     .catch(_ => {
