@@ -7,7 +7,5 @@ node_modules
 
 /test/__snapshots__/*
 
-
-
 /cdk.out
 cdk.context.json
