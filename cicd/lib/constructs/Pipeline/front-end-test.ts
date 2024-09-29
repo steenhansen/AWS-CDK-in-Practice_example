@@ -25,7 +25,9 @@ function frontEndTest(front_test_name: string) {
         build: {
           'on-failure': 'ABORT',
           commands: [
-            'echo Testing the Front-End...',
+            'echo Testing the Front-End',
+            'echo                   307',
+            'echo .....................',
             'yarn web-test-on-AWS'
           ],
         },
