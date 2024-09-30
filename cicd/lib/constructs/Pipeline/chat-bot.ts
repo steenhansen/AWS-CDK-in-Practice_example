@@ -32,13 +32,19 @@ export function chatBot(pipeline_scope: PipelineStack,
 
     const slack_topic_name = envLabel('Pipeline-SlackNotificationsTopic');
     const pipeline_slack_config = envLabel('Pipeline-Slack-Channel-Config');
+
+
+
     const snsTopic = new Topic(pipeline_scope, slack_topic_name);
-    const slackConfig = new SlackChannelConfiguration(pipeline_scope, 'SlackChannel', {
+    const slack_name = envLabel('SlackChannelConfig');
+    const slackConfig = new SlackChannelConfiguration(pipeline_scope, slack_name, {
       slackChannelConfigurationName: pipeline_slack_config,
       slackWorkspaceId: CHATBOT_WORKSPACE_ID,
       slackChannelId: channel_id
     });
-    const rule = new NotificationRule(pipeline_scope, 'SlackNotificationRule', {
+
+    const notification_name = envLabel('SlackNotificationRule');
+    const rule = new NotificationRule(pipeline_scope, notification_name, {
       source: pipeline_scope.pipeline,
       events: slack_events,
       targets: [snsTopic],

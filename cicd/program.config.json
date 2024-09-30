@@ -3,7 +3,7 @@
   "----------------": "-------------------------",
   "C_cicd_GITHUB_REPO": "AWS-CDK-in-Practice_example",
   "C_cicd_GITHUB_OWNER": "steenhansen",
-  "C_cicd_SSM_SECRETS_NAME": "lambda-creds-6",
+  "C_cicd_SSM_SECRETS_NAME": "lambda-creds-7",
   "------------------": "---------------------------",
   "C_cicd_web_DOMAIN_PROD_SUB_BACKEND": "back-prod",
   "C_cicd_DOMAIN_PROD_SUB_FRONTEND": "front-prod",

@@ -27,7 +27,7 @@ if (process.env.CDK_MODE === 'TO_PIPELINE') {
   } catch (e: any) {
     printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - TO_PIPELINE', e.message);
   }
-} else if (process.env.CDK_MODE === 'TO_CLOUD') {
+} else {
   const the_stack = stackEnvLabel('Run-Stack');
   try {
     new TheMainStack(app, the_stack, {
@@ -36,7 +36,5 @@ if (process.env.CDK_MODE === 'TO_PIPELINE') {
   } catch (e: any) {
     printError(C_cicd_DOCKER_OFF_ERROR, 'cdk/bin/bin_stack.ts - Run-Stack', e.message);
   }
-} else {
-  printError("CDK_MODE <> TO_CLOUD or TO_PIPELINE", 'cdk/bin/bin_stack.ts', "LOCAL");
 }
 
