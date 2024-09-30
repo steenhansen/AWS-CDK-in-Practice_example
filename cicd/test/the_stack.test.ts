@@ -39,7 +39,7 @@ function cdkTests() {
       const app = new App();
       let main_stack: TheMainStack;
       try {
-        main_stack = new TheMainStack(app, 'Chapter9Stack', {
+        main_stack = new TheMainStack(app, 'NineLambdasStack', {
           env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
         });
         const template = Template.fromStack(main_stack);
