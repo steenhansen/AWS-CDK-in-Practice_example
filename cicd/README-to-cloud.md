@@ -75,11 +75,11 @@ $ yarn cicd-to-cloud diff               > ../../deploy_diff.yaml
 Results of "yarn cicd-to-cloud deploy" below
 
 Outputs:<br/>
-ColorDb-Run-Stack-Dev.FrontendURLDev = [colordb-state-kill-devil-dev.s3.amazonaws.com](https://colordb-state-kill-devil-dev.s3.amazonaws.com/index.html)<br/>
-ColorDb-Run-Stack-Dev.ProgAPIGwDevColorDbPipeRestApiEndpointC43CA8AA<br/>
-ColorDb-Run-Stack-Dev.ProgAPIGwDevdynamoclearlambdaUrlClear3AB22FC1<br/>
-ColorDb-Run-Stack-Dev.ProgAPIGwDevdynamogetlambdaUrlGet1CA036F0<br/>
-ColorDb-Run-Stack-Dev.ProgAPIGwDevdynamopostlambdaUrlPostB974D998<br/>
+ColorDb-Run-Stack-Prod.FrontendURLProd = [colordb-state-kill-devil-prod.s3.amazonaws.com](https://colordb-state-kill-devil-prod.s3.amazonaws.com/index.html)<br/>
+ColorDb-Run-Stack-Prod.ProgAPIGwProdColorDbPipeRestApiEndpointC43CA8AA<br/>
+ColorDb-Run-Stack-Prod.ProgAPIGwProddynamoclearlambdaUrlClear3AB22FC1<br/>
+ColorDb-Run-Stack-Prod.ProgAPIGwProddynamogetlambdaUrlGet1CA036F0<br/>
+ColorDb-Run-Stack-Prod.ProgAPIGwProddynamopostlambdaUrlPostB974D998<br/>
 Stack ARN:<br/>
-arn:aws:cloudformation:us-east-1:211125473900:stack/ColorDb-Run-Stack-Dev/<br/>
+arn:aws:cloudformation:us-east-1:211125473900:stack/ColorDb-Run-Stack-Prod/<br/>
 ✨  Total time: 151.32s<br/>

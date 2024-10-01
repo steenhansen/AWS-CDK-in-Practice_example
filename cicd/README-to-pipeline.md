@@ -61,6 +61,12 @@ $ yarn
 
 GITHUB_TOKEN - github_pat_a123... : https://github.com/settings/tokens?type=beta
 
+The GitHub Token must have these permissions
+ - Commit statuses: Read and Write
+ - Contents : Read and Write
+ - Metadata : Read-only
+ - Webhooks : Read and Write
+
 
  CHATBOT_PROD_CHANNEL - Q123456789W : [ https://app.slack.com/client/Z123456789X/**Q123456789W**](https://app.slack.com/client/Z123456789X/A123456789S) 
 
