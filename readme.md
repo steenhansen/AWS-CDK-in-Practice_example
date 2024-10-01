@@ -7,7 +7,7 @@
 This is a fork of "[AWS CDK in Practice](https://github.com/PacktPublishing/AWS-CDK-in-Practice)" from [Packt](https://www.packtpub.com/en-us/product/aws-cdk-in-practice-9781801812399) which shows how to build cloud applications with AWS CDK in TypeScript.
 
 
-This example, which can be developed locally, uses Lambdas, DynamoDB, and Cloudfront. The program saves RBG values to DynamoDB. The [production version](https://front-prod.steenhansen.click/index.html) and the [development version](https://front-dev.steenhansen.click/index.html) are hosted on AWS. Note that when first deployed on AWS the program takes a few seconds to wake up.
+This example, which can be developed locally, uses Lambdas, DynamoDB, and Route 53. The program saves RBG values to DynamoDB. The [production version](https://front-prod.steenhansen.click/index.html) and the [development version](https://front-dev.steenhansen.click/index.html) are hosted on AWS. Note that when first deployed on AWS the program takes a few seconds to wake up.
 
 
 
