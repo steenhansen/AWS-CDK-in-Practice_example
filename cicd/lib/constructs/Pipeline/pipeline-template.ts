@@ -34,11 +34,6 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
             'cd ../cicd',
             'yarn install']
         },
-
-        // "cicd-to-cloud": "gulp to-cloud && cross-env CDK_MODE=TO_CLOUD  cdk",
-        // "cicd-to-pipeline": "gulp to-pipeline && cross-env CDK_MODE=TO_PIPELINE cdk",
-        // "cdk": "cdk",
-
         build: {
           'on-failure': 'ABORT',
           commands: [
@@ -46,7 +41,6 @@ function pipelineTemplate(cdk_role: Role, pipeline_name: string, aws_pipeline_2_
             'yarn web-on-AWS-build',
             'cd ../cicd',
             'yarn  cicd-pipeline-on-AWS deploy'
-            //  'yarn cdk deploy'
           ]
         },
         post_build: {
