@@ -12,14 +12,14 @@ import { TheMainStack } from '../lib/the_main_stack';
 import { ThePipelineStack } from '../lib/the-pipeline-stack';
 import { printError } from '../utils/env-errors';
 const C_cicd_DOCKER_OFF_ERROR = constants_config.C_cicd_DOCKER_OFF_ERROR;
-import { stackEnvLabel, stackLabel } from '../utils/construct_labels';
+import { stackEnvLabel } from '../utils/construct_labels';
 
 const app = new cdk.App();
 
 
 
 if (process.env.CDK_MODE === 'TO_PIPELINE') {
-  const pipeline_stack = stackLabel('Pipeline-Stack');
+  const pipeline_stack = stackEnvLabel('Pipeline-Stack');
   try {
     new ThePipelineStack(app, pipeline_stack, {
       env: { region: AWS_REGION, account: ACCOUNT_NUMBER },
