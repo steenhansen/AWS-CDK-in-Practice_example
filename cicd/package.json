@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
+    "cicd-pipeline-on-AWS": "cross-env CDK_MODE=TO_PIPELINE cdk",
     "cicd-build": "tsc && gulp to-local",
     "cicd-to-cloud": "gulp to-cloud && cross-env CDK_MODE=TO_CLOUD  cdk",
     "cicd-to-pipeline": "gulp to-pipeline && cross-env CDK_MODE=TO_PIPELINE cdk",
