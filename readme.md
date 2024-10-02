@@ -4,10 +4,24 @@
 
 
 ## What is this?
-This is a fork of "[AWS CDK in Practice](https://github.com/PacktPublishing/AWS-CDK-in-Practice)" from [Packt](https://www.packtpub.com/en-us/product/aws-cdk-in-practice-9781801812399) which shows how to build cloud applications with AWS CDK in TypeScript.
+This is a fork of "[AWS CDK in Practice](https://github.com/PacktPublishing/AWS-CDK-in-Practice)" from [Packt](https://www.packtpub.com/en-us/product/aws-cdk-in-practice-9781801812399) which shows how to build cloud applications with AWS CDK in TypeScript. This example, which can be developed locally, uses Lambdas, DynamoDB, and Cloudfront. The program saves RBG values to DynamoDB. Note that when first deployed on AWS the program takes a few seconds to wake up.
+
+#### Production
+
+  - Frontend - https://front-prod.steenhansen.click/index.html
+
+  - Cloudfront - https://colordb-state-kill-devil-prod.s3.amazonaws.com/index.html
+  - Backend - https://back-prod.steenhansen.click/
 
 
-This example, which can be developed locally, uses Lambdas, DynamoDB, and Cloudfront. The program saves RBG values to DynamoDB. The [production version](https://front-prod.steenhansen.click/index.html) and the [development version](https://front-dev.steenhansen.click/index.html) are hosted on AWS. Note that when first deployed on AWS the program takes a few seconds to wake up.
+
+#### Development
+
+  - Frontend - https://front-dev.steenhansen.click/index.html
+
+  - Cloudfront - https://colordb-state-kill-devil-dev.s3.amazonaws.com/index.html
+
+  - Backend - https://back-dev.steenhansen.click/
 
 
 
